@@ -1,0 +1,737 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
+  <title>Code of Conduct | GDG Sydney</title>
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+  <meta property="og:site_name" content="GDG Sydney" />
+  <meta property="og:title" content="Code of Conduct | GDG Sydney" />
+  <meta property="og:description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
+  <meta property="og:image" content={new URL('/logo.png', Astro.site)} />
+  <meta property="og:image:alt" content="GDG Sydney logo" />
+  <meta property="og:locale" content="en_AU" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Code of Conduct | GDG Sydney" />
+  <meta name="twitter:description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
+  <meta name="twitter:image" content={new URL('/logo.png', Astro.site)} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="GDG Sydney home">
+        <img src="/logo.png" alt="" class="logo-img" aria-hidden="true" />
+        <span class="logo-wordmark">GDG Sydney</span>
+      </a>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="/#community" class="nav-link">Community</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a
+          href="https://gdg.community.dev/gdg-sydney/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary btn-sm"
+        >
+          Join the community
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
+  <section class="coc-masthead" aria-labelledby="coc-heading">
+    <div class="container">
+      <h1 class="coc-heading" id="coc-heading">
+        Code of<br />Conduct
+      </h1>
+      <p class="coc-subheading">
+        Event Anti-Harassment Policy
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ CONTENT ═══════════════════════════════ -->
+  <main class="coc-body" id="main-content">
+    <div class="container">
+      <div class="coc-layout">
+
+        <!-- Sidebar nav -->
+        <aside class="coc-sidebar" aria-label="On this page">
+          <p class="sidebar-label">On this page</p>
+          <nav class="sidebar-nav">
+            <a href="#policy" class="sidebar-link">Policy</a>
+            <a href="#principles" class="sidebar-link">Principles</a>
+            <a href="#staff" class="sidebar-link">Event staff</a>
+            <a href="#exhibitors" class="sidebar-link">Exhibitors</a>
+            <a href="#why" class="sidebar-link">Why this matters</a>
+            <a href="#license" class="sidebar-link">License</a>
+          </nav>
+        </aside>
+
+        <!-- Main content -->
+        <article class="coc-article">
+
+          <section id="policy" class="coc-section">
+            <p class="coc-lead">
+              GDG Sydney is dedicated to providing a harassment-free and inclusive event
+              experience for everyone regardless of gender identity and expression, sexual
+              orientation, disabilities, neurodiversity, physical appearance, body size,
+              ethnicity, nationality, race, age, religion, or other protected category.
+              We do not tolerate harassment of event participants in any form. GDG Sydney
+              takes violations of our policy seriously and will respond appropriately.
+            </p>
+            <p class="coc-body-text">
+              All participants of GDG Sydney events must abide by the following policy:
+            </p>
+          </section>
+
+          <section id="principles" class="coc-section">
+            <h2 class="coc-section-title">Principles</h2>
+
+            <div class="principle-list">
+
+              <div class="principle">
+                <div class="principle-marker" style="--accent: var(--blue)">01</div>
+                <div class="principle-content">
+                  <h3 class="principle-title">Be excellent to each other</h3>
+                  <p>
+                    We want the event to be an excellent experience for everyone regardless
+                    of gender identity and expression, sexual orientation, disabilities,
+                    neurodiversity, physical appearance, body size, ethnicity, nationality,
+                    race, age, religion, or other protected category. Treat everyone with
+                    respect. Participate while acknowledging that everyone deserves to be
+                    here -- and each of us has the right to enjoy our experience without
+                    fear of harassment, discrimination, or condescension, whether blatant
+                    or via micro-aggressions. Jokes shouldn't demean others. Consider what
+                    you are saying and how it would feel if it were said to or about you.
+                  </p>
+                </div>
+              </div>
+
+              <div class="principle">
+                <div class="principle-marker" style="--accent: var(--green)">02</div>
+                <div class="principle-content">
+                  <h3 class="principle-title">Speak up if you see or hear something</h3>
+                  <p>
+                    Harassment is not tolerated, and you are empowered to politely engage
+                    when you or others are disrespected. The person making you feel
+                    uncomfortable may not be aware of what they are doing, and politely
+                    bringing their behavior to their attention is encouraged. If a
+                    participant engages in harassing or uncomfortable behavior, the event
+                    organizers may take any action they deem appropriate, including warning
+                    or expelling the offender from the event with no refund. If you are
+                    being harassed or feel uncomfortable, notice that someone else is being
+                    harassed, or have any other concerns, please contact a member of the
+                    event staff immediately.
+                  </p>
+                </div>
+              </div>
+
+              <div class="principle">
+                <div class="principle-marker" style="--accent: var(--yellow)">03</div>
+                <div class="principle-content">
+                  <h3 class="principle-title">Harassment is not tolerated</h3>
+                  <p>
+                    Harassment includes, but is not limited to: verbal language that
+                    reinforces social structures of domination related to gender identity
+                    and expression, sexual orientation, disabilities, neurodiversity,
+                    physical appearance, body size, ethnicity, nationality, race, age,
+                    religion, or other protected category; sexual imagery in public spaces;
+                    deliberate intimidation; stalking; following; harassing photography or
+                    recording; sustained disruption of talks or other events; offensive
+                    verbal language; inappropriate physical contact; and unwelcome sexual
+                    attention. Participants asked to stop any harassing behavior are
+                    expected to comply immediately.
+                  </p>
+                </div>
+              </div>
+
+              <div class="principle">
+                <div class="principle-marker" style="--accent: var(--red)">04</div>
+                <div class="principle-content">
+                  <h3 class="principle-title">Practice saying "Yes and" to each other</h3>
+                  <p>
+                    It's a theatre improv technique to build on each other's ideas. We all
+                    benefit when we create together.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <p class="coc-body-text coc-extend">
+              This policy extends to talks, forums, workshops, codelabs, social media,
+              parties, hallway conversations, all attendees, partners, sponsors, volunteers,
+              event staff, etc. GDG Sydney reserves the right to refuse admittance to, or
+              remove any person from, any GDG Sydney hosted event (including future GDG
+              Sydney events) at any time in its sole discretion. This includes, but is not
+              limited to, attendees behaving in a disorderly manner or failing to comply
+              with this policy, and the terms and conditions herein. If a participant
+              engages in harassing or uncomfortable behavior, the event organizers may take
+              any action they deem appropriate, including warning or expelling the offender
+              from the event with no refund.
+            </p>
+          </section>
+
+          <section id="staff" class="coc-section">
+            <h2 class="coc-section-title">Event staff</h2>
+            <p class="coc-body-text">
+              Our event staff can usually be identified by special badges/attire. Our zero
+              tolerance policy means that we will look into and review every allegation of
+              violation of our Event Community Guidelines and Anti-Harassment Policy and
+              respond appropriately. Please note, while we take all concerns raised
+              seriously, we will use our discretion as to determining when and how to
+              follow up on reported incidents, and may decline to take any further action
+              and/or may direct the participant to other resources for resolution.
+            </p>
+            <p class="coc-body-text">
+              Event staff will be happy to help participants contact hotel/venue security
+              or local law enforcement, provide escorts, or otherwise assist those
+              experiencing discomfort or harassment to feel safe for the duration of the
+              event. We value your attendance.
+            </p>
+          </section>
+
+          <section id="exhibitors" class="coc-section">
+            <h2 class="coc-section-title">Exhibitors &amp; sponsors</h2>
+            <p class="coc-body-text">
+              Exhibiting partners, sponsors or vendor booths, or similar activities are
+              also subject to this policy. In particular, exhibitors should not use
+              sexualized images, activities, or other material. Booth staff (including
+              volunteers) should not use sexualized clothing/uniforms/costumes, or
+              otherwise create a sexualized environment. Participants and exhibiting
+              partners or sponsors disobeying this policy will be notified and are expected
+              to stop any offending behavior immediately.
+            </p>
+          </section>
+
+          <section id="why" class="coc-section">
+            <h2 class="coc-section-title">Why this policy is important</h2>
+            <p class="coc-body-text">
+              Harassment at events and in online communities is unfortunately common.
+              Creating an official policy aims to improve this by making it clear that
+              harassment of anyone for any reason is not acceptable within our events and
+              communities. This policy may prevent harassment by clearly defining
+              expectations for behavior, aims to provide reassurance, and encourages people
+              who have had bad experiences at other events to participate in this one.
+            </p>
+          </section>
+
+          <section id="license" class="coc-section coc-license">
+            <h2 class="coc-section-title">License &amp; attribution</h2>
+            <p class="coc-body-text">
+              This policy is licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer" class="coc-link">Creative Commons Zero license</a>.
+            </p>
+            <p class="coc-body-text">
+              This policy is based on and influenced by several other community policies
+              including: Ohio LinuxFest Anti-Harassment policy, Con Anti-Harassment
+              Project, Geek Feminism Wiki (created by the Ada Initiative),
+              ConfCodeofConduct.com, JSconf, Rust, Diversity in Python, and
+              Write/Speak/Code.
+            </p>
+          </section>
+
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="/logo.png" alt="" class="logo-img logo-img-footer" aria-hidden="true" />
+          <span class="footer-wordmark">GDG Sydney</span>
+        </div>
+        <p class="footer-tagline">Part of the global Google Developer Groups network</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="mailto:hello@gdgsydney.com" class="footer-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15" aria-hidden="true">
+            <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          hello@gdgsydney.com
+        </a>
+        <a href="/code-of-conduct" class="footer-link">Code of Conduct</a>
+      </nav>
+    </div>
+    <div class="footer-base">
+      <div class="container">
+        <p class="footer-legal">
+          &copy; {new Date().getFullYear()} GDG Sydney. GDG Sydney is an independently-run community group
+          and is not an official Google product or service.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const links = document.querySelectorAll<HTMLAnchorElement>('.sidebar-link');
+    const sections = [...links].map(l => document.querySelector(l.getAttribute('href')!)).filter(Boolean) as Element[];
+
+    const setActive = (id: string) => {
+      links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === `#${id}`));
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      }
+    }, { rootMargin: `-${68 + 32}px 0px -60% 0px`, threshold: 0 });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>
+
+<style is:global>
+  /* ─── Reset & Base ──────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --blue:   #4285F4;
+    --green:  #34A853;
+    --yellow: #f9ab00;
+    --red:    #EA4335;
+
+    --bg:     #f5f4f0;
+    --dark:   #1e1e1e;
+    --text:   #2a2a2a;
+    --muted:  #6b7280;
+    --white:  #ffffff;
+    --border: rgba(0, 0, 0, 0.09);
+
+    --sans: 'Google Sans', system-ui, -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+
+    --header-h: 68px;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 3rem);
+  }
+
+  /* ─── Header ────────────────────────────────────────────────────────── */
+  .header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    height: var(--header-h);
+    background: rgba(245, 244, 240, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+    color: var(--dark);
+  }
+
+  .logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .logo-img-footer { height: 26px; }
+
+  .logo-wordmark {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--dark);
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover { color: var(--dark); }
+
+  /* ─── Buttons ───────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    border-radius: 100px;
+    font-family: var(--sans);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    border: none;
+    line-height: 1;
+  }
+  .btn:hover  { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-sm { padding: 0.6em 1.4em; font-size: 0.825rem; }
+
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42);
+  }
+
+  /* ─── CoC Masthead ──────────────────────────────────────────────────── */
+  .coc-masthead {
+    padding-top: calc(var(--header-h) + 4rem);
+    padding-bottom: 3.5rem;
+  }
+
+  .coc-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dot-strip {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .ds {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .ds-blue   { background: var(--blue); }
+  .ds-red    { background: var(--red); }
+  .ds-yellow { background: var(--yellow); }
+  .ds-green  { background: var(--green); }
+
+  .eyebrow-text {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .coc-heading {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+  }
+
+  .coc-subheading {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── CoC Layout ────────────────────────────────────────────────────── */
+  .coc-body {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .coc-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 900px) {
+    .coc-layout {
+      grid-template-columns: 200px 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+
+  /* ─── Sidebar ───────────────────────────────────────────────────────── */
+  .coc-sidebar {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .coc-sidebar {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+
+  .sidebar-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .sidebar-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    padding-block: 0.35rem;
+    border-left: 2px solid transparent;
+    padding-left: 0.75rem;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .sidebar-link:hover {
+    color: var(--dark);
+    border-left-color: var(--blue);
+  }
+
+  .sidebar-link.is-active {
+    color: var(--dark);
+    border-left-color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* ─── Article ───────────────────────────────────────────────────────── */
+  .coc-article {
+    min-width: 0;
+  }
+
+  .coc-section {
+    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+  }
+
+  .coc-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .coc-section-title {
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.15;
+  }
+
+  .coc-lead {
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    line-height: 1.78;
+    color: var(--text);
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+  }
+
+  .coc-body-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #4a4a4a;
+    margin-bottom: 1.25rem;
+  }
+
+  .coc-body-text:last-child { margin-bottom: 0; }
+
+  .coc-extend {
+    margin-top: 2.5rem;
+  }
+
+  .coc-link {
+    color: var(--blue);
+    text-decoration: underline;
+    text-decoration-color: rgba(66, 133, 244, 0.35);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .coc-link:hover { text-decoration-color: var(--blue); }
+
+  /* ─── Principles ────────────────────────────────────────────────────── */
+  .principle-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1.5rem;
+    padding-block: 2rem;
+  }
+
+  .principle-marker {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    padding-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .principle-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.015em;
+  }
+
+  .principle-content p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: #4a4a4a;
+  }
+
+  /* ─── Footer ────────────────────────────────────────────────────────── */
+  .footer {
+    background: var(--dark);
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .footer-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-wordmark {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .footer-tagline {
+    font-size: 0.775rem;
+    color: rgba(255, 255, 255, 0.32);
+    max-width: 240px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 640px) {
+    .footer-links { align-items: flex-end; }
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.52);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .footer-link:hover { color: white; }
+
+  .footer-base {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-block: 1.25rem;
+  }
+
+  .footer-legal {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.22);
+    line-height: 1.65;
+  }
+
+  /* ─── Mobile nav ────────────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .header-nav .nav-link { display: none; }
+  }
+
+  /* ─── Reduced motion ────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
