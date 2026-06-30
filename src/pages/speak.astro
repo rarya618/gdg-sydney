@@ -331,7 +331,7 @@ import '../styles/global.css';
   </main>
 
   <script>
-    const SHEET_URL = 'YOUR_APPS_SCRIPT_URL';
+    const SHEET_URL = import.meta.env.PUBLIC_SPEAKER_FORM_URL;
 
     const form = document.getElementById('speaker-form') as HTMLFormElement;
     const btn = document.getElementById('submit-btn') as HTMLButtonElement;
