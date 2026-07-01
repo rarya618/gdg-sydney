@@ -245,7 +245,7 @@ import Footer from '../components/Footer.astro';
                 name="abstract"
                 class="field-input field-textarea"
                 placeholder="A short description of your talk. 2 to 4 sentences is ideal."
-                rows="4"
+                rows="3"
                 required
               ></textarea>
             </div>
@@ -261,7 +261,7 @@ import Footer from '../components/Footer.astro';
                 name="audience"
                 class="field-input field-textarea"
                 placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
-                rows="2"
+                rows="3"
                 required
               ></textarea>
             </div>
@@ -293,7 +293,7 @@ import Footer from '../components/Footer.astro';
                 name="experience"
                 class="field-input field-textarea"
                 placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
-                rows="2"
+                rows="3"
               ></textarea>
             </div>
 
@@ -308,7 +308,7 @@ import Footer from '../components/Footer.astro';
                 name="notes"
                 class="field-input field-textarea"
                 placeholder="Preferred dates, AV requirements, co-presenter, etc."
-                rows="2"
+                rows="3"
               ></textarea>
             </div>
 
@@ -579,9 +579,9 @@ import Footer from '../components/Footer.astro';
   }
 
   .stat-label {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.62rem;
-    font-weight: 500;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--muted);
@@ -634,11 +634,11 @@ import Footer from '../components/Footer.astro';
   }
 
   .info-label {
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.62rem;
-    font-weight: 500;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     color: var(--muted);
   }
 
@@ -681,9 +681,9 @@ import Footer from '../components/Footer.astro';
 
   .format-tag {
     display: inline-block;
-    font-family: var(--mono);
+    font-family: var(--sans);
     font-size: 0.62rem;
-    font-weight: 500;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--tag-color);
@@ -794,7 +794,7 @@ import Footer from '../components/Footer.astro';
   }
 
   .field-textarea {
-    resize: vertical;
+    resize: none;
     line-height: 1.65;
     min-height: 4rem;
   }
@@ -930,82 +930,6 @@ import Footer from '../components/Footer.astro';
     font-size: 0.85rem;
     color: var(--red);
     line-height: 1.6;
-  }
-
-  /* ─── Footer ────────────────────────────────────────────────────────── */
-  .footer {
-    background: var(--dark);
-    color: rgba(255, 255, 255, 0.65);
-  }
-
-  .footer-inner {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding-top: 3.5rem;
-    padding-bottom: 3rem;
-  }
-
-  @media (min-width: 640px) {
-    .footer-inner {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-  }
-
-  .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    margin-bottom: 0.75rem;
-  }
-
-  .footer-wordmark {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: white;
-  }
-
-  .footer-tagline {
-    font-size: 0.775rem;
-    color: rgba(255, 255, 255, 0.32);
-    max-width: 240px;
-    line-height: 1.7;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    align-items: flex-start;
-  }
-
-  @media (min-width: 640px) {
-    .footer-links { align-items: flex-end; }
-  }
-
-  .footer-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.52);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .footer-link:hover { color: white; }
-
-  .footer-base {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-block: 1.25rem;
-  }
-
-  .footer-legal {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.22);
-    line-height: 1.65;
   }
 
   /* ─── Mobile nav ────────────────────────────────────────────────────── */
