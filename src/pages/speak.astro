@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Footer from '../components/Footer.astro';
 ---
 
 <html lang="en">
@@ -382,34 +383,7 @@ import '../styles/global.css';
   </script>
 
   <!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
-  <footer class="footer" aria-label="Site footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <img src="/logo.png" alt="" class="logo-img logo-img-footer" aria-hidden="true" />
-          <span class="footer-wordmark">GDG Sydney</span>
-        </div>
-        <p class="footer-tagline">Part of the global Google Developer Groups network</p>
-      </div>
-      <nav class="footer-links" aria-label="Footer links">
-        <a href="mailto:hello@gdgsydney.com" class="footer-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15" aria-hidden="true">
-            <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          hello@gdgsydney.com
-        </a>
-        <a href="/code-of-conduct" class="footer-link">Code of Conduct</a>
-      </nav>
-    </div>
-    <div class="footer-base">
-      <div class="container">
-        <p class="footer-legal">
-          &copy; {new Date().getFullYear()} GDG Sydney. GDG Sydney is an independently-run community group
-          and is not an official Google product or service.
-        </p>
-      </div>
-    </div>
-  </footer>
+  <Footer />
 
 </body>
 </html>
