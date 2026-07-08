@@ -14,7 +14,7 @@ function formatEventDate(iso: string) {
 
 function classifyEvent(event: BevyPastEvent): { label: string; accent: string } {
   if (/meetup/i.test(event.title)) return { label: 'Meetup', accent: 'yellow' };
-  if (event.event_type_title === 'Workshop / Study Group') return { label: 'Workshop', accent: 'green' };
+  if (/workshop/i.test(event.title)) return { label: 'Workshop', accent: 'green' };
   return { label: 'Talk', accent: 'blue' };
 }
 
