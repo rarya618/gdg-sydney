@@ -49,6 +49,7 @@ import Partners from '../components/Partners';
       <nav class="header-nav" aria-label="Main navigation">
         <a href="#events" class="nav-link">Events</a>
         <a href="/speak" class="nav-link">Speak</a>
+        <a href="https://devfest.gdgsydney.com?utm_source=gdgsydney&utm_medium=nav&utm_campaign=launch" target="_blank" rel="noopener noreferrer" class="nav-link">DevFest</a>
         <a
           href="https://gdg.community.dev/gdg-sydney/"
           target="_blank"
@@ -60,6 +61,16 @@ import Partners from '../components/Partners';
       </nav>
     </div>
   </header>
+
+  <!-- ═══════════════════════════════ BANNER ═══════════════════════════════ -->
+  <a href="https://devfest.gdgsydney.com/call-for-speakers?utm_source=gdgsydney&utm_medium=banner&utm_campaign=launch" target="_blank" rel="noopener noreferrer" class="cfp-banner">
+    <div class="container cfp-banner-inner">
+      <span class="cfp-banner-text">
+        <strong>Call for speakers is open</strong> for DevFest Sydney.
+      </span>
+      <span class="cfp-banner-cta">Submit a session</span>
+    </div>
+  </a>
 
   <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section class="hero" id="home" aria-labelledby="hero-heading">
@@ -314,13 +325,46 @@ import Partners from '../components/Partners';
     background: rgba(0, 0, 0, 0.04);
   }
 
+  /* ─── CFP Banner ────────────────────────────────────────────────────── */
+  .cfp-banner {
+    display: block;
+    background: var(--blue);
+    color: var(--white);
+    text-decoration: none;
+    margin-top: var(--header-h);
+  }
+  .cfp-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-block: 0.65rem;
+    text-align: center;
+  }
+  .cfp-banner-text {
+    font-size: 0.9rem;
+  }
+  .cfp-banner-text strong {
+    font-family: var(--sans);
+    font-weight: 700;
+  }
+  .cfp-banner-cta {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
   /* ─── Hero ──────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
     min-height: 100svh;
     display: flex;
     align-items: center;
-    padding-top: var(--header-h);
     overflow: hidden;
   }
 
