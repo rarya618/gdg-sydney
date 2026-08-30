@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
+/* ─── Google Sans (display / headings) ─────────────────────────────── */
 @font-face {
   font-family: 'Google Sans';
-  src: url('/fonts/Product Sans Regular.ttf') format('truetype');
+  src: url('/fonts/GoogleSans-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +11,7 @@
 
 @font-face {
   font-family: 'Google Sans';
-  src: url('/fonts/Product Sans Italic.ttf') format('truetype');
+  src: url('/fonts/GoogleSans-Italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -18,7 +19,23 @@
 
 @font-face {
   font-family: 'Google Sans';
-  src: url('/fonts/Product Sans Bold.ttf') format('truetype');
+  src: url('/fonts/GoogleSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -26,7 +43,105 @@
 
 @font-face {
   font-family: 'Google Sans';
-  src: url('/fonts/Product Sans Bold Italic.ttf') format('truetype');
+  src: url('/fonts/GoogleSans-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Google Sans Text (body / UI) ────────────────────────────────── */
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Text';
+  src: url('/fonts/GoogleSansText-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Google Sans Mono (code accents) ─────────────────────────────── */
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Mono';
+  src: url('/fonts/GoogleSansMono-BoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
