@@ -58,20 +58,13 @@ import Partners from '../components/Partners';
     </div>
   </header>
 
-  <!-- ═══════════════════════════════ BANNER ═══════════════════════════════ -->
-  <a href="https://devfest.gdgsydney.com/call-for-speakers?utm_source=gdgsydney&utm_medium=banner&utm_campaign=launch" target="_blank" rel="noopener noreferrer" class="cfp-banner">
-    <div class="container cfp-banner-inner">
-      <span class="cfp-banner-text">
-        <strong>Call for speakers is open</strong> for DevFest Sydney.
-      </span>
-      <span class="cfp-banner-cta">Submit a session</span>
-    </div>
-  </a>
-
   <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section class="hero" id="home" aria-labelledby="hero-heading">
     <div class="hero-illustration" aria-hidden="true">
-      <img src="/operaHouse.png" alt="" aria-hidden="true" />
+      <div class="hero-photos">
+        <img src="/hero-crowd.jpg" alt="" class="hero-photo hero-photo-back" />
+        <img src="/hero-talk.jpg" alt="" class="hero-photo hero-photo-front" />
+      </div>
     </div>
 
     <div class="container">
@@ -321,40 +314,6 @@ import Partners from '../components/Partners';
     background: rgba(0, 0, 0, 0.04);
   }
 
-  /* ─── CFP Banner ────────────────────────────────────────────────────── */
-  .cfp-banner {
-    display: block;
-    background: var(--blue);
-    color: var(--white);
-    text-decoration: none;
-    margin-top: var(--header-h);
-  }
-  .cfp-banner-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    padding-block: 0.65rem;
-    text-align: center;
-  }
-  .cfp-banner-text {
-    font-size: 0.9rem;
-  }
-  .cfp-banner-text strong {
-    font-family: var(--sans);
-    font-weight: 700;
-  }
-  .cfp-banner-cta {
-    font-family: var(--sans);
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--white);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    white-space: nowrap;
-  }
-
   /* ─── Hero ──────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
@@ -366,26 +325,51 @@ import Partners from '../components/Partners';
 
   .hero-illustration {
     position: absolute;
-    right: clamp(-660px, -40vw, -260px);
-    bottom: 0;
-    width: clamp(800px, 95vw, 1400px);
+    right: clamp(24px, 4vw, 72px);
+    top: clamp(140px, 16vh, 210px);
+    width: clamp(340px, 40vw, 560px);
     pointer-events: none;
     z-index: 0;
     animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     animation-delay: 0.45s;
   }
 
-  .hero-illustration svg,
-  .hero-illustration img {
+  .hero-illustration svg {
     width: 100%;
     height: auto;
     display: block;
   }
 
+  .hero-photos {
+    position: relative;
+  }
+
+  .hero-photo {
+    display: block;
+    width: 78%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-photo-back {
+    margin-left: auto;
+    rotate: 3deg;
+  }
+
+  .hero-photo-front {
+    position: relative;
+    z-index: 1;
+    margin-top: -16%;
+    rotate: -4deg;
+    border: 4px solid #fff;
+  }
+
   .hero .container {
     position: relative;
     z-index: 1;
-    padding-top: 5.5rem;
+    padding-top: 8rem;
     padding-bottom: 6rem;
   }
 
@@ -394,7 +378,7 @@ import Partners from '../components/Partners';
   }
 
   .hero-heading {
-    font-size: clamp(3rem, 7.5vw, 6rem);
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
     font-weight: 800;
     line-height: 1.0;
     letter-spacing: -0.04em;
@@ -988,16 +972,19 @@ import Partners from '../components/Partners';
     .hero-illustration {
       order: 2;
       position: static;
+      transform: none;
       width: 100%;
+      max-width: 420px;
+      margin: 1rem auto 0;
       opacity: 1;
     }
   }
 
   @media (min-width: 641px) and (max-width: 900px) {
     .hero-illustration {
-      width: clamp(700px, 110vw, 1000px);
-      right: clamp(-600px, -48vw, -240px);
-      opacity: 0.6;
+      width: clamp(360px, 44vw, 460px);
+      right: clamp(-120px, -4vw, 0px);
+      opacity: 0.85;
     }
   }
 
