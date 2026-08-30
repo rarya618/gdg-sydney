@@ -14,8 +14,7 @@ const year = new Date().getFullYear();
     <!-- Brand -->
     <div class="footer-brand">
       <div class="footer-logo">
-        <img src="/logo.png" alt="" class="logo-img logo-img-footer" aria-hidden="true" />
-        <span class="footer-wordmark">GDG Sydney</span>
+        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img-footer" />
       </div>
       <p class="footer-tagline">Part of the global Google Developer Groups network</p>
     </div>
@@ -78,11 +77,12 @@ const year = new Date().getFullYear();
     padding-inline: clamp(1.25rem, 5vw, 3rem);
   }
 
-  .logo-img-footer { height: 26px; width: auto; display: block; flex-shrink: 0; }
+  .logo-img-footer { height: 56px; width: auto; display: block; flex-shrink: 0; }
 
   .footer {
-    background: var(--dark);
-    color: rgba(255, 255, 255, 0.65);
+    background: #f0eee9;
+    color: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 
   .footer-accent {
@@ -94,9 +94,9 @@ const year = new Date().getFullYear();
   .footer-inner {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    gap: 2.5rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
   }
 
   @media (min-width: 640px) {
@@ -110,20 +110,13 @@ const year = new Date().getFullYear();
   .footer-logo {
     display: flex;
     align-items: center;
-    gap: 2px;
-    margin-bottom: 0.875rem;
-  }
-
-  .footer-wordmark {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: white;
+    margin-bottom: 1rem;
   }
 
   .footer-tagline {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.48);
-    max-width: 220px;
+    color: rgba(0, 0, 0, 0.5);
+    max-width: 240px;
     line-height: 1.75;
   }
 
@@ -135,12 +128,11 @@ const year = new Date().getFullYear();
 
   .footer-col-label {
     font-family: var(--sans);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.45);
-    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--dark);
+    margin-bottom: 0;
   }
 
   .footer-link {
@@ -149,11 +141,11 @@ const year = new Date().getFullYear();
     gap: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(0, 0, 0, 0.72);
     text-decoration: none;
     transition: color 0.15s ease;
   }
-  .footer-link:hover { color: white; }
+  .footer-link:hover { color: var(--blue); }
 
   .footer-socials {
     display: flex;
@@ -168,26 +160,27 @@ const year = new Date().getFullYear();
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    color: rgba(255, 255, 255, 0.75);
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(0, 0, 0, 0.68);
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
   .footer-social-link:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.35);
+    color: var(--dark);
+    background: rgba(0, 0, 0, 0.07);
+    border-color: rgba(0, 0, 0, 0.24);
   }
 
   .footer-base {
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    padding-block: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
   }
 
   .footer-legal {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.42);
     line-height: 1.65;
   }
 </style>
