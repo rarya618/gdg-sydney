@@ -28,9 +28,6 @@ import Footer from '../components/Footer.astro';
   <meta name="twitter:title" content="Code of Conduct | GDG Sydney" />
   <meta name="twitter:description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
   <meta name="twitter:image" content={new URL('/logo.png', Astro.site)} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -38,8 +35,7 @@ import Footer from '../components/Footer.astro';
   <header class="header">
     <div class="container header-inner">
       <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src="/logo.png" alt="" class="logo-img" aria-hidden="true" />
-        <span class="logo-wordmark">GDG Sydney</span>
+        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
       </a>
       <nav class="header-nav" aria-label="Main navigation">
         <a href="/#events" class="nav-link">Events</a>
@@ -295,8 +291,8 @@ import Footer from '../components/Footer.astro';
     --white:  #ffffff;
     --border: rgba(0, 0, 0, 0.09);
 
-    --sans: 'Google Sans', system-ui, -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
+    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
 
     --header-h: 68px;
   }
@@ -347,7 +343,7 @@ import Footer from '../components/Footer.astro';
   }
 
   .logo-img {
-    height: 28px;
+    height: 48px;
     width: auto;
     display: block;
     flex-shrink: 0;
