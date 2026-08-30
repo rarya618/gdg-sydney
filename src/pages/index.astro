@@ -326,7 +326,10 @@ import Partners from '../components/Partners';
   .hero-illustration {
     position: absolute;
     right: clamp(24px, 4vw, 72px);
-    top: clamp(140px, 16vh, 210px);
+    top: 0;
+    bottom: 0;
+    height: max-content;
+    margin-block: auto;
     width: clamp(340px, 40vw, 560px);
     pointer-events: none;
     z-index: 0;
@@ -432,11 +435,10 @@ import Partners from '../components/Partners';
 
   .community-label {
     font-family: var(--sans);
-    font-size: 0.68rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: rgba(255, 255, 255, 0.55);
     margin-bottom: 1.5rem;
   }
 
@@ -765,34 +767,68 @@ import Partners from '../components/Partners';
   /* ─── Stats ─────────────────────────────────────────────────────────── */
   .section-stats {
     background: var(--dark);
-    padding-block: clamp(3rem, 5vw, 4.5rem);
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
     border-top: 1px solid rgba(255,255,255,0.06);
   }
 
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 0;
+    max-width: 860px;
+    margin-inline: auto;
   }
 
   .stat {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding-inline: 1.5rem;
+    position: relative;
+  }
+
+  .stat + .stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.12);
   }
 
   .stat-num {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.75rem, 6vw, 4.25rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     color: white;
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
   .stat-label {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.45);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.5);
     font-weight: 500;
+  }
+
+  @media (max-width: 560px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .stat + .stat::before {
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 1px;
+    }
   }
 
   .past-list {
