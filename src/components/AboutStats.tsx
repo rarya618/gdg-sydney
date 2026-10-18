@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AboutStats() {
-  const [memberCount, setMemberCount] = useState('2,000');
+  const [memberCount, setMemberCount] = useState('2,400');
   const [totalEventCount, setTotalEventCount] = useState(0);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function AboutStats() {
         }
       })
       .catch(() => {
-        if (!cancelled) setMemberCount('2,000+');
+        if (!cancelled) setMemberCount('2,400');
       });
 
     fetch('https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=1&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&fields=title')
