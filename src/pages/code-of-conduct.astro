@@ -220,7 +220,7 @@ import heroPhoto from '../assets/coc/hero.jpg';
       links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === `#${id}`));
     };
 
-    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 80;
+    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 92;
 
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
