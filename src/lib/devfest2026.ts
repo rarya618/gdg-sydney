@@ -97,9 +97,9 @@ export const ROOM_TRACKS: {
   color: string;
   text: string;
 }[] = [
-  { room: 'auditorium', track: 'spotlight', name: 'Spotlight', color: 'var(--red)', text: 'Headline talks on the main stage, for everyone.' },
-  { room: 'developer', track: 'developer', name: 'Developer', color: 'var(--blue)', text: 'Agentic apps with Gemini, Flutter, Firebase, Android and Cloud.' },
-  { room: 'builder', track: 'builder', name: 'Builder', color: 'var(--green)', text: 'For founders, PMs and designers building with AI, no-code and low-code.' },
+  { room: 'auditorium', track: 'spotlight', name: 'Spotlight', color: 'var(--red)', text: 'Headline talks on the main stage, open to everyone.' },
+  { room: 'developer', track: 'developer', name: 'Developer', color: 'var(--blue)', text: 'Building agentic apps with Gemini, Flutter and Firebase.' },
+  { room: 'builder', track: 'builder', name: 'Builder', color: 'var(--green)', text: 'For founders, PMs and designers prototyping with AI.' },
   { room: 'workshops', track: 'workshop', name: 'Workshops', color: 'var(--yellow)', text: 'Hands-on building and live coding in small groups.' },
 ];
 

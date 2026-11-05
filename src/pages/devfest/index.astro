@@ -1,7 +1,6 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import RoomBar from '../../components/devfest/RoomBar.astro';
 import { EVENT, speakers, speakerPhoto, TRACKS } from '../../lib/devfest2026';
 import heroPhoto from '../../assets/devfest/photos/crowd.jpg';
 import speakerPhotoImg from '../../assets/devfest/photos/speaker.jpg';
@@ -59,10 +58,6 @@ const strip = [
         <a href="/devfest/2026" class="hero-link">See DevFest 2026</a>
       </div>
     </div>
-  </section>
-
-  <section aria-label="The four DevFest rooms">
-    <RoomBar />
   </section>
 
   <!-- ═════════════════════════════ 2026 ═════════════════════════════════ -->

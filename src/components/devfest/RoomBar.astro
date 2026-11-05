@@ -15,8 +15,8 @@ const { variant = 'full' } = Astro.props;
   {ROOM_TRACKS.map((r) => (
     <li class="room" style={`--room: ${r.color}`}>
       <span class="room-name">{r.name}</span>
-      <span class="room-where">{ROOM_LABELS[r.room].name}</span>
       {variant === 'full' && <span class="room-text">{r.text}</span>}
+      <span class="room-where">{ROOM_LABELS[r.room].name}</span>
     </li>
   ))}
 </ul>
@@ -39,9 +39,11 @@ const { variant = 'full' } = Astro.props;
     flex-direction: column;
   }
 
+  /* Full: name at the top, description held to two lines, room pinned to the bottom, so
+     all three line up across the blocks whatever the copy length. */
   .room-bar--full .room {
     padding: clamp(1.25rem, 2.5vw, 2rem);
-    gap: 0.35rem;
+    gap: 0.75rem;
   }
 
   .room-name {
@@ -51,16 +53,22 @@ const { variant = 'full' } = Astro.props;
     line-height: 1.05;
   }
 
+  .room-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    min-height: 3em; /* two lines */
+    max-width: 28ch;
+  }
+
   .room-where {
     font-family: var(--mono);
     font-size: 0.78rem;
   }
 
-  .room-text {
+  .room-bar--full .room-where {
+    margin-top: auto;
     padding-top: 1.25rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    max-width: 30ch;
+    border-top: 1px solid rgba(0, 0, 0, 0.18);
   }
 
   /* Compact: the schedule header. Always four across, matching the grid columns. */
