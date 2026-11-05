@@ -63,7 +63,7 @@ export const sponsors = data.sponsors as Sponsor[];
 export const speakersBySlug = new Map(speakers.map((speaker) => [speaker.slug, speaker]));
 
 export const TRACKS: Record<Track, { label: string; color: string }> = {
-  keynote: { label: 'Keynote', color: 'var(--dark)' },
+  keynote: { label: 'Keynote', color: 'var(--fg)' },
   spotlight: { label: 'Spotlight', color: 'var(--red)' },
   developer: { label: 'Developer', color: 'var(--blue)' },
   builder: { label: 'Builder', color: 'var(--green)' },
@@ -95,21 +95,14 @@ export const ROOM_TRACKS: {
   track: Track;
   name: string;
   color: string;
-  tint: string;
   text: string;
 }[] = [
-  { room: 'auditorium', track: 'spotlight', name: 'Spotlight', color: 'var(--red)', tint: '#f8d8d8', text: 'Headline talks on the main stage, for everyone.' },
-  { room: 'developer', track: 'developer', name: 'Developer', color: 'var(--blue)', tint: '#c3ecf6', text: 'Agentic apps with Gemini, Flutter, Firebase, Android and Cloud.' },
-  { room: 'builder', track: 'builder', name: 'Builder', color: 'var(--green)', tint: '#ccf6c5', text: 'For founders, PMs and designers building with AI, no-code and low-code.' },
-  { room: 'workshops', track: 'workshop', name: 'Workshops', color: 'var(--yellow)', tint: '#ffe7a5', text: 'Hands-on building and live coding in small groups.' },
+  { room: 'auditorium', track: 'spotlight', name: 'Spotlight', color: 'var(--red)', text: 'Headline talks on the main stage, for everyone.' },
+  { room: 'developer', track: 'developer', name: 'Developer', color: 'var(--blue)', text: 'Agentic apps with Gemini, Flutter, Firebase, Android and Cloud.' },
+  { room: 'builder', track: 'builder', name: 'Builder', color: 'var(--green)', text: 'For founders, PMs and designers building with AI, no-code and low-code.' },
+  { room: 'workshops', track: 'workshop', name: 'Workshops', color: 'var(--yellow)', text: 'Hands-on building and live coding in small groups.' },
 ];
 
-export const TRACK_TINTS: Partial<Record<Track, string>> = {
-  spotlight: '#f8d8d8',
-  developer: '#c3ecf6',
-  builder: '#ccf6c5',
-  workshop: '#ffe7a5',
-};
 
 // Times are stored in UTC and pinned to Sydney here, so the build machine's zone is irrelevant.
 export function formatTime(iso: string): string {

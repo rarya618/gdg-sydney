@@ -1,4 +1,6 @@
 ---
+import { hasDarkLogo, logoSrc } from '../lib/logo';
+
 const year = new Date().getFullYear();
 ---
 
@@ -14,7 +16,7 @@ const year = new Date().getFullYear();
     <!-- Brand -->
     <div class="footer-brand">
       <div class="footer-logo">
-        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img-footer" />
+        <img src={logoSrc} alt="Google Developer Group Sydney" class:list={['logo-img-footer', { 'logo-chip': !hasDarkLogo }]} />
       </div>
       <p class="footer-tagline">Part of the global Google Developer Groups network</p>
     </div>
@@ -62,15 +64,6 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  :root {
-    --blue:   #4285F4;
-    --green:  #34A853;
-    --yellow: #f9ab00;
-    --red:    #EA4335;
-    --dark:   #1e1e1e;
-    --sans:   'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
-  }
-
   .container {
     max-width: 1160px;
     margin-inline: auto;
@@ -80,9 +73,9 @@ const year = new Date().getFullYear();
   .logo-img-footer { height: 56px; width: auto; display: block; flex-shrink: 0; }
 
   .footer {
-    background: #f0eee9;
-    color: rgba(0, 0, 0, 0.6);
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--ink);
+    color: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .footer-accent {
@@ -115,7 +108,7 @@ const year = new Date().getFullYear();
 
   .footer-tagline {
     font-size: 0.8rem;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     max-width: 240px;
     line-height: 1.75;
   }
@@ -131,7 +124,7 @@ const year = new Date().getFullYear();
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: -0.015em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 0;
   }
 
@@ -141,11 +134,11 @@ const year = new Date().getFullYear();
     gap: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.72);
+    color: rgba(255, 255, 255, 0.72);
     text-decoration: none;
     transition: color 0.15s ease;
   }
-  .footer-link:hover { color: var(--blue); }
+  .footer-link:hover { color: var(--blue-text); }
 
   .footer-socials {
     display: flex;
@@ -160,27 +153,27 @@ const year = new Date().getFullYear();
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    color: rgba(0, 0, 0, 0.68);
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
   .footer-social-link:hover {
-    color: var(--dark);
-    background: rgba(0, 0, 0, 0.07);
-    border-color: rgba(0, 0, 0, 0.24);
+    color: var(--fg);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.24);
   }
 
   .footer-base {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 1.5rem;
     padding-bottom: 3rem;
   }
 
   .footer-legal {
     font-size: 0.85rem;
-    color: rgba(0, 0, 0, 0.42);
+    color: rgba(255, 255, 255, 0.42);
     line-height: 1.65;
   }
 </style>

@@ -124,7 +124,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     text-decoration: none;
     margin-bottom: 2rem;
   }
-  .back-link:hover { color: var(--dark); }
+  .back-link:hover { color: var(--fg); }
 
   .speaker-head {
     display: grid;
@@ -143,7 +143,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     height: 200px;
     border-radius: 20px;
     object-fit: cover;
-    background: #ebe9e3;
+    background: var(--surface-2);
     border-bottom: 4px solid var(--track-color);
   }
 
@@ -153,7 +153,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     justify-content: center;
     font-size: 3rem;
     font-weight: 800;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .speaker-name {
@@ -161,7 +161,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 1.02;
-    color: var(--dark);
+    color: var(--fg);
     margin: 0.75rem 0 0.6rem;
   }
 
@@ -179,14 +179,14 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
     text-decoration: none;
     padding: 0.45em 1em;
-    border: 1px solid rgba(0, 0, 0, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 100px;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
-  .speaker-links a:hover { background: var(--white); border-color: var(--dark); }
+  .speaker-links a:hover { background: var(--surface); border-color: var(--fg); }
 
   .speaker-body {
     display: grid;
@@ -203,7 +203,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.2;
-    color: var(--dark);
+    color: var(--fg);
     margin: 0.6rem 0 0.75rem;
   }
 
@@ -215,7 +215,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   }
 
   .talk-with { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
-  .talk-with a { color: var(--blue); font-weight: 600; text-decoration: none; }
+  .talk-with a { color: var(--blue-text); font-weight: 600; text-decoration: none; }
   .talk-with a:hover { text-decoration: underline; }
 
   .prose { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
@@ -223,7 +223,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   .prose p {
     font-size: 1rem;
     line-height: 1.8;
-    color: #3d3d3d;
+    color: var(--text-soft);
     white-space: pre-line;
     max-width: 68ch;
   }

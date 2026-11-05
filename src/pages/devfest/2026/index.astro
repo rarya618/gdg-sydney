@@ -200,7 +200,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
 
   /* ─── Masthead ──────────────────────────────────────────────────────── */
   .masthead {
-    background: var(--dark);
+    background: var(--ink);
     color: white;
     padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 4.5rem));
     padding-bottom: clamp(2.5rem, 5vw, 4rem);
@@ -255,7 +255,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 100px;
   }
-  .jump-nav a:hover { background: white; color: var(--dark); }
+  .jump-nav a:hover { background: var(--fg); color: var(--on-accent); }
 
   /* ─── Schedule ──────────────────────────────────────────────────────── */
   .schedule { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -268,7 +268,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     font-family: var(--mono);
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .sched-col { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -319,7 +319,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 1.25rem;
   }
   .group-title::before {
@@ -345,7 +345,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 14px;
-    background: #ebe9e3;
+    background: var(--surface-2);
     border-bottom: 5px solid var(--track-color);
     margin-bottom: 0.5rem;
   }
@@ -356,10 +356,10 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     justify-content: center;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--fg);
   }
 
-  .speaker-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; color: var(--dark); }
+  .speaker-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; color: var(--fg); }
   .speaker-card:hover .speaker-name { text-decoration: underline; text-underline-offset: 3px; }
 
   .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
@@ -367,7 +367,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
   /* ─── Partners ──────────────────────────────────────────────────────── */
   .headline-partners {
     display: grid;
-    background: var(--dark);
+    background: var(--surface);
     color: white;
     border-radius: 16px;
     overflow: hidden;
@@ -391,7 +391,8 @@ const google = sponsors.find((s) => s.tier === 'diamond');
 
   .partner-role { font-size: 0.9rem; color: rgba(255, 255, 255, 0.65); }
 
-  /* Logos are monochrome, as on the old site; several source files are white wordmarks. */
+  /* Logos are shown as white silhouettes, as on the old dark site; the source files mix
+     colour and white wordmarks, so flattening them is the only consistent option. */
   .headline-logo {
     height: 56px;
     width: auto;
@@ -403,13 +404,13 @@ const google = sponsors.find((s) => s.tier === 'diamond');
 
   .headline-partner p { font-size: 0.95rem; line-height: 1.65; color: rgba(255, 255, 255, 0.75); max-width: 44ch; }
 
-  .tier-list { list-style: none; margin-top: 2.5rem; border-top: 2px solid var(--dark); }
+  .tier-list { list-style: none; margin-top: 2.5rem; border-top: 2px solid var(--fg); }
 
   .tier-row {
     display: grid;
     gap: 0.75rem 2.5rem;
     padding-block: 1.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     align-items: center;
   }
 
@@ -417,7 +418,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     .tier-row { grid-template-columns: 8rem 13rem 1fr; }
   }
 
-  .tier-label { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+  .tier-label { font-size: 0.95rem; font-weight: 700; color: var(--fg); }
 
   .tier-logo-link { display: block; width: fit-content; }
 
@@ -427,13 +428,14 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     max-width: 190px;
     object-fit: contain;
     object-position: left center;
-    filter: brightness(0);
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
   }
 
   /* Stacked lockups read small at a wordmark's height. */
   .tier-logo--stacked { height: 64px; }
 
-  .tier-text { font-size: 0.925rem; line-height: 1.65; color: #4a4a4a; max-width: 62ch; }
+  .tier-text { font-size: 0.925rem; line-height: 1.65; color: var(--text-soft); max-width: 62ch; }
 
   /* ─── Venue ─────────────────────────────────────────────────────────── */
   .venue { display: grid; gap: 2.5rem; align-items: center; }
@@ -446,20 +448,20 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     font-size: clamp(1.35rem, 2.4vw, 1.75rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .venue-address {
     font-style: normal;
     font-size: 1.05rem;
-    color: var(--dark);
+    color: var(--fg);
     margin-top: 0.35rem;
   }
 
   .venue-text {
     font-size: 1rem;
     line-height: 1.7;
-    color: #4a4a4a;
+    color: var(--text-soft);
     max-width: 46ch;
     margin: 1.25rem 0 2rem;
   }
@@ -468,7 +470,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     aspect-ratio: 4 / 3;
     border-radius: 16px;
     overflow: hidden;
-    background: #e6e4dd;
+    background: var(--surface-2);
   }
 
   .venue-map iframe { width: 100%; height: 100%; border: 0; display: block; }
@@ -482,7 +484,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem 3rem;
-    border-top: 2px solid var(--dark);
+    border-top: 2px solid var(--fg);
     padding-top: 2.5rem;
   }
 
@@ -491,7 +493,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     font-weight: 700;
     letter-spacing: -0.035em;
     line-height: 1.1;
-    color: var(--dark);
+    color: var(--fg);
     max-width: 20ch;
   }
 </style>

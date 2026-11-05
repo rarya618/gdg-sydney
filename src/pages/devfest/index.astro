@@ -142,7 +142,7 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
   /* ─── Hero: ink panel beside a full-height photo ────────────────────── */
   .hero {
     display: grid;
-    background: var(--dark);
+    background: var(--ink);
     color: white;
     padding-top: var(--header-h);
   }
@@ -227,20 +227,20 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     font-weight: 700;
     letter-spacing: -0.045em;
     line-height: 0.98;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 1.5rem;
   }
 
   .recap-copy p {
     font-size: 1.05rem;
     line-height: 1.7;
-    color: #4a4a4a;
+    color: var(--text-soft);
     max-width: 34em;
     margin-bottom: 2rem;
   }
 
-  .btn-dark { background: var(--dark); color: white; }
-  .btn-dark:hover { background: #000; }
+  .btn-dark { background: var(--fg); color: var(--on-accent); }
+  .btn-dark:hover { background: white; }
 
   .lineup {
     list-style: none;
@@ -256,10 +256,10 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
-    background: #e6e4dd;
+    background: var(--surface-2);
     border: 3px solid var(--track-color);
     font-weight: 700;
-    color: var(--dark);
+    color: var(--fg);
     text-decoration: none;
   }
 
@@ -277,13 +277,13 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
   }
 
   /* ─── Get involved: rows, not cards ─────────────────────────────────── */
-  .involved-list { list-style: none; border-top: 2px solid var(--dark); }
+  .involved-list { list-style: none; border-top: 2px solid var(--fg); }
 
   .involved-row {
     display: grid;
     gap: 0.5rem 2rem;
     padding-block: 1.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   @media (min-width: 800px) {
@@ -297,25 +297,25 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     font-size: clamp(1.5rem, 2.6vw, 2rem);
     font-weight: 700;
     letter-spacing: -0.035em;
-    color: var(--dark);
+    color: var(--fg);
   }
 
-  .involved-row p { font-size: 0.975rem; line-height: 1.65; color: #4a4a4a; max-width: 52ch; }
+  .involved-row p { font-size: 0.975rem; line-height: 1.65; color: var(--text-soft); max-width: 52ch; }
 
   .involved-row a {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
     text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0.3);
+    text-decoration-color: rgba(255, 255, 255, 0.3);
     text-underline-offset: 4px;
     white-space: nowrap;
   }
-  .involved-row a:hover { text-decoration-color: var(--dark); }
+  .involved-row a:hover { text-decoration-color: var(--fg); }
   /* ─── FAQ: native disclosure rows ───────────────────────────────────── */
-  .faq-list { border-top: 2px solid var(--dark); max-width: 860px; }
+  .faq-list { border-top: 2px solid var(--fg); max-width: 860px; }
 
-  .faq-item { border-bottom: 1px solid rgba(0, 0, 0, 0.14); }
+  .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
 
   .faq-item summary {
     display: flex;
@@ -326,7 +326,7 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: -0.015em;
-    color: var(--dark);
+    color: var(--fg);
     cursor: pointer;
     list-style: none;
   }
@@ -348,16 +348,16 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     padding-bottom: 1.5rem;
     font-size: 1rem;
     line-height: 1.7;
-    color: #4a4a4a;
+    color: var(--text-soft);
     max-width: 64ch;
   }
 
   .faq-item p :global(a) {
-    color: var(--dark);
+    color: var(--fg);
     font-weight: 600;
     text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0.3);
+    text-decoration-color: rgba(255, 255, 255, 0.3);
     text-underline-offset: 3px;
   }
-  .faq-item p :global(a:hover) { text-decoration-color: var(--dark); }
+  .faq-item p :global(a:hover) { text-decoration-color: var(--fg); }
 </style>

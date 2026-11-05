@@ -1,57 +1,11 @@
 ---
-import '../styles/global.css';
-import Footer from '../components/Footer.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="generator" content={Astro.generator} />
-  <meta name="description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
-  <title>Code of Conduct | GDG Sydney</title>
-  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-  <meta property="og:site_name" content="GDG Sydney" />
-  <meta property="og:title" content="Code of Conduct | GDG Sydney" />
-  <meta property="og:description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
-  <meta property="og:image" content={new URL('/logo.png', Astro.site)} />
-  <meta property="og:image:alt" content="GDG Sydney logo" />
-  <meta property="og:locale" content="en_AU" />
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Code of Conduct | GDG Sydney" />
-  <meta name="twitter:description" content="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone." />
-  <meta name="twitter:image" content={new URL('/logo.png', Astro.site)} />
-</head>
-<body>
-
-  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
-  <header class="header">
-    <div class="container header-inner">
-      <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
-      </a>
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="/#events" class="nav-link">Events</a>
-        <a href="/speak" class="nav-link">Speak</a>
-        <a href="/devfest" class="nav-link">DevFest</a>
-        <a
-          href="https://gdg.community.dev/gdg-sydney/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-primary btn-sm"
-        >
-          Join the community
-        </a>
-      </nav>
-    </div>
-  </header>
+<SiteLayout
+  title="Code of Conduct | GDG Sydney"
+  description="GDG Sydney's Event Code of Conduct and Anti-Harassment Policy. We are dedicated to providing a harassment-free and inclusive event experience for everyone."
+>
 
   <!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
   <section class="coc-masthead" aria-labelledby="coc-heading">
@@ -66,7 +20,7 @@ import Footer from '../components/Footer.astro';
   </section>
 
   <!-- ══════════════════════════════ CONTENT ═══════════════════════════════ -->
-  <main class="coc-body" id="main-content">
+  <div class="coc-body">
     <div class="container">
       <div class="coc-layout">
 
@@ -249,11 +203,7 @@ import Footer from '../components/Footer.astro';
         </article>
       </div>
     </div>
-  </main>
-
-  <!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
-  <Footer />
-
+  </div>
   <script>
     const links = document.querySelectorAll<HTMLAnchorElement>('.sidebar-link');
     const sections = [...links].map(l => document.querySelector(l.getAttribute('href')!)).filter(Boolean) as Element[];
@@ -262,145 +212,19 @@ import Footer from '../components/Footer.astro';
       links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === `#${id}`));
     };
 
+    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 80;
+
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) setActive(entry.target.id);
       }
-    }, { rootMargin: `-${68 + 32}px 0px -60% 0px`, threshold: 0 });
+    }, { rootMargin: `-${headerHeight + 32}px 0px -60% 0px`, threshold: 0 });
 
     sections.forEach(s => observer.observe(s));
   </script>
-</body>
-</html>
+</SiteLayout>
 
 <style is:global>
-  /* ─── Reset & Base ──────────────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  :root {
-    --blue:   #4285F4;
-    --green:  #34A853;
-    --yellow: #f9ab00;
-    --red:    #EA4335;
-
-    --bg:     #f5f4f0;
-    --dark:   #1e1e1e;
-    --text:   #2a2a2a;
-    --muted:  #6b7280;
-    --white:  #ffffff;
-    --border: rgba(0, 0, 0, 0.09);
-
-    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
-    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
-
-    --header-h: 80px;
-  }
-
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  .container {
-    max-width: 1160px;
-    margin-inline: auto;
-    padding-inline: clamp(1.25rem, 5vw, 3rem);
-  }
-
-  /* ─── Header ────────────────────────────────────────────────────────── */
-  .header {
-    position: fixed;
-    inset-inline: 0;
-    top: 0;
-    height: var(--header-h);
-    background: rgba(245, 244, 240, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    text-decoration: none;
-    color: var(--dark);
-  }
-
-  .logo-img {
-    height: 48px;
-    width: auto;
-    display: block;
-    flex-shrink: 0;
-  }
-
-  .logo-img-footer { height: 26px; }
-
-  .logo-wordmark {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--dark);
-  }
-
-  .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-  }
-
-  .nav-link {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .nav-link:hover { color: var(--dark); }
-
-  /* ─── Buttons ───────────────────────────────────────────────────────── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
-    border-radius: 100px;
-    font-family: var(--sans);
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    cursor: pointer;
-    border: none;
-    line-height: 1;
-  }
-  .btn:hover  { transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-  .btn-sm { padding: 0.6em 1.4em; font-size: 0.825rem; }
-
-  .btn-primary {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
-  }
-  .btn-primary:hover {
-    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42);
-  }
-
   /* ─── CoC Masthead ──────────────────────────────────────────────────── */
   .coc-masthead {
     padding-top: calc(var(--header-h) + 4rem);
@@ -445,7 +269,7 @@ import Footer from '../components/Footer.astro';
     font-weight: 800;
     line-height: 1.0;
     letter-spacing: -0.04em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 0.75rem;
   }
 
@@ -516,12 +340,12 @@ import Footer from '../components/Footer.astro';
   }
 
   .sidebar-link:hover {
-    color: var(--dark);
+    color: var(--fg);
     border-left-color: var(--blue);
   }
 
   .sidebar-link.is-active {
-    color: var(--dark);
+    color: var(--fg);
     border-left-color: var(--blue);
     font-weight: 600;
   }
@@ -543,7 +367,7 @@ import Footer from '../components/Footer.astro';
     font-size: clamp(1.25rem, 2.5vw, 1.6rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 1.5rem;
     line-height: 1.15;
   }
@@ -559,7 +383,7 @@ import Footer from '../components/Footer.astro';
   .coc-body-text {
     font-size: 1rem;
     line-height: 1.8;
-    color: #4a4a4a;
+    color: var(--text-soft);
     margin-bottom: 1.25rem;
   }
 
@@ -570,7 +394,7 @@ import Footer from '../components/Footer.astro';
   }
 
   .coc-link {
-    color: var(--blue);
+    color: var(--blue-text);
     text-decoration: underline;
     text-decoration-color: rgba(66, 133, 244, 0.35);
     text-underline-offset: 3px;
@@ -605,7 +429,7 @@ import Footer from '../components/Footer.astro';
   .principle-title {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 0.65rem;
     letter-spacing: -0.015em;
   }
@@ -613,19 +437,6 @@ import Footer from '../components/Footer.astro';
   .principle-content p {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: #4a4a4a;
-  }
-
-  /* ─── Mobile nav ────────────────────────────────────────────────────── */
-  @media (max-width: 640px) {
-    .header-nav .nav-link { display: none; }
-  }
-
-  /* ─── Reduced motion ────────────────────────────────────────────────── */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
+    color: var(--text-soft);
   }
 </style>

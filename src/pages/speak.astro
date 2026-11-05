@@ -1,57 +1,14 @@
 ---
-import '../styles/global.css';
-import Footer from '../components/Footer.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="generator" content={Astro.generator} />
-  <meta name="description" content="Speak at a GDG Sydney meetup. Share your knowledge with Sydney's developer community. All experience levels welcome." />
-  <title>Speak at GDG Sydney | Google Developer Group</title>
-  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-  <meta property="og:site_name" content="GDG Sydney" />
-  <meta property="og:title" content="Speak at GDG Sydney" />
-  <meta property="og:description" content="Share your knowledge with Sydney's developer community. All experience levels welcome, from lightning talks to deep dives." />
-  <meta property="og:image" content={new URL('/logo.png', Astro.site)} />
-  <meta property="og:image:alt" content="GDG Sydney logo" />
-  <meta property="og:locale" content="en_AU" />
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Speak at GDG Sydney" />
-  <meta name="twitter:description" content="Share your knowledge with Sydney's developer community. All experience levels welcome." />
-  <meta name="twitter:image" content={new URL('/logo.png', Astro.site)} />
-</head>
-<body>
-
-  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
-  <header class="header">
-    <div class="container header-inner">
-      <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
-      </a>
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="/#events" class="nav-link">Events</a>
-        <a href="/speak" class="nav-link" aria-current="page">Speak</a>
-        <a href="/devfest" class="nav-link">DevFest</a>
-        <a
-          href="https://gdg.community.dev/gdg-sydney/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-primary btn-sm"
-        >
-          Join the community
-        </a>
-      </nav>
-    </div>
-  </header>
+<SiteLayout
+  title="Speak at GDG Sydney | Google Developer Group"
+  ogTitle="Speak at GDG Sydney"
+  description="Speak at a GDG Sydney meetup. Share your knowledge with Sydney's developer community. All experience levels welcome."
+  ogDescription="Share your knowledge with Sydney's developer community. All experience levels welcome, from lightning talks to deep dives."
+  current="speak"
+>
 
   <!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
   <section class="speak-masthead" aria-labelledby="speak-heading">
@@ -86,7 +43,7 @@ import Footer from '../components/Footer.astro';
   </section>
 
   <!-- ══════════════════════════════ MAIN ═════════════════════════════════ -->
-  <main class="speak-body" id="main-content">
+  <div class="speak-body">
     <div class="container">
       <div class="speak-layout">
 
@@ -119,12 +76,12 @@ import Footer from '../components/Footer.astro';
             <p class="info-label">Talk formats</p>
             <div class="format-cards">
               <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--blue)">Lightning</span>
+                <span class="format-tag" style="--tag-color: var(--blue-text)">Lightning</span>
                 <p class="format-duration">5 – 10 min</p>
                 <p class="format-desc">A focused demo, quick tip, or intro to a tool.</p>
               </div>
               <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--green)">Standard</span>
+                <span class="format-tag" style="--tag-color: var(--green-text)">Standard</span>
                 <p class="format-duration">20 – 30 min</p>
                 <p class="format-desc">A full talk with time for audience questions.</p>
               </div>
@@ -342,7 +299,7 @@ import Footer from '../components/Footer.astro';
 
       </div>
     </div>
-  </main>
+  </div>
 
   <script>
     const SHEET_URL = import.meta.env.PUBLIC_SPEAKER_FORM_URL;
@@ -378,141 +335,9 @@ import Footer from '../components/Footer.astro';
       }
     });
   </script>
-
-  <!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
-  <Footer />
-
-</body>
-</html>
+</SiteLayout>
 
 <style is:global>
-  /* ─── Reset & Base ──────────────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  :root {
-    --blue:   #4285F4;
-    --green:  #34A853;
-    --yellow: #f9ab00;
-    --red:    #EA4335;
-
-    --bg:     #f5f4f0;
-    --dark:   #1e1e1e;
-    --text:   #2a2a2a;
-    --muted:  #6b7280;
-    --white:  #ffffff;
-    --border: rgba(0, 0, 0, 0.09);
-
-    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
-    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
-
-    --header-h: 80px;
-  }
-
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  .container {
-    max-width: 1160px;
-    margin-inline: auto;
-    padding-inline: clamp(1.25rem, 5vw, 3rem);
-  }
-
-  /* ─── Header ────────────────────────────────────────────────────────── */
-  .header {
-    position: fixed;
-    inset-inline: 0;
-    top: 0;
-    height: var(--header-h);
-    background: rgba(245, 244, 240, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    text-decoration: none;
-    color: var(--dark);
-  }
-
-  .logo-img {
-    height: 48px;
-    width: auto;
-    display: block;
-    flex-shrink: 0;
-  }
-
-  .logo-img-footer { height: 26px; }
-
-  .logo-wordmark {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--dark);
-  }
-
-  .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-  }
-
-  .nav-link {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .nav-link:hover { color: var(--dark); }
-
-  /* ─── Buttons ───────────────────────────────────────────────────────── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
-    border-radius: 100px;
-    font-family: var(--sans);
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    cursor: pointer;
-    border: none;
-    line-height: 1;
-  }
-  .btn:hover  { transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-  .btn-sm { padding: 0.6em 1.4em; font-size: 0.825rem; }
-
-  .btn-primary {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
-  }
-  .btn-primary:hover {
-    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42);
-  }
-
   /* ─── Speak masthead ────────────────────────────────────────────────── */
   .speak-masthead {
     padding-top: calc(var(--header-h) + 4rem);
@@ -539,7 +364,7 @@ import Footer from '../components/Footer.astro';
     font-weight: 800;
     line-height: 1.0;
     letter-spacing: -0.04em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 0.75rem;
   }
 
@@ -567,12 +392,12 @@ import Footer from '../components/Footer.astro';
     font-size: 1.35rem;
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1;
   }
 
   .stat-plus {
-    color: var(--blue);
+    color: var(--blue-text);
   }
 
   .stat-label {
@@ -652,7 +477,7 @@ import Footer from '../components/Footer.astro';
     gap: 0.625rem;
     font-size: 0.875rem;
     line-height: 1.6;
-    color: #4a4a4a;
+    color: var(--text-soft);
   }
 
   .info-dot {
@@ -670,7 +495,7 @@ import Footer from '../components/Footer.astro';
   }
 
   .format-card {
-    background: var(--white);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1rem 1.125rem;
@@ -690,7 +515,7 @@ import Footer from '../components/Footer.astro';
   .format-duration {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--fg);
     letter-spacing: -0.02em;
     margin-bottom: 0.3rem;
   }
@@ -707,7 +532,7 @@ import Footer from '../components/Footer.astro';
     gap: 0.5rem;
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--blue);
+    color: var(--blue-text);
     text-decoration: none;
     transition: opacity 0.15s ease;
   }
@@ -722,7 +547,7 @@ import Footer from '../components/Footer.astro';
     font-size: clamp(1.25rem, 2.5vw, 1.6rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 2rem;
     line-height: 1.15;
   }
@@ -752,7 +577,7 @@ import Footer from '../components/Footer.astro';
   .field-label {
     font-size: 0.825rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .field-optional {
@@ -768,13 +593,13 @@ import Footer from '../components/Footer.astro';
     margin-top: -0.1rem;
   }
 
-  .required { color: var(--red); }
+  .required { color: var(--red-text); }
 
   .field-input {
     font-family: var(--sans);
     font-size: 0.9rem;
     color: var(--text);
-    background: var(--white);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 0.7rem 0.875rem;
@@ -812,7 +637,7 @@ import Footer from '../components/Footer.astro';
     display: flex;
     align-items: flex-start;
     gap: 0.625rem;
-    background: var(--white);
+    background: var(--surface);
     border: 1.5px solid var(--border);
     border-radius: 10px;
     padding: 0.875rem 1rem;
@@ -841,7 +666,7 @@ import Footer from '../components/Footer.astro';
   .radio-card input[type="radio"]:checked {
     border-color: var(--blue);
     background: var(--blue);
-    box-shadow: inset 0 0 0 3px white;
+    box-shadow: inset 0 0 0 3px var(--surface);
   }
 
   .radio-card:has(input:checked) {
@@ -858,7 +683,7 @@ import Footer from '../components/Footer.astro';
   .radio-name {
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .radio-sub {
@@ -896,21 +721,21 @@ import Footer from '../components/Footer.astro';
     align-items: flex-start;
     gap: 0.75rem;
     padding: 2rem;
-    background: var(--white);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 14px;
     margin-top: 0.5rem;
   }
 
   .success-icon {
-    color: var(--green);
+    color: var(--green-text);
   }
 
   .success-title {
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--dark);
+    color: var(--fg);
   }
 
   .success-body {
@@ -925,20 +750,7 @@ import Footer from '../components/Footer.astro';
 
   .error-text {
     font-size: 0.85rem;
-    color: var(--red);
+    color: var(--red-text);
     line-height: 1.6;
-  }
-
-  /* ─── Mobile nav ────────────────────────────────────────────────────── */
-  @media (max-width: 640px) {
-    .header-nav .nav-link { display: none; }
-  }
-
-  /* ─── Reduced motion ────────────────────────────────────────────────── */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
   }
 </style>

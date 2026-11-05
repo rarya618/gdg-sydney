@@ -1,12 +1,15 @@
 ---
-// Shared shell for newer pages: head/meta, header, footer and the base styles that
-// index, speak and code-of-conduct each still carry inline.
+// Shared shell for every page: head/meta, header, footer, and the base styles and colour
+// tokens. The site is dark only; change the palette here, not in individual pages.
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import { hasDarkLogo, logoSrc } from '../lib/logo';
 
 interface Props {
   title: string;
   description: string;
+  // Social cards; defaults to the meta description.
+  ogDescription?: string;
   ogTitle?: string;
   ogImage?: string;
   ogImageAlt?: string;
@@ -16,6 +19,7 @@ interface Props {
 const {
   title,
   description,
+  ogDescription = description,
   ogTitle = title,
   ogImage = '/logo.png',
   ogImageAlt = 'GDG Sydney logo',
@@ -32,6 +36,8 @@ const isLargeImage = ogImage !== '/logo.png';
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#1e1e1e" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
   <title>{title}</title>
@@ -42,7 +48,7 @@ const isLargeImage = ogImage !== '/logo.png';
   <meta property="og:url" content={canonical} />
   <meta property="og:site_name" content="GDG Sydney" />
   <meta property="og:title" content={ogTitle} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={ogDescription} />
   <meta property="og:image" content={ogImageUrl} />
   <meta property="og:image:alt" content={ogImageAlt} />
   <meta property="og:locale" content="en_AU" />
@@ -50,7 +56,7 @@ const isLargeImage = ogImage !== '/logo.png';
   <!-- Twitter / X -->
   <meta name="twitter:card" content={isLargeImage ? 'summary_large_image' : 'summary'} />
   <meta name="twitter:title" content={ogTitle} />
-  <meta name="twitter:description" content={description} />
+  <meta name="twitter:description" content={ogDescription} />
   <meta name="twitter:image" content={ogImageUrl} />
   <slot name="head" />
 </head>
@@ -59,7 +65,7 @@ const isLargeImage = ogImage !== '/logo.png';
   <header class="header">
     <div class="container header-inner">
       <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
+        <img src={logoSrc} alt="Google Developer Group Sydney" class:list={['logo-img', { 'logo-chip': !hasDarkLogo }]} />
       </a>
       <nav class="header-nav" aria-label="Main navigation">
         <a href="/#events" class="nav-link">Events</a>
@@ -88,7 +94,7 @@ const isLargeImage = ogImage !== '/logo.png';
 
 <style is:global>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; color-scheme: dark; }
 
   :root {
     --blue:   #4285F4;
@@ -96,17 +102,30 @@ const isLargeImage = ogImage !== '/logo.png';
     --yellow: #f9ab00;
     --red:    #EA4335;
 
-    --bg:     #f5f4f0;
-    --dark:   #1e1e1e;
-    --text:   #2a2a2a;
-    --muted:  #6b7280;
-    --white:  #ffffff;
-    --border: rgba(0, 0, 0, 0.09);
+    /* Dark theme. Black 02 (#1e1e1e) from the brand palette is the page itself. */
+    --bg:         #1e1e1e;
+    --ink:        #141414;   /* deep bands, darker than the page */
+    --surface:    #272727;   /* cards and inputs */
+    --surface-2:  #303030;   /* raised, hover, image wells */
+    --fg:         #f0f0f0;   /* Off White: headings and strong text */
+    --text:       #d6d6d4;
+    --text-soft:  #b4b4b0;
+    --muted:      #9aa0a6;
+    --border:     rgba(255, 255, 255, 0.1);
+    --on-accent:  #1e1e1e;   /* text on solid brand colours */
+
+    /* Text-safe tints of the core colours (Google's dark-theme 300 tones). The core
+       colours stay for fills, borders and buttons; these are for coloured text. */
+    --blue-text:   #8ab4f8;
+    --red-text:    #f28b82;
+    --green-text:  #81c995;
+    --yellow-text: #fdd663;
 
     --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
     --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
 
     --header-h: 80px;
+    --radius-card: 16px;
   }
 
   body {
@@ -132,7 +151,7 @@ const isLargeImage = ogImage !== '/logo.png';
     inset-inline: 0;
     top: 0;
     height: var(--header-h);
-    background: rgba(245, 244, 240, 0.85);
+    background: rgba(30, 30, 30, 0.85);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--border);
@@ -151,6 +170,15 @@ const isLargeImage = ogImage !== '/logo.png';
   .logo { display: flex; align-items: center; text-decoration: none; }
   .logo-img { height: 48px; width: auto; display: block; flex-shrink: 0; }
 
+  /* Fallback until public/gdg-logo-dark.png exists: the light-background logo on a light
+     chip, since the brand guide doesn't allow recolouring it. See src/lib/logo.ts. */
+  .logo-chip {
+    background: var(--fg);
+    border-radius: 10px;
+    padding: 4px 10px;
+    box-sizing: content-box;
+  }
+
   .header-nav { display: flex; align-items: center; gap: 1.75rem; }
 
   .nav-link {
@@ -161,7 +189,7 @@ const isLargeImage = ogImage !== '/logo.png';
     transition: color 0.15s ease;
   }
   .nav-link:hover,
-  .nav-link[aria-current='page'] { color: var(--dark); }
+  .nav-link[aria-current='page'] { color: var(--fg); }
 
   @media (max-width: 640px) {
     .header-nav .nav-link { display: none; }
@@ -196,10 +224,10 @@ const isLargeImage = ogImage !== '/logo.png';
 
   .btn-ghost {
     background: transparent;
-    color: var(--dark);
-    border: 1.5px solid rgba(0, 0, 0, 0.2);
+    color: var(--fg);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
   }
-  .btn-ghost:hover { border-color: var(--dark); background: rgba(0, 0, 0, 0.04); }
+  .btn-ghost:hover { border-color: var(--fg); background: rgba(255, 255, 255, 0.04); }
 
   /* ─── Sections ──────────────────────────────────────────────────────── */
   .section { padding-block: clamp(4rem, 7vw, 6rem); }
@@ -209,7 +237,7 @@ const isLargeImage = ogImage !== '/logo.png';
     font-size: clamp(1.75rem, 3.5vw, 2.5rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1.1;
     margin-bottom: 1.5rem;
   }
@@ -228,7 +256,7 @@ const isLargeImage = ogImage !== '/logo.png';
     gap: 0.5em;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
   }
   .track-tag::before {
     content: '';
@@ -242,6 +270,7 @@ const isLargeImage = ogImage !== '/logo.png';
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
     html { scroll-behavior: auto; }

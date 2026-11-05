@@ -5,7 +5,6 @@ import {
   ROOM_LABELS,
   ROOM_TRACKS,
   TRACKS,
-  TRACK_TINTS,
   formatTime,
   speakersBySlug,
   spansAllRooms,
@@ -34,7 +33,7 @@ function slotNote(): string | null {
 const note = slotNote();
 const names = slot.speakers.map((slug) => speakersBySlug.get(slug)?.name).filter(Boolean);
 const title = slot.talkTitle ?? slot.title;
-const tint = slot.track ? TRACK_TINTS[slot.track] : undefined;
+const tint = slot.track ? TRACKS[slot.track].color : undefined;
 ---
 
 <div class:list={['slot', `slot--${slot.kind}`]} style={tint ? `--tint: ${tint}` : undefined}>
@@ -58,44 +57,44 @@ const tint = slot.track ? TRACK_TINTS[slot.track] : undefined;
     gap: 0.3rem;
     padding: 1rem 1.1rem 1.1rem;
     border-radius: 10px;
-    background: var(--tint, #ebe9e3);
+    /* A dark wash of the track colour: readable light text, track still obvious. */
+    background: color-mix(in srgb, var(--tint, var(--surface-2)) 22%, var(--bg));
     min-width: 0;
   }
 
-  /* Main-stage moments are the darkest thing on the grid. */
-  .slot--plenary { background: var(--dark); color: white; }
+  /* Main-stage moments: the brightest thing on the grid. */
+  .slot--plenary { background: var(--fg); color: var(--on-accent); }
 
   /* Breaks recede: no box, just a rule. */
   .slot--break {
     background: none;
     border-radius: 0;
-    border-top: 1px dashed rgba(0, 0, 0, 0.25);
+    border-top: 1px dashed rgba(255, 255, 255, 0.25);
     padding: 0.6rem 0 0.4rem;
   }
 
-  .slot-time { font-family: var(--mono); font-size: 0.72rem; color: rgba(0, 0, 0, 0.62); }
-  .slot--plenary .slot-time { color: rgba(255, 255, 255, 0.65); }
+  .slot-time { font-family: var(--mono); font-size: 0.72rem; color: rgba(255, 255, 255, 0.62); }
+  .slot--plenary .slot-time { color: rgba(0, 0, 0, 0.62); }
 
-  .slot-note { font-size: 0.78rem; font-weight: 600; color: var(--dark); }
-  .slot--plenary .slot-note { color: rgba(255, 255, 255, 0.8); }
+  .slot-note { font-size: 0.78rem; font-weight: 600; color: var(--fg); }
+  .slot--plenary .slot-note { color: rgba(0, 0, 0, 0.75); }
 
   .slot-title {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.3;
     letter-spacing: -0.015em;
-    color: inherit;
+    color: var(--fg);
     text-decoration: none;
     overflow-wrap: anywhere;
   }
-  .slot--session .slot-title { color: var(--dark); }
   a.slot-title:hover { text-decoration: underline; text-underline-offset: 3px; }
   a.slot-title:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-  .slot--plenary .slot-title { font-size: 1.15rem; }
+  .slot--plenary .slot-title { font-size: 1.15rem; color: var(--on-accent); }
   .slot--break .slot-title { font-weight: 500; color: var(--muted); font-size: 0.95rem; }
 
-  .slot-speakers { font-size: 0.85rem; color: rgba(0, 0, 0, 0.7); }
-  .slot--plenary .slot-speakers { color: rgba(255, 255, 255, 0.78); }
+  .slot-speakers { font-size: 0.85rem; color: rgba(255, 255, 255, 0.72); }
+  .slot--plenary .slot-speakers { color: rgba(0, 0, 0, 0.7); }
 
   @media (min-width: 900px) {
     .slot-room { display: none; }

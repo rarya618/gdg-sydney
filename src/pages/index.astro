@@ -1,6 +1,5 @@
 ---
-import '../styles/global.css';
-import Footer from '../components/Footer.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 import UpcomingEvents from '../components/UpcomingEvents';
 import AboutStats from '../components/AboutStats';
 import PastEvents from '../components/PastEvents';
@@ -8,55 +7,13 @@ import Team from '../components/Team';
 import Partners from '../components/Partners';
 ---
 
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="generator" content={Astro.generator} />
-  <meta name="description" content="GDG Sydney, Google Developer Group Sydney. Connecting developers, designers, and tech enthusiasts across the city." />
-  <title>GDG Sydney | Google Developer Group</title>
-  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-  <meta property="og:site_name" content="GDG Sydney" />
-  <meta property="og:title" content="GDG Sydney | Google Developer Group" />
-  <meta property="og:description" content="A vibrant hub for tech innovators in Sydney. 2,400+ developers, designers, and tech enthusiasts connecting, learning, and growing together." />
-  <meta property="og:image" content={new URL('/operaHouse.png', Astro.site)} />
-  <meta property="og:image:alt" content="Sydney Opera House illustration" />
-  <meta property="og:locale" content="en_AU" />
-
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="GDG Sydney | Google Developer Group" />
-  <meta name="twitter:description" content="A vibrant hub for tech innovators in Sydney. 2,400+ developers, designers, and tech enthusiasts connecting, learning, and growing together." />
-  <meta name="twitter:image" content={new URL('/operaHouse.png', Astro.site)} />
-</head>
-<body>
-
-  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
-  <header class="header">
-    <div class="container header-inner">
-      <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
-      </a>
-      <nav class="header-nav" aria-label="Main navigation">
-        <a href="#events" class="nav-link">Events</a>
-        <a href="/speak" class="nav-link">Speak</a>
-        <a href="/devfest" class="nav-link">DevFest</a>
-        <a
-          href="https://gdg.community.dev/gdg-sydney/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-primary btn-sm"
-        >
-          Join the community
-        </a>
-      </nav>
-    </div>
-  </header>
+<SiteLayout
+  title="GDG Sydney | Google Developer Group"
+  description="GDG Sydney, Google Developer Group Sydney. Connecting developers, designers, and tech enthusiasts across the city."
+  ogDescription="A vibrant hub for tech innovators in Sydney. 2,400+ developers, designers, and tech enthusiasts connecting, learning, and growing together."
+  ogImage="/operaHouse.png"
+  ogImageAlt="Sydney Opera House illustration"
+>
 
   <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section class="hero" id="home" aria-labelledby="hero-heading">
@@ -142,178 +99,9 @@ import Partners from '../components/Partners';
       </a>
     </div>
   </section>
-
-  <!-- ══════════════════════════════ FOOTER ════════════════════════════════ -->
-  <Footer />
-
-</body>
-</html>
+</SiteLayout>
 
 <style is:global>
-  /* ─── Reset & Base ──────────────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  :root {
-    --blue:   #4285F4;
-    --green:  #34A853;
-    --yellow: #f9ab00;
-    --red:    #EA4335;
-
-    --bg:     #f5f4f0;
-    --dark:   #1e1e1e;
-    --text:   #2a2a2a;
-    --muted:  #6b7280;
-    --white:  #ffffff;
-    --border: rgba(0, 0, 0, 0.09);
-
-    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
-    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
-
-    --header-h: 80px;
-    --radius-card: 16px;
-  }
-
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  /* ─── Layout ────────────────────────────────────────────────────────── */
-  .container {
-    max-width: 1160px;
-    margin-inline: auto;
-    padding-inline: clamp(1.25rem, 5vw, 3rem);
-  }
-
-  /* ─── Logo Dots ─────────────────────────────────────────────────────── */
-  .logo-dots {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-
-  .dot {
-    display: block;
-    border-radius: 50%;
-  }
-
-  .dot-blue   { background: var(--blue); }
-  .dot-red    { background: var(--red); }
-  .dot-yellow { background: var(--yellow); }
-  .dot-green  { background: var(--green); }
-
-  /* ─── Header ────────────────────────────────────────────────────────── */
-  .header {
-    position: fixed;
-    inset-inline: 0;
-    top: 0;
-    height: var(--header-h);
-    background: rgba(245, 244, 240, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    text-decoration: none;
-    color: var(--dark);
-  }
-
-  .logo-img {
-    height: 48px;
-    width: auto;
-    display: block;
-    flex-shrink: 0;
-  }
-
-  .logo-img-footer {
-    height: 26px;
-  }
-
-  .logo-wordmark {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    color: var(--dark);
-  }
-
-  .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-  }
-
-  .nav-link {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .nav-link:hover { color: var(--dark); }
-
-  /* ─── Buttons ───────────────────────────────────────────────────────── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
-    border-radius: 100px;
-    font-family: var(--sans);
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-    cursor: pointer;
-    border: none;
-    line-height: 1;
-  }
-  .btn:hover  { transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-
-  .btn-sm  { padding: 0.6em 1.4em;  font-size: 0.825rem; }
-  .btn-lg  { padding: 0.78em 1.8em;  font-size: 1rem; }
-
-  .btn-primary {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
-  }
-  .btn-primary:hover {
-    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--dark);
-    border: 1.5px solid rgba(0, 0, 0, 0.2);
-  }
-  .btn-ghost:hover {
-    border-color: var(--dark);
-    background: rgba(0, 0, 0, 0.04);
-  }
-
   /* ─── Hero ──────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
@@ -366,7 +154,7 @@ import Partners from '../components/Partners';
     z-index: 1;
     margin-top: -16%;
     rotate: -4deg;
-    border: 4px solid #fff;
+    border: 4px solid var(--bg);
   }
 
   .hero .container {
@@ -385,7 +173,7 @@ import Partners from '../components/Partners';
     font-weight: 800;
     line-height: 1.0;
     letter-spacing: -0.04em;
-    color: var(--dark);
+    color: var(--fg);
     margin-bottom: 1.5rem;
     animation: fadeUp 0.65s ease both;
     animation-delay: 0.1s;
@@ -422,14 +210,14 @@ import Partners from '../components/Partners';
     font-size: clamp(1.75rem, 3.5vw, 2.5rem);
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1.1;
     margin-bottom: 1.5rem;
   }
 
   /* ─── Community (dark typographic) ──────────────────────────────────── */
   .section-community {
-    background: var(--dark);
+    background: var(--ink);
     padding-block: clamp(3.5rem, 6vw, 5.5rem);
   }
 
@@ -500,7 +288,7 @@ import Partners from '../components/Partners';
   .about-text-group p {
     font-size: 1.05rem;
     line-height: 1.78;
-    color: #4a4a4a;
+    color: var(--text-soft);
     font-weight: 400;
   }
 
@@ -521,13 +309,13 @@ import Partners from '../components/Partners';
     transition: gap 0.2s ease, color 0.15s ease;
   }
 
-  .about-link:hover { gap: 0.7rem; color: var(--dark); }
+  .about-link:hover { gap: 0.7rem; color: var(--fg); }
 
   .about-link-primary {
-    color: var(--blue);
+    color: var(--blue-text);
   }
 
-  .about-link-primary:hover { color: var(--blue); }
+  .about-link-primary:hover { color: var(--blue-text); }
 
   .hero-actions {
     display: flex;
@@ -539,12 +327,12 @@ import Partners from '../components/Partners';
   .hero-speak-link {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--dark);
+    color: var(--fg);
     text-decoration: none;
     transition: color 0.15s ease, gap 0.15s ease;
   }
 
-  .hero-speak-link:hover { color: var(--blue); }
+  .hero-speak-link:hover { color: var(--blue-text); }
 
   /* ─── CTA ───────────────────────────────────────────────────────────── */
   .section-cta {
@@ -603,7 +391,7 @@ import Partners from '../components/Partners';
   }
 
   .event-card {
-    background: var(--white);
+    background: var(--surface);
     border-radius: var(--radius-card);
     border: 1px solid var(--border);
     display: flex;
@@ -660,11 +448,11 @@ import Partners from '../components/Partners';
     flex-shrink: 0;
   }
 
-  .event-card--blue .event-tag { color: var(--blue); }
+  .event-card--blue .event-tag { color: var(--blue-text); }
   .event-card--blue .event-tag::before { background: var(--blue); }
-  .event-card--green .event-tag { color: var(--green); }
+  .event-card--green .event-tag { color: var(--green-text); }
   .event-card--green .event-tag::before { background: var(--green); }
-  .event-card--yellow .event-tag { color: #c47f00; }
+  .event-card--yellow .event-tag { color: var(--yellow-text); }
   .event-card--yellow .event-tag::before { background: var(--yellow); }
 
   .event-meta {
@@ -698,7 +486,7 @@ import Partners from '../components/Partners';
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1.25;
     margin-bottom: 0.75rem;
   }
@@ -766,7 +554,7 @@ import Partners from '../components/Partners';
 
   /* ─── Stats ─────────────────────────────────────────────────────────── */
   .section-stats {
-    background: var(--dark);
+    background: var(--ink);
     padding-block: clamp(3.5rem, 6vw, 5.5rem);
     border-top: 1px solid rgba(255,255,255,0.06);
   }
@@ -856,7 +644,7 @@ import Partners from '../components/Partners';
   }
 
   .past-item:hover {
-    background: var(--white);
+    background: var(--surface);
   }
 
   .past-tag {
@@ -875,17 +663,17 @@ import Partners from '../components/Partners';
     flex-shrink: 0;
   }
 
-  .past-tag--blue  { color: var(--blue);  }
+  .past-tag--blue  { color: var(--blue-text);  }
   .past-tag--blue::before  { background: var(--blue);  }
-  .past-tag--green { color: var(--green); }
+  .past-tag--green { color: var(--green-text); }
   .past-tag--green::before { background: var(--green); }
-  .past-tag--yellow { color: #c47f00; }
+  .past-tag--yellow { color: var(--yellow-text); }
   .past-tag--yellow::before { background: var(--yellow); }
 
   .past-title {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1.4;
   }
 
@@ -912,7 +700,8 @@ import Partners from '../components/Partners';
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--white);
+    /* Sponsor logos come from Bevy and are designed for white, so their tiles stay light. */
+    background: var(--fg);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.25rem 1.75rem;
@@ -921,7 +710,7 @@ import Partners from '../components/Partners';
   }
 
   .partner-card:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
 
@@ -963,7 +752,7 @@ import Partners from '../components/Partners';
   }
 
   .team-card:hover {
-    background: var(--white);
+    background: var(--surface);
   }
 
   .team-avatar {
@@ -983,7 +772,7 @@ import Partners from '../components/Partners';
   .team-name {
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--fg);
     line-height: 1.3;
   }
 
@@ -995,7 +784,6 @@ import Partners from '../components/Partners';
 
   /* ─── Responsive ────────────────────────────────────────────────────── */
   @media (max-width: 640px) {
-    .header-nav .nav-link { display: none; }
     .hero {
       flex-direction: column;
       align-items: stretch;
@@ -1021,15 +809,6 @@ import Partners from '../components/Partners';
       width: clamp(360px, 44vw, 460px);
       right: clamp(-120px, -4vw, 0px);
       opacity: 0.85;
-    }
-  }
-
-  /* ─── Reduced motion ────────────────────────────────────────────────── */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
     }
   }
 </style>
