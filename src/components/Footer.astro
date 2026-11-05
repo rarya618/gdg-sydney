@@ -18,6 +18,7 @@ const year = new Date().getFullYear();
       <div class="footer-logo">
         <img src={logoSrc} alt="Google Developer Group Sydney" class:list={['logo-img-footer', { 'logo-chip': !hasDarkLogo }]} />
       </div>
+      <p class="footer-motto">Learn. Build. Connect.</p>
       <p class="footer-tagline">Part of the global Google Developer Groups network</p>
     </div>
 
@@ -104,6 +105,14 @@ const year = new Date().getFullYear();
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+  }
+
+  .footer-motto {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+    margin-bottom: 0.35rem;
   }
 
   .footer-tagline {

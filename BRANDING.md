@@ -7,6 +7,7 @@ Source: [External] Google Developer Groups - Brand Guide for Organizers
 - The program umbrella name is **Google Developer Groups** (never abbreviated on first use).
 - Each group is **Google Developer Group [City]** or **GDG [City]** — e.g. GDG Sydney.
 - On social media, organisers are **GDG Organizer** (not GDG Lead or Google Developer Group Lead).
+- GDG Sydney's tagline is **Learn. Build. Connect.** Use it as written: three words, each followed by a full stop, in that order. It's the homepage headline, the homepage page title, and appears under the logo in the footer.
 
 ## Typography
 
