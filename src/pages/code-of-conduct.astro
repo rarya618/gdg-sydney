@@ -1,5 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import SiteLayout from '../layouts/SiteLayout.astro';
+// DevFest Sydney volunteers in crew shirts and lanyards: the people the policy says to find.
+import heroPhoto from '../assets/coc/hero.jpg';
 ---
 
 <SiteLayout
@@ -9,6 +12,16 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 
   <!-- ══════════════════════════════ MASTHEAD ══════════════════════════════ -->
   <section class="coc-masthead" aria-labelledby="coc-heading">
+    <Image
+      src={heroPhoto}
+      alt=""
+      widths={[800, 1400, 2000]}
+      sizes="100vw"
+      class="coc-masthead-photo"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="coc-masthead-scrim" aria-hidden="true"></div>
     <div class="container">
       <h1 class="coc-heading" id="coc-heading">
         Code of<br />Conduct
@@ -227,6 +240,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 <style is:global>
   /* ─── CoC Masthead ──────────────────────────────────────────────────── */
   .coc-masthead {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
     min-height: var(--hero-h);
     display: flex;
     flex-direction: column;
@@ -234,7 +250,31 @@ import SiteLayout from '../layouts/SiteLayout.astro';
     padding-top: calc(var(--header-h) + 4rem);
     padding-bottom: 3.5rem;
   }
-  .coc-masthead .container { width: 100%; }
+  .coc-masthead .container { position: relative; width: 100%; }
+
+  /* Background photo, darkened like the other page heroes so the type reads first. */
+  .coc-masthead-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    filter: saturate(0.8) brightness(0.6);
+  }
+
+  .coc-masthead-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(20, 20, 20, 0.7) 0, rgba(20, 20, 20, 0) 180px),
+      linear-gradient(90deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0.45) 50%, rgba(20, 20, 20, 0.15) 100%),
+      linear-gradient(0deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0) 55%);
+  }
+
+  @media (max-width: 700px) {
+    .coc-masthead-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.92) 15%, rgba(20, 20, 20, 0.6) 100%); }
+  }
 
   .coc-eyebrow {
     display: flex;
@@ -281,7 +321,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
   .coc-subheading {
     font-family: var(--mono);
     font-size: 0.8rem;
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.78);
     letter-spacing: 0.04em;
   }
 
