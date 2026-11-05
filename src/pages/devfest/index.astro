@@ -2,7 +2,7 @@
 import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import RoomBar from '../../components/devfest/RoomBar.astro';
-import { EVENT, speakers, speakerPhoto, initials, TRACKS } from '../../lib/devfest2026';
+import { EVENT, speakers, speakerPhoto, TRACKS } from '../../lib/devfest2026';
 import heroPhoto from '../../assets/devfest/photos/crowd.jpg';
 import speakerPhotoImg from '../../assets/devfest/photos/speaker.jpg';
 import workshopPhoto from '../../assets/devfest/photos/workshop.jpg';
@@ -11,8 +11,11 @@ import { DEVFEST_FAQ, faqStructuredData } from '../../lib/devfestFaq';
 
 const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 
-// Keynote first, then the lineup in name order.
-const lineup = [...speakers].sort((a, b) => Number(b.track === 'keynote') - Number(a.track === 'keynote'));
+// Keynote first, then the lineup in name order. Photos only: two co-speakers have none,
+// and 21 faces make an exact 3 x 7 grid.
+const lineup = [...speakers]
+  .sort((a, b) => Number(b.track === 'keynote') - Number(a.track === 'keynote'))
+  .filter((speaker) => speaker.hasPhoto);
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
@@ -48,18 +51,12 @@ const strip = [
     <div class="hero-scrim" aria-hidden="true"></div>
     <div class="container hero-content">
       <h1 class="hero-title" id="df-heading">DevFest<br />Sydney</h1>
-      <p class="hero-lede">
-        GDG Sydney's annual conference for developers and builders, presented by Google.
-        One day, four rooms, all community-run.
-      </p>
-      <div class="hero-next">
-        <p>DevFest Sydney 2027 hasn't been announced yet.</p>
-        <div class="hero-actions">
-          <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-            Join to hear first
-          </a>
-          <a href="/devfest/2026" class="hero-link">See DevFest 2026</a>
-        </div>
+      <p class="hero-lede">GDG Sydney's annual conference for developers and builders, presented by Google.</p>
+      <div class="hero-actions">
+        <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+          Join to hear about 2027
+        </a>
+        <a href="/devfest/2026" class="hero-link">See DevFest 2026</a>
       </div>
     </div>
   </section>
@@ -93,11 +90,7 @@ const strip = [
                 style={`--track-color: ${TRACKS[speaker.track].color}`}
                 title={speaker.name}
               >
-                {photo ? (
-                  <Image src={photo} alt={speaker.name} width={120} height={120} />
-                ) : (
-                  <span aria-label={speaker.name}>{initials(speaker.name)}</span>
-                )}
+                {photo && <Image src={photo} alt={speaker.name} width={120} height={120} />}
               </a>
             </li>
           );
@@ -108,40 +101,52 @@ const strip = [
 
   <section class="strip" aria-label="Photos from DevFest Sydney">
     {strip.map((photo) => (
-      <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="(min-width: 700px) 33vw, 100vw" class="strip-photo" />
+      <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="33vw" class="strip-photo" />
     ))}
   </section>
 
   <!-- ═══════════════════════════ GET INVOLVED ══════════════════════════ -->
   <section class="section involved" aria-labelledby="involved-heading">
-    <div class="container">
-      <h2 class="section-title" id="involved-heading">Help make 2027 happen</h2>
+    <div class="container split">
+      <h2 class="section-title split-title" id="involved-heading">Help make 2027 happen</h2>
       <ul class="involved-list" role="list">
         <li class="involved-row">
           <h3>Speak</h3>
-          <p>
-            The Call for Speakers opens a few months before the event. Our monthly meetups are a
-            good first stage, and first-time speakers are welcome.
-          </p>
-          <a href="/speak">Speak at a meetup</a>
+          <div>
+            <p>
+              The Call for Speakers opens a few months before the event. Our monthly meetups are a
+              good first stage, and first-time speakers are welcome.
+            </p>
+            <a href="/speak">Speak at a meetup</a>
+          </div>
         </li>
         <li class="involved-row">
           <h3>Sponsor</h3>
-          <p>DevFest is run by volunteers, and sponsors make the day possible. Ask us for the prospectus.</p>
-          <a href="mailto:hello@gdgsydney.com?subject=Sponsoring%20DevFest%20Sydney%202027">Email about sponsoring</a>
+          <div>
+            <p>DevFest is run by volunteers, and sponsors make the day possible. Ask us for the prospectus.</p>
+            <a href="mailto:hello@gdgsydney.com?subject=Sponsoring%20DevFest%20Sydney%202027">Email about sponsoring</a>
+          </div>
         </li>
         <li class="involved-row">
           <h3>Volunteer</h3>
-          <p>Volunteers keep the day running and get to know the community behind it.</p>
-          <a href="mailto:hello@gdgsydney.com?subject=Volunteering%20at%20DevFest%20Sydney">Email about volunteering</a>
+          <div>
+            <p>Volunteers keep the day running and get to know the community behind it.</p>
+            <a href="mailto:hello@gdgsydney.com?subject=Volunteering%20at%20DevFest%20Sydney">Email about volunteering</a>
+          </div>
         </li>
       </ul>
     </div>
   </section>
+
   <!-- ═══════════════════════════════ FAQ ════════════════════════════════ -->
   <section class="section faq" id="faq" aria-labelledby="faq-heading">
-    <div class="container">
-      <h2 class="section-title" id="faq-heading">Common questions</h2>
+    <div class="container split">
+      <div class="split-title">
+        <h2 class="section-title" id="faq-heading">Common questions</h2>
+        <p class="split-note">
+          Something else? Email <a href="mailto:hello@gdgsydney.com">hello@gdgsydney.com</a>.
+        </p>
+      </div>
       <div class="faq-list">
         {DEVFEST_FAQ.map((item) => (
           <details class="faq-item">
@@ -160,7 +165,7 @@ const strip = [
     position: relative;
     display: flex;
     align-items: flex-end;
-    min-height: min(92svh, 880px);
+    min-height: min(78svh, 720px);
     padding-top: var(--header-h);
     color: white;
     background: var(--ink);
@@ -174,6 +179,8 @@ const strip = [
     height: 100%;
     object-fit: cover;
     object-position: center 35%;
+    /* Quieter photo so the type reads first. */
+    filter: saturate(0.8) brightness(0.85);
   }
 
   /* Heavy on the left and bottom where the type sits, clear on the right so the crowd shows. */
@@ -188,33 +195,25 @@ const strip = [
   .hero-content {
     position: relative;
     width: 100%;
-    padding-top: clamp(3rem, 8vw, 6rem);
-    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    padding-top: clamp(3rem, 7vw, 5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
   .hero-title {
-    font-size: clamp(4rem, 12.5vw, 11rem);
+    font-size: clamp(3.5rem, 9vw, 8rem);
     font-weight: 700;
-    line-height: 0.85;
-    letter-spacing: -0.06em;
-    margin-bottom: 2rem;
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+    margin-bottom: 1.5rem;
   }
 
   .hero-lede {
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
     line-height: 1.55;
     color: rgba(255, 255, 255, 0.85);
-    max-width: 30em;
+    max-width: 26em;
+    margin-bottom: 2rem;
   }
-
-  .hero-next {
-    margin-top: 2.25rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    max-width: 34rem;
-  }
-
-  .hero-next p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.25rem; }
 
   .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
 
@@ -236,12 +235,9 @@ const strip = [
   /* ─── Photo strip ───────────────────────────────────────────────────── */
   .strip {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     background: var(--ink);
-  }
-
-  @media (min-width: 700px) {
-    .strip { grid-template-columns: repeat(3, 1fr); }
   }
 
   .strip-photo {
@@ -250,6 +246,10 @@ const strip = [
     aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
+  }
+
+  @media (max-width: 699px) {
+    .strip-photo { aspect-ratio: 1; }
   }
 
   /* ─── 2026 recap ────────────────────────────────────────────────────── */
@@ -282,8 +282,8 @@ const strip = [
   .lineup {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-    gap: 0.6rem;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: clamp(0.4rem, 1vw, 0.65rem);
   }
 
   .lineup-face {
@@ -294,7 +294,7 @@ const strip = [
     border-radius: 50%;
     overflow: hidden;
     background: var(--surface-2);
-    border: 3px solid var(--track-color);
+    border: clamp(2px, 0.4vw, 3px) solid var(--track-color);
     font-weight: 700;
     color: var(--fg);
     text-decoration: none;
@@ -313,6 +313,27 @@ const strip = [
     outline-offset: 3px;
   }
 
+  /* ─── Lower sections: title left, content right ─────────────────────── */
+  .split { display: grid; gap: 1.5rem; }
+
+  @media (min-width: 900px) {
+    .split { grid-template-columns: 17rem minmax(0, 1fr); gap: 4rem; align-items: start; }
+    .split-title { position: sticky; top: calc(var(--header-h) + 2rem); }
+  }
+
+  .split-title.section-title,
+  .split-title .section-title { margin-bottom: 0; }
+
+  .split-note { margin-top: 1rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-soft); }
+  .split-note a {
+    color: var(--fg);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-underline-offset: 3px;
+  }
+  .split-note a:hover { text-decoration-color: var(--fg); }
+
   /* ─── Get involved: rows, not cards ─────────────────────────────────── */
   .involved-list { list-style: none; border-top: 2px solid var(--fg); }
 
@@ -323,12 +344,11 @@ const strip = [
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
 
-  @media (min-width: 800px) {
-    .involved-row {
-      grid-template-columns: 12rem 1fr auto;
-      align-items: baseline;
-    }
+  @media (min-width: 640px) {
+    .involved-row { grid-template-columns: 9rem minmax(0, 1fr); align-items: baseline; }
   }
+
+  .involved-row div { display: flex; flex-direction: column; align-items: flex-start; gap: 0.85rem; }
 
   .involved-row h3 {
     font-size: clamp(1.5rem, 2.6vw, 2rem);
@@ -350,7 +370,7 @@ const strip = [
   }
   .involved-row a:hover { text-decoration-color: var(--fg); }
   /* ─── FAQ: native disclosure rows ───────────────────────────────────── */
-  .faq-list { border-top: 2px solid var(--fg); max-width: 860px; }
+  .faq-list { border-top: 2px solid var(--fg); }
 
   .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
 
