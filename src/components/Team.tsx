@@ -35,7 +35,7 @@ export default function Team() {
   return (
     <section className="section section-team" id="team" aria-labelledby="team-heading">
       <div className="container">
-        <h2 className="section-title" id="team-heading">The volunteers who run it</h2>
+        <h2 className="section-title" id="team-heading">The organisers</h2>
         <div className="team-grid">
           {team.map(member => (
             <a

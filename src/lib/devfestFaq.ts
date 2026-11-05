@@ -30,7 +30,7 @@ export const DEVFEST_FAQ: { question: string; answer: string }[] = [
   },
   {
     question: 'What is GDG Sydney?',
-    answer: `Google Developer Group Sydney is a community of more than 2,400 developers and builders. DevFest Sydney is our flagship annual event, organised by volunteers and presented by Google.`,
+    answer: `Google Developer Group Sydney is a community of more than 2,400 developers and builders. DevFest Sydney is our flagship annual event, run by our organisers and presented by Google.`,
   },
   {
     question: 'How can my company sponsor DevFest Sydney?',

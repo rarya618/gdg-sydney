@@ -43,7 +43,7 @@ export default function AboutStats() {
               <div className="about-text-group">
                 <p>
                   GDG Sydney is the Sydney chapter of Google Developer Groups, a worldwide
-                  network of developer communities run by volunteers. We&apos;ve been meeting
+                  network of developer communities run by local organisers. We&apos;ve been meeting
                   since 2013, and more than {memberCount} people have joined.
                 </p>
                 <p>
