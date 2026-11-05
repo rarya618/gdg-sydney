@@ -34,7 +34,7 @@ export const DEVFEST_FAQ: { question: string; answer: string }[] = [
   },
   {
     question: 'How can my company sponsor DevFest Sydney?',
-    answer: `We'd love to hear from you. Email <a href="mailto:hello@gdgsydney.com?subject=Sponsoring%20DevFest%20Sydney%202027">hello@gdgsydney.com</a> and we'll send you the sponsorship prospectus.`,
+    answer: `Email <a href="mailto:hello@gdgsydney.com?subject=Sponsoring%20DevFest%20Sydney%202027">hello@gdgsydney.com</a> and we'll send you the sponsorship prospectus.`,
   },
   {
     question: 'Can I volunteer?',

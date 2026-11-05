@@ -42,16 +42,15 @@ export default function AboutStats() {
               <h2 className="section-title" id="about-heading">About GDG Sydney</h2>
               <div className="about-text-group">
                 <p>
-                  GDG Sydney is a vibrant hub for tech innovators, where the future of
-                  Google technologies and beyond is explored. With over {memberCount} members, we
-                  bring together developers, designers, and tech enthusiasts from across
-                  the city to connect, learn, and grow.
+                  GDG Sydney is the Sydney chapter of Google Developer Groups, a worldwide
+                  network of developer communities run by volunteers. We&apos;ve been meeting
+                  since 2013, and more than {memberCount} people have joined.
                 </p>
                 <p>
-                  We focus on AI &amp; Machine Learning, Google Cloud &amp; Infrastructure,
-                  multi-platform development, and career growth. We host regular meetups
-                  at Google Sydney, Mantel Group, and other hubs across the city.
-                  All experience levels welcome.
+                  Each meetup has talks on AI and machine learning, Google Cloud, building
+                  for web and mobile, or growing your career. We meet at Google Sydney,
+                  Mantel Group and other venues around the city. It&apos;s free, there&apos;s
+                  food, and you don&apos;t need to know anyone.
                 </p>
               </div>
               <div className="about-links">
@@ -61,7 +60,7 @@ export default function AboutStats() {
                   rel="noopener noreferrer"
                   className="about-link about-link-primary"
                 >
-                  Visit the GDG Sydney community page
+                  See upcoming meetups on our community page
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" width="14" height="14" aria-hidden="true">
                     <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -72,7 +71,7 @@ export default function AboutStats() {
                   rel="noopener noreferrer"
                   className="about-link"
                 >
-                  Learn about the global GDG programme
+                  About Google Developer Groups worldwide
                   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" width="14" height="14" aria-hidden="true">
                     <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
