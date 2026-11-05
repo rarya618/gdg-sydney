@@ -97,7 +97,7 @@ const isLargeImage = ogImage !== '/logo.png';
           aria-controls="mobile-nav"
           aria-label="Open menu"
         >
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <path class="nav-toggle-open" d="M4 7h16M4 12h16M4 17h16" />
             <path class="nav-toggle-close" d="M6 6l12 12M18 6L6 18" />
           </svg>
@@ -190,7 +190,7 @@ const isLargeImage = ogImage !== '/logo.png';
           if (event.persisted) setOpen(false);
         });
         // Rotating to a wide screen hides the toggle, so close the menu with it.
-        window.matchMedia('(min-width: 641px)').addEventListener('change', (event) => {
+        window.matchMedia('(min-width: 861px)').addEventListener('change', (event) => {
           if (event.matches) setOpen(false);
         });
       }
@@ -333,8 +333,8 @@ const isLargeImage = ogImage !== '/logo.png';
     display: none;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
     border-radius: 10px;
     background: transparent;
@@ -381,7 +381,7 @@ const isLargeImage = ogImage !== '/logo.png';
     visibility: visible;
     transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
   }
-  @media (min-width: 641px) {
+  @media (min-width: 861px) {
     .mobile-nav { display: none; }
   }
 
@@ -436,10 +436,13 @@ const isLargeImage = ogImage !== '/logo.png';
     box-sizing: content-box;
   }
 
-  .header-nav { display: flex; align-items: center; gap: 1.75rem; }
+  .header-nav { display: flex; align-items: center; gap: 2.25rem; }
+
+  /* The header's join button, sized to sit with the larger logo and links. */
+  .header-nav .btn-sm { padding: 0.75em 1.5em; font-size: 0.95rem; }
 
   .nav-link {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--muted);
     text-decoration: none;
@@ -452,8 +455,10 @@ const isLargeImage = ogImage !== '/logo.png';
     :root { --hero-h: min(68svh, 580px); }
   }
 
-  @media (max-width: 640px) {
-    /* Phones: the page links and the join button live in the menu panel. */
+  /* Below 860px the full header doesn't fit beside the logo, so phones and narrow
+     windows get the menu instead. Keep in step with the 861px rules above and in the
+     script. */
+  @media (max-width: 860px) {
     .header-nav .nav-link,
     .header-nav .btn { display: none; }
     .nav-toggle { display: inline-flex; }
