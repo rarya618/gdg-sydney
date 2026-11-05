@@ -105,7 +105,7 @@ const isLargeImage = ogImage !== '/logo.png';
       </nav>
     </div>
     <!-- Phones only: the page links, which don't fit in the header bar. -->
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Site pages" hidden>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Site pages">
       <a href="/#events" class="mobile-nav-link">Events</a>
       <a href="/speak" class="mobile-nav-link" aria-current={current === 'speak' ? 'page' : undefined}>Speak</a>
       <a href="/devfest" class="mobile-nav-link" aria-current={current === 'devfest' ? 'page' : undefined}>DevFest</a>
@@ -145,19 +145,19 @@ const isLargeImage = ogImage !== '/logo.png';
       const menu = header.querySelector<HTMLElement>('#mobile-nav');
       if (toggle && menu) {
         const setOpen = (open: boolean) => {
-          menu.hidden = !open;
+          menu.classList.toggle('is-open', open);
           toggle.setAttribute('aria-expanded', String(open));
           toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           header.classList.toggle('menu-open', open);
           // Full-screen menu: stop the page behind it from scrolling while open.
           document.documentElement.classList.toggle('menu-locked', open);
         };
-        toggle.addEventListener('click', () => setOpen(menu.hidden));
+        toggle.addEventListener('click', () => setOpen(!menu.classList.contains('is-open')));
         menu.addEventListener('click', (event) => {
           if ((event.target as HTMLElement).closest('a')) setOpen(false);
         });
         document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape' && !menu.hidden) {
+          if (event.key === 'Escape' && menu.classList.contains('is-open')) {
             setOpen(false);
             toggle.focus();
           }
@@ -308,9 +308,15 @@ const isLargeImage = ogImage !== '/logo.png';
     cursor: pointer;
   }
   .nav-toggle:hover { background: rgba(255, 255, 255, 0.06); }
-  .nav-toggle-close { display: none; }
-  .nav-toggle[aria-expanded='true'] .nav-toggle-open { display: none; }
-  .nav-toggle[aria-expanded='true'] .nav-toggle-close { display: block; }
+  /* The lines crossfade and turn into the cross. */
+  .nav-toggle path {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .nav-toggle-close { opacity: 0; transform: rotate(-90deg); }
+  .nav-toggle[aria-expanded='true'] .nav-toggle-open { opacity: 0; transform: rotate(90deg); }
+  .nav-toggle[aria-expanded='true'] .nav-toggle-close { opacity: 1; transform: none; }
 
   /* Full screen below the header, with the join button anchored to the bottom. */
   .mobile-nav {
@@ -326,7 +332,35 @@ const isLargeImage = ogImage !== '/logo.png';
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  .mobile-nav[hidden] { display: none; }
+  /* Closed: invisible, untabbable and hidden from screen readers (visibility), but kept
+     in the page so it can fade and slide. visibility flips only after the fade-out ends. */
+  .mobile-nav {
+    opacity: 0;
+    transform: translateY(-8px);
+    visibility: hidden;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+  }
+  .mobile-nav.is-open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+  }
+  @media (min-width: 641px) {
+    .mobile-nav { display: none; }
+  }
+
+  /* Its contents follow the panel in with a slight stagger. */
+  .mobile-nav > * {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .mobile-nav.is-open > * { opacity: 1; transform: none; }
+  .mobile-nav.is-open > :nth-child(1) { transition-delay: 0.04s; }
+  .mobile-nav.is-open > :nth-child(2) { transition-delay: 0.08s; }
+  .mobile-nav.is-open > :nth-child(3) { transition-delay: 0.12s; }
+  .mobile-nav.is-open > :nth-child(4) { transition-delay: 0.16s; }
 
   html.menu-locked { overflow: hidden; }
 
@@ -467,6 +501,7 @@ const isLargeImage = ogImage !== '/logo.png';
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
     }
     html { scroll-behavior: auto; }
   }
