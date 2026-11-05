@@ -123,6 +123,11 @@ import heroPhoto from '../assets/speak/hero.jpg';
             id="speaker-form"
           >
 
+            <!-- Honeypot: hidden from people and screen readers; bots that fill it are ignored. -->
+            <div class="hp-field" aria-hidden="true">
+              <label>Company website <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
             <!-- Name + Email -->
             <div class="field-row">
               <div class="field">
@@ -306,7 +311,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
           </div>
 
           <div class="form-error" id="form-error" hidden aria-live="polite">
-            <p class="error-text">Something went wrong. Please try again or email us at <a href="mailto:hello@gdgsydney.com" class="coc-link">hello@gdgsydney.com</a>.</p>
+            <p class="error-text"><span id="form-error-message">Something went wrong.</span> Please try again or email us at <a href="mailto:hello@gdgsydney.com" class="coc-link">hello@gdgsydney.com</a>.</p>
           </div>
 
         </section>
@@ -316,12 +321,24 @@ import heroPhoto from '../assets/speak/hero.jpg';
   </div>
 
   <script>
-    const SHEET_URL = import.meta.env.PUBLIC_SPEAKER_FORM_URL;
+    // Proposals go to the DevFest app's /api/submit-meetup-proposal, which validates them,
+    // saves them to Firestore (meetupProposals) and emails a confirmation, bcc'd to
+    // hello@gdgsydney.com.
+    const PROPOSAL_URL = import.meta.env.PUBLIC_MEETUP_PROPOSAL_URL;
 
     const form = document.getElementById('speaker-form') as HTMLFormElement;
     const btn = document.getElementById('submit-btn') as HTMLButtonElement;
     const successEl = document.getElementById('form-success') as HTMLElement;
     const errorEl = document.getElementById('form-error') as HTMLElement;
+    const errorMessage = document.getElementById('form-error-message') as HTMLElement;
+    const buttonContent = btn.innerHTML;
+
+    const showError = (message: string) => {
+      errorMessage.textContent = message;
+      errorEl.hidden = false;
+      btn.disabled = false;
+      btn.innerHTML = buttonContent;
+    };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -329,23 +346,39 @@ import heroPhoto from '../assets/speak/hero.jpg';
 
       btn.disabled = true;
       btn.textContent = 'Sending…';
+      errorEl.hidden = true;
 
-      const data = Object.fromEntries(new FormData(form));
+      const data = new FormData(form);
+      const field = (name: string) => String(data.get(name) ?? '').trim();
+      const payload = {
+        name: field('name'),
+        email: field('email'),
+        profileUrl: field('profile'),
+        talkTitle: field('title'),
+        format: field('format'),
+        abstract: field('abstract'),
+        audience: field('audience'),
+        bio: field('bio'),
+        speakingExperience: field('experience'),
+        notes: field('notes'),
+        companyWebsite: field('companyWebsite'),
+      };
 
       try {
-        await fetch(SHEET_URL, {
+        const response = await fetch(PROPOSAL_URL, {
           method: 'POST',
-          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         });
+        if (!response.ok) {
+          const body = await response.json().catch(() => null);
+          showError(body?.message ?? 'Something went wrong.');
+          return;
+        }
         form.hidden = true;
-        errorEl.hidden = true;
         successEl.hidden = false;
       } catch {
-        btn.disabled = false;
-        btn.textContent = 'Send my proposal';
-        errorEl.hidden = false;
+        showError("We couldn't reach the server.");
       }
     });
   </script>
@@ -767,6 +800,15 @@ import heroPhoto from '../assets/speak/hero.jpg';
     padding: 0.75em 1.75em;
     font-size: 0.9rem;
     gap: 0.5em;
+  }
+
+  /* ─── Honeypot ──────────────────────────────────────────────────────── */
+  .hp-field {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 
   /* ─── Success / error states ───────────────────────────────────────── */
