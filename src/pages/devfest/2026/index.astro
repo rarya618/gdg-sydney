@@ -9,7 +9,9 @@ import {
   TRACKS,
   sponsors,
   speakersByTrack,
-  scheduleRows,
+  schedule,
+  spansAllRooms,
+  type Slot,
   formatTime,
   speakerPhoto,
   partnerLogo,
@@ -17,7 +19,24 @@ import {
   type SponsorTier,
 } from '../../../lib/devfest2026';
 
-const rows = scheduleRows();
+// The schedule is a time grid: 5-minute rows, so a slot's height is its length.
+const STEP_MINUTES = 5;
+const minutes = (iso: string) => Date.parse(iso) / 60_000;
+const dayStart = Math.min(...schedule.map((slot) => minutes(slot.startTime)));
+const dayEnd = Math.max(...schedule.map((slot) => minutes(slot.endTime)));
+const totalRows = (dayEnd - dayStart) / STEP_MINUTES;
+const gridRow = (iso: string) => (minutes(iso) - dayStart) / STEP_MINUTES + 1;
+
+// DOM order is time order (then room order), which is also the reading order on mobile.
+const roomOrder = (slot: Slot) => (spansAllRooms(slot) ? -1 : ROOMS.indexOf(slot.room as (typeof ROOMS)[number]));
+const timeline = [...schedule]
+  .sort((a, b) => minutes(a.startTime) - minutes(b.startTime) || roomOrder(a) - roomOrder(b))
+  .map((slot) => ({
+    slot,
+    style: `grid-row: ${gridRow(slot.startTime)} / ${gridRow(slot.endTime)}; grid-column: ${spansAllRooms(slot) ? '2 / -1' : roomOrder(slot) + 2};`,
+    short: minutes(slot.endTime) - minutes(slot.startTime) < 20 && !spansAllRooms(slot),
+  }));
+const timeLabels = [...new Set(schedule.map((slot) => slot.startTime))].map((iso) => ({ iso, row: gridRow(iso) }));
 
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(EVENT.address)}`;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
@@ -79,29 +98,21 @@ const wall = [
     <div class="container">
       <h2 class="section-title" id="schedule-heading">Schedule</h2>
 
-      <div class="schedule" role="table" aria-label="DevFest Sydney 2026 schedule">
-        <div class="sched-head" role="row">
-          <span class="sched-time-head" role="columnheader">Time</span>
-          <div class="sched-rooms" role="presentation"><RoomBar variant="compact" /></div>
-        </div>
-
-        {rows.map((row) => (
-          <div class="sched-row" role="row">
-            <span class="sched-time" role="rowheader">{formatTime(row.startTime)}</span>
-            {row.full ? (
-              <div role="cell" class="sched-full">
-                <SlotCard slot={row.full} />
-              </div>
-            ) : (
-              ROOMS.map((room) => (
-                <div role="cell" class="sched-col">
-                  {row.columns[room].map((slot) => <SlotCard slot={slot} />)}
-                </div>
-              ))
-            )}
-          </div>
-        ))}
+      <div class="sched-head" aria-hidden="true">
+        <span class="sched-time-head">Time</span>
+        <div class="sched-rooms"><RoomBar variant="compact" /></div>
       </div>
+
+      <ol class="timeline" style={`--rows: ${totalRows}`} aria-label="DevFest Sydney 2026 schedule, in time order">
+        {timeLabels.map((label) => (
+          <li class="timeline-time" style={`grid-row: ${label.row}`} aria-hidden="true">{formatTime(label.iso)}</li>
+        ))}
+        {timeline.map((item) => (
+          <li class="timeline-slot" style={item.style}>
+            <SlotCard slot={item.slot} short={item.short} />
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
@@ -262,36 +273,26 @@ const wall = [
   }
   .jump-nav a:hover { background: var(--fg); color: var(--on-accent); }
 
-  /* ─── Schedule ──────────────────────────────────────────────────────── */
-  .schedule { display: flex; flex-direction: column; gap: 0.6rem; }
-
+  /* ─── Schedule: a time grid ───────────────────────────────────────────
+     Desktop places every slot by its start and end time on 5-minute rows, so heights
+     are proportional to length. Mobile falls back to a plain list in time order. */
   .sched-head { display: none; }
 
-  .sched-row { display: grid; gap: 0.6rem; }
-
-  .sched-time {
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--fg);
+  .timeline {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
   }
 
-  .sched-col { display: flex; flex-direction: column; gap: 0.6rem; }
-  .sched-col:empty { display: none; }
-  .sched-col > :global(.slot) { flex: 1; }
-  /* A row holding a stack of short talks: don't inflate the single sessions beside it. */
-  .sched-row:has(:global(.slot + .slot)) .sched-col > :global(.slot) { flex: 0 0 auto; }
-
-  @media (max-width: 899px) {
-    .sched-time { display: none; }
-  }
+  .timeline-time { display: none; }
 
   @media (min-width: 900px) {
     .sched-head,
-    .sched-row {
+    .timeline {
       display: grid;
       grid-template-columns: 76px repeat(4, minmax(0, 1fr));
-      gap: 0.6rem;
+      column-gap: 0.6rem;
     }
 
     .sched-head {
@@ -300,18 +301,40 @@ const wall = [
       z-index: 2;
       background: var(--bg);
       padding-block: 0.6rem;
+      margin-bottom: 0.4rem;
       align-items: center;
     }
 
     .sched-rooms { grid-column: 2 / -1; }
-
     .sched-time-head { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
 
-    .sched-full { grid-column: 2 / -1; }
-    .sched-col:empty { display: block; }
+    .timeline {
+      --step: 24px; /* height of 5 minutes: 4.8px per minute */
+      grid-template-rows: repeat(var(--rows), var(--step));
+      row-gap: 0;
+      /* Faint line every half hour, so time reads across the columns. */
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.07) 0 1px,
+        transparent 1px calc(var(--step) * 6)
+      );
+      background-position: 76px 0;
+      background-repeat: repeat-y;
+    }
 
-    .sched-time { padding-top: 1rem; }
-    .sched-row:has(:global(.slot--break)) .sched-time { padding-top: 0.6rem; }
+    .timeline-time {
+      display: block;
+      grid-column: 1;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--fg);
+      padding-top: 0.35rem;
+    }
+
+    /* A small inset so neighbouring slots never touch; heights stay proportional. */
+    .timeline-slot { padding: 3px 0; min-height: 0; }
+    .timeline-slot > :global(.slot) { height: 100%; }
   }
 
   /* ─── Speakers ──────────────────────────────────────────────────────── */

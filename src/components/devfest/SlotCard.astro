@@ -13,9 +13,11 @@ import {
 
 interface Props {
   slot: Slot;
+  // Under 20 minutes: too short on the time grid for a full card, so it's a one-line strip.
+  short?: boolean;
 }
 
-const { slot } = Astro.props;
+const { slot, short = false } = Astro.props;
 const full = spansAllRooms(slot);
 
 // A slot only needs a label when the room and colour don't already say it: a session from
@@ -36,7 +38,11 @@ const title = slot.talkTitle ?? slot.title;
 const tint = slot.track ? TRACKS[slot.track].color : undefined;
 ---
 
-<div class:list={['slot', `slot--${slot.kind}`]} style={tint ? `--tint: ${tint}` : undefined}>
+<div
+  class:list={['slot', `slot--${slot.kind}`, { 'slot--short': short }]}
+  style={tint ? `--tint: ${tint}` : undefined}
+  title={short ? [title, names.join(' and ')].filter(Boolean).join(', ') : undefined}
+>
   <span class="slot-time">
     {formatTime(slot.startTime)} to {formatTime(slot.endTime)}
     {!full && <span class="slot-room">, {ROOM_LABELS[slot.room].name}</span>}
@@ -61,17 +67,18 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
     background: var(--surface);
     border-top: 4px solid var(--tint, var(--surface-2));
     min-width: 0;
+    overflow: hidden;
   }
 
   /* Main-stage moments: the brightest thing on the grid. */
   .slot--plenary { background: var(--fg); color: var(--on-accent); border-top: none; }
 
-  /* Breaks recede: no box, just a rule. */
+  /* Breaks recede: a faint hatched band, so their length still reads as time. */
   .slot--break {
-    background: none;
-    border-radius: 0;
-    border-top: 1px dashed rgba(255, 255, 255, 0.25);
-    padding: 0.6rem 0 0.4rem;
+    background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.035) 0 8px, transparent 8px 16px);
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    padding: 0.7rem 1rem;
   }
 
   .slot-time { font-family: var(--mono); font-size: 0.72rem; color: rgba(255, 255, 255, 0.62); }
@@ -99,6 +106,38 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
 
   @media (min-width: 900px) {
     .slot-room { display: none; }
+
+    .slot { padding: 0.75rem 1rem 0.8rem; }
+
+    /* Long titles are capped so every slot fits its time box. */
+    .slot-title {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Short slots: one line with the time and title; full text in the tooltip and on the
+       speaker's page. */
+    .slot--short {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0 0.8rem;
+      border-top-width: 0;
+      border-left: 4px solid var(--tint, var(--surface-2));
+    }
+    /* The time is already in the grid's time column, so the strip is all title. */
+    .slot--short .slot-note,
+    .slot--short .slot-speakers,
+    .slot--short .slot-time { display: none; }
+    .slot--short .slot-title {
+      font-size: 0.85rem;
+      -webkit-line-clamp: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: block;
+    }
 
     .slot--plenary,
     .slot--break {

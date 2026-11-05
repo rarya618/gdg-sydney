@@ -118,40 +118,6 @@ export function spansAllRooms(slot: Slot): boolean {
   return slot.room === 'all' || slot.kind === 'plenary';
 }
 
-export interface ScheduleRow {
-  startTime: string;
-  // A break or plenary that spans every room; null for a row of sessions.
-  full: Slot | null;
-  // Sessions by room, stacked when several run back to back in one room (lightning talks).
-  columns: Record<Exclude<Room, 'all'>, Slot[]>;
-}
-
-// Rows of the schedule grid. A session joins the current row when it starts before the
-// row's opening sessions end, so the 3:00, 3:10 and 3:20 lightning talks stack under the
-// 2:45 block instead of getting three near-empty rows.
-export function scheduleRows(): ScheduleRow[] {
-  const rows: ScheduleRow[] = [];
-  const emptyColumns = () => ({ auditorium: [], developer: [], builder: [], workshops: [] }) as ScheduleRow['columns'];
-  for (const slot of schedule) {
-    if (spansAllRooms(slot)) {
-      rows.push({ startTime: slot.startTime, full: slot, columns: emptyColumns() });
-      continue;
-    }
-    const last = rows.at(-1);
-    // Measured against the sessions that opened the row, not ones stacked into it since.
-    const openers = last && !last.full ? Object.values(last.columns).flat().filter((s) => s.startTime === last.startTime) : [];
-    const firstEnd = openers.length ? Math.min(...openers.map((s) => Date.parse(s.endTime))) : 0;
-    if (last && !last.full && Date.parse(slot.startTime) < firstEnd) {
-      last.columns[slot.room as Exclude<Room, 'all'>].push(slot);
-    } else {
-      const columns = emptyColumns();
-      columns[slot.room as Exclude<Room, 'all'>].push(slot);
-      rows.push({ startTime: slot.startTime, full: null, columns });
-    }
-  }
-  return rows;
-}
-
 export function sessionForSpeaker(slug: string): Slot | undefined {
   return schedule.find((slot) => slot.speakers.includes(slug));
 }
