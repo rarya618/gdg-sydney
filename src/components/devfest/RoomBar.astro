@@ -74,12 +74,16 @@ const { variant = 'full' } = Astro.props;
   /* Compact: the schedule header. Always four across, matching the grid columns. */
   .room-bar--compact { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; }
 
+  /* Quiet version: just the room colour as a bar over plain text, echoing the session
+     cards' top bars without being mistaken for a card. */
   .room-bar--compact .room {
-    padding: 0.7rem 0.9rem;
-    border-radius: 8px;
+    padding: 0.6rem 0.1rem 0.2rem;
     gap: 0.1rem;
+    background: none;
+    border-top: 4px solid var(--room);
+    color: var(--fg);
   }
 
   .room-bar--compact .room-name { font-size: 1rem; letter-spacing: -0.015em; }
-  .room-bar--compact .room-where { font-size: 0.7rem; }
+  .room-bar--compact .room-where { font-size: 0.7rem; color: var(--muted); }
 </style>
