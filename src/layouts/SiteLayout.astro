@@ -29,6 +29,10 @@ const {
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage, Astro.site);
 const isLargeImage = ogImage !== '/logo.png';
+
+// Google Analytics 4 (property "gdg-sydney"). Only loads when the measurement ID is set,
+// so local builds without it send nothing.
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 ---
 
 <html lang="en">
@@ -61,6 +65,17 @@ const isLargeImage = ogImage !== '/logo.png';
   <meta name="twitter:title" content={ogTitle} />
   <meta name="twitter:description" content={ogDescription} />
   <meta name="twitter:image" content={ogImageUrl} />
+  {gaMeasurementId && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+      <script is:inline define:vars={{ gaMeasurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', gaMeasurementId);
+      </script>
+    </>
+  )}
   <slot name="head" />
 </head>
 <body>

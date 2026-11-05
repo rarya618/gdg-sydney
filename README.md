@@ -32,6 +32,7 @@ If a page looks unstyled after a large CSS change, restart the dev server. It oc
 | Variable | Used for |
 |---|---|
 | `PUBLIC_MEETUP_PROPOSAL_URL` | Where the Speak form sends proposals. Defaults to the DevFest app's endpoint; see [Speak form](#speak-form). |
+| `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 measurement ID for the `gdg-sydney` property. Leave empty to build without analytics. |
 
 ## Pages
 
