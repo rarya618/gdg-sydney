@@ -183,6 +183,7 @@ const strip = [
     position: absolute;
     inset: 0;
     background:
+      linear-gradient(180deg, rgba(20, 20, 20, 0.7) 0, rgba(20, 20, 20, 0) 180px),
       linear-gradient(90deg, rgba(20, 20, 20, 0.94) 0%, rgba(20, 20, 20, 0.78) 38%, rgba(20, 20, 20, 0.2) 72%, rgba(20, 20, 20, 0.05) 100%),
       linear-gradient(0deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0) 45%);
   }
@@ -224,7 +225,7 @@ const strip = [
 
   /* On narrow screens the type covers most of the photo, so darken it evenly. */
   @media (max-width: 700px) {
-    .hero-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 10%, rgba(20, 20, 20, 0.55) 100%); }
+    .hero-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 10%, rgba(20, 20, 20, 0.55) 80%, rgba(20, 20, 20, 0.75) 100%); }
   }
 
   /* ─── Photo strip ───────────────────────────────────────────────────── */
