@@ -2,10 +2,11 @@
 import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { EVENT, speakers, speakerPhoto, TRACKS } from '../../lib/devfest2026';
-import heroPhoto from '../../assets/devfest/photos/crowd.jpg';
-import speakerPhotoImg from '../../assets/devfest/photos/speaker.jpg';
-import workshopPhoto from '../../assets/devfest/photos/workshop.jpg';
-import audiencePhoto from '../../assets/devfest/photos/audience.jpg';
+// Hero photo is the original devfest.gdgsydney.com hero; the strip is from the same shoots.
+import heroPhoto from '../../assets/devfest/photos/hero.jpg';
+import talkPhoto from '../../assets/devfest/photos/talk.jpg';
+import groupPhoto from '../../assets/devfest/photos/group.jpg';
+import auditoriumPhoto from '../../assets/devfest/photos/auditorium.jpg';
 import { DEVFEST_FAQ, faqStructuredData } from '../../lib/devfestFaq';
 
 const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
@@ -20,9 +21,9 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
 // Photos are from a past DevFest Sydney, so they're captioned generally, not as 2026.
 const strip = [
-  { src: speakerPhotoImg, alt: 'A speaker presenting to a full room at DevFest Sydney' },
-  { src: workshopPhoto, alt: 'Attendees building on laptops in a DevFest Sydney workshop' },
-  { src: audiencePhoto, alt: 'The audience listening in the DevFest Sydney auditorium' },
+  { src: talkPhoto, alt: 'A speaker presenting on stage at DevFest Sydney' },
+  { src: groupPhoto, alt: 'The DevFest Sydney group photo in a packed auditorium' },
+  { src: auditoriumPhoto, alt: 'A speaker presenting to the audience in a tiered auditorium' },
 ];
 ---
 
@@ -40,7 +41,7 @@ const strip = [
   <section class="hero" aria-labelledby="df-heading">
     <Image
       src={heroPhoto}
-      alt="A packed auditorium at DevFest Sydney"
+      alt="A talk in progress at DevFest Sydney"
       widths={[800, 1400, 2000]}
       sizes="100vw"
       class="hero-photo"
@@ -173,9 +174,9 @@ const strip = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 35%;
-    /* Quieter photo so the type reads first. */
-    filter: saturate(0.8) brightness(0.85);
+    object-position: center 45%;
+    /* Darkened overall, as on the original site: the window light on the right is bright. */
+    filter: saturate(0.8) brightness(0.62);
   }
 
   /* Heavy on the left and bottom where the type sits, clear on the right so the crowd shows. */
