@@ -155,13 +155,34 @@ const isLargeImage = ogImage !== '/logo.png';
         };
         toggle.addEventListener('click', () => setOpen(!menu.classList.contains('is-open')));
         menu.addEventListener('click', (event) => {
-          if ((event.target as HTMLElement).closest('a')) setOpen(false);
+          const link = (event.target as HTMLElement).closest('a');
+          if (!link) return;
+          const samePage = link.pathname === location.pathname && link.hash;
+          if (samePage) {
+            // Same page (e.g. Events on the homepage): fade the menu out first, then
+            // scroll, so the two motions don't fight.
+            event.preventDefault();
+            setOpen(false);
+            setTimeout(() => {
+              document.querySelector(link.hash)?.scrollIntoView();
+              history.pushState(null, '', link.hash);
+            }, 220);
+          } else if (link.target === '_blank') {
+            setOpen(false);
+          }
+          // Another page: leave the menu open. The new page arrives with it closed, and the
+          // cross-page view transition fades between the two instead of cutting.
         });
         document.addEventListener('keydown', (event) => {
           if (event.key === 'Escape' && menu.classList.contains('is-open')) {
             setOpen(false);
             toggle.focus();
           }
+        });
+        // Back/forward can restore this page from the browser's cache exactly as it was
+        // left, menu open; reset it.
+        window.addEventListener('pageshow', (event) => {
+          if (event.persisted) setOpen(false);
         });
         // Rotating to a wide screen hides the toggle, so close the menu with it.
         window.matchMedia('(min-width: 641px)').addEventListener('change', (event) => {
@@ -262,7 +283,17 @@ const isLargeImage = ogImage !== '/logo.png';
   }
 
   /* ─── Header ────────────────────────────────────────────────────────── */
+  /* Cross-page navigation crossfades instead of cutting (browsers that support
+     cross-document view transitions; others just load the page). */
+  @media (prefers-reduced-motion: no-preference) {
+    @view-transition { navigation: auto; }
+    ::view-transition-old(root),
+    ::view-transition-new(root) { animation-duration: 0.25s; }
+  }
+
   .header {
+    /* The header is the same on every page: keep it still through the crossfade. */
+    view-transition-name: site-header;
     position: fixed;
     inset-inline: 0;
     top: 0;
