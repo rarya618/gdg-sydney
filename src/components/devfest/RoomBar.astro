@@ -41,6 +41,12 @@ const { variant = 'full' } = Astro.props;
 
   /* Full: name at the top, description held to two lines, room pinned to the bottom, so
      all three line up across the blocks whatever the copy length. */
+  /* The full bar sits inside the page container, so it's a rounded, contained set. */
+  .room-bar--full {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
   .room-bar--full .room {
     padding: clamp(1.25rem, 2.5vw, 2rem);
     gap: 0.75rem;
@@ -58,6 +64,7 @@ const { variant = 'full' } = Astro.props;
     line-height: 1.5;
     min-height: 3em; /* two lines */
     max-width: 28ch;
+    text-wrap: pretty; /* no single word left on the last line */
   }
 
   .room-where {

@@ -89,8 +89,10 @@ const wall = [
       </nav>
     </div>
   </section>
-  <section aria-label="The four rooms and their tracks">
-    <RoomBar />
+  <section class="rooms" aria-label="The four rooms and their tracks">
+    <div class="container">
+      <RoomBar />
+    </div>
   </section>
 
   <!-- ═════════════════════════════ SCHEDULE ═════════════════════════════ -->
@@ -280,6 +282,9 @@ const wall = [
     border-radius: 100px;
   }
   .jump-nav a:hover { background: var(--fg); color: var(--on-accent); }
+
+  /* ─── Rooms: within the page margins like everything else ──────────── */
+  .rooms { padding-top: clamp(2.5rem, 5vw, 3.5rem); }
 
   /* ─── Schedule: a time grid ───────────────────────────────────────────
      Desktop places every slot by its start and end time on 5-minute rows, so heights
