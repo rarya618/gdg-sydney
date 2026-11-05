@@ -72,72 +72,67 @@ import heroPhoto from '../assets/coc/hero.jpg';
 
             <div class="principle-list">
 
-              <div class="principle">
-                <div class="principle-marker" style="--accent: var(--blue)">01</div>
-                <div class="principle-content">
-                  <h3 class="principle-title">Be excellent to each other</h3>
-                  <p>
-                    We want the event to be an excellent experience for everyone regardless
-                    of gender identity and expression, sexual orientation, disabilities,
+              <article class="principle" style="--accent: var(--blue)">
+                <h3 class="principle-title">Be excellent to each other</h3>
+                <p>
+                  We want the event to be an excellent experience for everyone regardless
+                  of gender identity and expression, sexual orientation, disabilities,
+                  neurodiversity, physical appearance, body size, ethnicity, nationality,
+                  race, age, religion, or other protected category. Treat everyone with
+                  respect. Participate while acknowledging that everyone deserves to be
+                  here, and each of us has the right to enjoy our experience without
+                  fear of harassment, discrimination, or condescension, whether blatant
+                  or via micro-aggressions. Jokes shouldn't demean others. Consider what
+                  you are saying and how it would feel if it were said to or about you.
+                </p>
+              </article>
+
+              <article class="principle" style="--accent: var(--green)">
+                <h3 class="principle-title">Speak up if you see or hear something</h3>
+                <p>
+                  Harassment is not tolerated, and you are empowered to politely engage
+                  when you or others are disrespected. The person making you feel
+                  uncomfortable may not be aware of what they are doing, and politely
+                  bringing their behavior to their attention is encouraged. If a
+                  participant engages in harassing or uncomfortable behavior, the event
+                  organizers may take any action they deem appropriate, including warning
+                  or expelling the offender from the event with no refund. If you are
+                  being harassed or feel uncomfortable, notice that someone else is being
+                  harassed, or have any other concerns, please contact a member of the
+                  event staff immediately.
+                </p>
+              </article>
+
+              <article class="principle" style="--accent: var(--yellow)">
+                <h3 class="principle-title">Harassment is not tolerated</h3>
+                <p>Harassment includes, but is not limited to:</p>
+                <ul class="principle-items" role="list">
+                  <li>
+                    verbal language that reinforces social structures of domination related
+                    to gender identity and expression, sexual orientation, disabilities,
                     neurodiversity, physical appearance, body size, ethnicity, nationality,
-                    race, age, religion, or other protected category. Treat everyone with
-                    respect. Participate while acknowledging that everyone deserves to be
-                    here -- and each of us has the right to enjoy our experience without
-                    fear of harassment, discrimination, or condescension, whether blatant
-                    or via micro-aggressions. Jokes shouldn't demean others. Consider what
-                    you are saying and how it would feel if it were said to or about you.
-                  </p>
-                </div>
-              </div>
+                    race, age, religion, or other protected category
+                  </li>
+                  <li>sexual imagery in public spaces</li>
+                  <li>deliberate intimidation</li>
+                  <li>stalking</li>
+                  <li>following</li>
+                  <li>harassing photography or recording</li>
+                  <li>sustained disruption of talks or other events</li>
+                  <li>offensive verbal language</li>
+                  <li>inappropriate physical contact</li>
+                  <li>unwelcome sexual attention</li>
+                </ul>
+                <p>Participants asked to stop any harassing behavior are expected to comply immediately.</p>
+              </article>
 
-              <div class="principle">
-                <div class="principle-marker" style="--accent: var(--green)">02</div>
-                <div class="principle-content">
-                  <h3 class="principle-title">Speak up if you see or hear something</h3>
-                  <p>
-                    Harassment is not tolerated, and you are empowered to politely engage
-                    when you or others are disrespected. The person making you feel
-                    uncomfortable may not be aware of what they are doing, and politely
-                    bringing their behavior to their attention is encouraged. If a
-                    participant engages in harassing or uncomfortable behavior, the event
-                    organizers may take any action they deem appropriate, including warning
-                    or expelling the offender from the event with no refund. If you are
-                    being harassed or feel uncomfortable, notice that someone else is being
-                    harassed, or have any other concerns, please contact a member of the
-                    event staff immediately.
-                  </p>
-                </div>
-              </div>
-
-              <div class="principle">
-                <div class="principle-marker" style="--accent: var(--yellow)">03</div>
-                <div class="principle-content">
-                  <h3 class="principle-title">Harassment is not tolerated</h3>
-                  <p>
-                    Harassment includes, but is not limited to: verbal language that
-                    reinforces social structures of domination related to gender identity
-                    and expression, sexual orientation, disabilities, neurodiversity,
-                    physical appearance, body size, ethnicity, nationality, race, age,
-                    religion, or other protected category; sexual imagery in public spaces;
-                    deliberate intimidation; stalking; following; harassing photography or
-                    recording; sustained disruption of talks or other events; offensive
-                    verbal language; inappropriate physical contact; and unwelcome sexual
-                    attention. Participants asked to stop any harassing behavior are
-                    expected to comply immediately.
-                  </p>
-                </div>
-              </div>
-
-              <div class="principle">
-                <div class="principle-marker" style="--accent: var(--red)">04</div>
-                <div class="principle-content">
-                  <h3 class="principle-title">Practice saying "Yes and" to each other</h3>
-                  <p>
-                    It's a theatre improv technique to build on each other's ideas. We all
-                    benefit when we create together.
-                  </p>
-                </div>
-              </div>
+              <article class="principle" style="--accent: var(--red)">
+                <h3 class="principle-title">Practice saying "Yes and" to each other</h3>
+                <p>
+                  It's a theatre improv technique to build on each other's ideas. We all
+                  benefit when we create together.
+                </p>
+              </article>
 
             </div>
 
@@ -447,41 +442,78 @@ import heroPhoto from '../assets/coc/hero.jpg';
   }
   .coc-link:hover { text-decoration-color: var(--blue); }
 
-  /* ─── Principles ────────────────────────────────────────────────────── */
+  /* ─── Principles ──────────────────────────────────────────────────────
+     Four separate rules, not a sequence, so no numbers: each gets its brand colour as
+     a short bar, the same device as the DevFest schedule and room headings. */
   .principle-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    margin-top: 0.5rem;
   }
 
   .principle {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 1.5rem;
-    padding-block: 2rem;
+    padding-block: 1.75rem 2rem;
+    border-top: 1px solid var(--border);
   }
-
-  .principle-marker {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-    padding-top: 0.25rem;
-    flex-shrink: 0;
-  }
+  .principle:first-child { border-top: none; padding-top: 0.75rem; }
 
   .principle-title {
-    font-size: 1rem;
+    font-size: 1.35rem;
     font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
     color: var(--fg);
-    margin-bottom: 0.65rem;
-    letter-spacing: -0.015em;
+    margin-bottom: 0.85rem;
   }
 
-  .principle-content p {
-    font-size: 0.95rem;
-    line-height: 1.8;
+  .principle-title::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .principle p {
+    font-size: 1rem;
+    line-height: 1.75;
     color: var(--text-soft);
+    max-width: 66ch;
+  }
+  .principle p + p,
+  .principle-items + p { margin-top: 0.9rem; }
+
+  /* The harassment examples as a scannable list instead of one semicolon-run sentence. */
+  .principle-items {
+    list-style: none;
+    margin-top: 0.75rem;
+    display: grid;
+    gap: 0.45rem 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .principle-items { grid-template-columns: 1fr 1fr; }
+    .principle-items li:first-child { grid-column: 1 / -1; }
+  }
+
+  .principle-items li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  .principle-items li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
   }
 </style>
