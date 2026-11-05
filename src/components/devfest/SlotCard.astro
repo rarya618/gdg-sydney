@@ -39,7 +39,7 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
 ---
 
 <div
-  class:list={['slot', `slot--${slot.kind}`, { 'slot--short': short }]}
+  class:list={['slot', `slot--${slot.kind}`, { 'slot--short': short, 'slot--talk': names.length > 0 }]}
   style={tint ? `--tint: ${tint}` : undefined}
   title={short ? [title, names.join(' and ')].filter(Boolean).join(', ') : undefined}
 >
@@ -140,7 +140,9 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
       display: block;
     }
 
-    .slot--plenary,
+    /* Main-stage slots without a talk (welcome, showcase) and breaks sit on one line; a
+       keynote with a speaker stacks like a session. */
+    .slot--plenary:not(.slot--talk),
     .slot--break {
       flex-direction: row;
       flex-wrap: wrap;
