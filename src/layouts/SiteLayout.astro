@@ -149,6 +149,8 @@ const isLargeImage = ogImage !== '/logo.png';
           toggle.setAttribute('aria-expanded', String(open));
           toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           header.classList.toggle('menu-open', open);
+          // Full-screen menu: stop the page behind it from scrolling while open.
+          document.documentElement.classList.toggle('menu-locked', open);
         };
         toggle.addEventListener('click', () => setOpen(menu.hidden));
         menu.addEventListener('click', (event) => {
@@ -283,10 +285,14 @@ const isLargeImage = ogImage !== '/logo.png';
     -webkit-backdrop-filter: none;
   }
 
-  /* An open mobile menu always gets the solid header, so its links stay readable. */
+  /* An open mobile menu always gets the solid header, so its links stay readable. The blur
+     must be off too: backdrop-filter makes the header the containing block for its fixed
+     children, which would collapse the full-screen menu to the header's height. */
   .header.menu-open {
     background: var(--bg);
     border-bottom-color: var(--border);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .nav-toggle {
@@ -306,22 +312,29 @@ const isLargeImage = ogImage !== '/logo.png';
   .nav-toggle[aria-expanded='true'] .nav-toggle-open { display: none; }
   .nav-toggle[aria-expanded='true'] .nav-toggle-close { display: block; }
 
+  /* Full screen below the header, with the join button anchored to the bottom. */
   .mobile-nav {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: var(--header-h);
+    bottom: 0;
     inset-inline: 0;
     display: flex;
     flex-direction: column;
-    padding: 0.5rem clamp(1.25rem, 5vw, 3rem) 1rem;
+    padding: 1rem clamp(1.25rem, 5vw, 3rem) calc(1.5rem + env(safe-area-inset-bottom));
     background: var(--bg);
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .mobile-nav[hidden] { display: none; }
 
+  html.menu-locked { overflow: hidden; }
+
   .mobile-nav-link {
-    padding: 0.85rem 0;
-    font-size: 1.05rem;
-    font-weight: 500;
+    padding: 1.1rem 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
     color: var(--text);
     text-decoration: none;
     border-top: 1px solid var(--border);
@@ -330,7 +343,7 @@ const isLargeImage = ogImage !== '/logo.png';
 
   .mobile-nav-join {
     justify-content: center;
-    margin-top: 0.75rem;
+    margin-top: auto;
   }
   .mobile-nav-link:hover,
   .mobile-nav-link[aria-current='page'] { color: var(--fg); }
