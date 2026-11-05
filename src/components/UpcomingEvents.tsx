@@ -49,12 +49,36 @@ export default function UpcomingEvents() {
     };
   }, []);
 
-  if (loaded && events.length === 0) return null;
-
+  // The section always renders, so the header's Events link (/#events) has somewhere to
+  // land even when Bevy has nothing scheduled.
   return (
     <section className="section section-events" id="events" aria-labelledby="events-heading">
       <div className="container">
         <h2 className="section-title" id="events-heading">Upcoming events</h2>
+        <div aria-live="polite">
+          {!loaded && <p className="events-status">Checking for upcoming meetups…</p>}
+          {loaded && events.length === 0 && (
+            <div className="events-empty">
+              <p className="events-empty-title">No meetups are scheduled right now.</p>
+              <p className="events-empty-body">
+                New dates go up on our community page first. Join the community and you&apos;ll
+                hear as soon as the next one is announced.
+              </p>
+              <div className="events-empty-actions">
+                <a
+                  href="https://gdg.community.dev/gdg-sydney/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary btn-lg"
+                >
+                  Join the community
+                </a>
+                <a href="#past-events" className="events-empty-link">See past events</a>
+              </div>
+            </div>
+          )}
+        </div>
+        {events.length > 0 && (
         <div className="events-grid">
           {events.map(event => {
             const { label, accent } = classifyEvent(event);
@@ -84,6 +108,7 @@ export default function UpcomingEvents() {
             );
           })}
         </div>
+        )}
       </div>
     </section>
   );

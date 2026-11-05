@@ -390,6 +390,44 @@ import Partners from '../components/Partners';
     background: var(--bg);
   }
 
+  /* Shown while Bevy loads, and when nothing is scheduled. */
+  .events-status { font-size: 0.95rem; color: var(--muted); }
+
+  .events-empty {
+    max-width: 640px;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+  }
+
+  .events-empty-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 0.6rem;
+  }
+
+  .events-empty-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-soft);
+    max-width: 52ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .events-empty-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+
+  .events-empty-link {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+    text-underline-offset: 4px;
+  }
+  .events-empty-link:hover { text-decoration-color: var(--fg); }
+
   .events-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
