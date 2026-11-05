@@ -18,6 +18,9 @@ import {
 } from '../../../lib/devfest2026';
 
 const rows = scheduleRows();
+
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(EVENT.address)}`;
+const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
 const groups = speakersByTrack();
 
 const TIERS: { tier: Exclude<SponsorTier, 'diamond'>; label: string }[] = [
@@ -49,6 +52,7 @@ const google = sponsors.find((s) => s.tier === 'diamond');
         <a href="#schedule">Schedule</a>
         <a href="#speakers">Speakers</a>
         <a href="#partners">Partners</a>
+        <a href="#venue">Venue</a>
       </nav>
     </div>
   </section>
@@ -148,6 +152,33 @@ const google = sponsors.find((s) => s.tier === 'diamond');
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ VENUE ═══════════════════════════════ -->
+  <section class="section" id="venue" aria-labelledby="venue-heading">
+    <div class="container venue">
+      <div class="venue-copy">
+        <h2 class="section-title" id="venue-heading">Venue</h2>
+        <p class="venue-name">Torrens University, Surry Hills</p>
+        <address class="venue-address">{EVENT.address}</address>
+        <p class="venue-text">
+          The day ran across the auditorium and breakout rooms of Torrens University's Surry Hills
+          campus, with a Builder's Space for hands-on building between sessions. It's a short walk
+          from Central Station.
+        </p>
+        <a href={directionsUrl} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg">
+          Get directions
+        </a>
+      </div>
+      <div class="venue-map">
+        <iframe
+          src={mapEmbedUrl}
+          title="Map showing Torrens University, Surry Hills"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </div>
   </section>
 
@@ -403,6 +434,44 @@ const google = sponsors.find((s) => s.tier === 'diamond');
   .tier-logo--stacked { height: 64px; }
 
   .tier-text { font-size: 0.925rem; line-height: 1.65; color: #4a4a4a; max-width: 62ch; }
+
+  /* ─── Venue ─────────────────────────────────────────────────────────── */
+  .venue { display: grid; gap: 2.5rem; align-items: center; }
+
+  @media (min-width: 900px) {
+    .venue { grid-template-columns: 1fr 1.1fr; gap: 4rem; }
+  }
+
+  .venue-name {
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--dark);
+  }
+
+  .venue-address {
+    font-style: normal;
+    font-size: 1.05rem;
+    color: var(--dark);
+    margin-top: 0.35rem;
+  }
+
+  .venue-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4a4a4a;
+    max-width: 46ch;
+    margin: 1.25rem 0 2rem;
+  }
+
+  .venue-map {
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #e6e4dd;
+  }
+
+  .venue-map iframe { width: 100%; height: 100%; border: 0; display: block; }
 
   /* ─── Next ──────────────────────────────────────────────────────────── */
   .section.next { border-top: none; padding-top: 0; }

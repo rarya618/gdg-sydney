@@ -53,7 +53,7 @@ export const EVENT = {
   subtitle: 'Developers and Builders in the Agentic Era',
   dateLabel: 'Saturday, 10 October 2026',
   venue: 'Torrens University, Surry Hills',
-  address: '37 Foveaux St, Surry Hills NSW 2010',
+  address: 'Shop 1/37 Foveaux St, Surry Hills NSW 2010',
 };
 
 export const speakers = data.speakers as Speaker[];
