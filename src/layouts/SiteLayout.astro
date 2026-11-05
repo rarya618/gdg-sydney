@@ -225,18 +225,16 @@ const isLargeImage = ogImage !== '/logo.png';
   .track-tag {
     display: inline-flex;
     align-items: center;
-    gap: 0.45em;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    gap: 0.5em;
+    font-size: 0.875rem;
+    font-weight: 600;
     color: var(--dark);
   }
   .track-tag::before {
     content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
     background: var(--track-color, var(--muted));
     flex-shrink: 0;
   }

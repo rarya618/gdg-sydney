@@ -1,0 +1,111 @@
+---
+// One schedule slot. Sessions are tinted by track, plenaries (main-stage moments) are dark,
+// and breaks recede to a rule.
+import {
+  ROOM_LABELS,
+  ROOM_TRACKS,
+  TRACKS,
+  TRACK_TINTS,
+  formatTime,
+  speakersBySlug,
+  spansAllRooms,
+  type Slot,
+} from '../../lib/devfest2026';
+
+interface Props {
+  slot: Slot;
+}
+
+const { slot } = Astro.props;
+const full = spansAllRooms(slot);
+
+// A slot only needs a label when the room and colour don't already say it: a session from
+// another track in this room, or a lightning talk.
+function slotNote(): string | null {
+  if (slot.kind === 'plenary' && slot.talkTitle) return slot.title;
+  if (slot.kind !== 'session' || !slot.track) return null;
+  const roomTrack = ROOM_TRACKS.find((r) => r.room === slot.room)?.track;
+  const parts: string[] = [];
+  if (slot.track !== roomTrack) parts.push(`${TRACKS[slot.track].label} track`);
+  if (slot.format === 'lightning-talk') parts.push(parts.length ? 'lightning talk' : 'Lightning talk');
+  return parts.length ? parts.join(', ') : null;
+}
+
+const note = slotNote();
+const names = slot.speakers.map((slug) => speakersBySlug.get(slug)?.name).filter(Boolean);
+const title = slot.talkTitle ?? slot.title;
+const tint = slot.track ? TRACK_TINTS[slot.track] : undefined;
+---
+
+<div class:list={['slot', `slot--${slot.kind}`]} style={tint ? `--tint: ${tint}` : undefined}>
+  <span class="slot-time">
+    {formatTime(slot.startTime)} to {formatTime(slot.endTime)}
+    {!full && <span class="slot-room">, {ROOM_LABELS[slot.room].name}</span>}
+  </span>
+  {note && <span class="slot-note">{note}</span>}
+  {slot.sessionSlug ? (
+    <a href={`/devfest/2026/speakers/${slot.sessionSlug}`} class="slot-title">{title}</a>
+  ) : (
+    <span class="slot-title">{title}</span>
+  )}
+  {names.length > 0 && <span class="slot-speakers">{names.join(' and ')}</span>}
+</div>
+
+<style>
+  .slot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem 1.1rem 1.1rem;
+    border-radius: 10px;
+    background: var(--tint, #ebe9e3);
+    min-width: 0;
+  }
+
+  /* Main-stage moments are the darkest thing on the grid. */
+  .slot--plenary { background: var(--dark); color: white; }
+
+  /* Breaks recede: no box, just a rule. */
+  .slot--break {
+    background: none;
+    border-radius: 0;
+    border-top: 1px dashed rgba(0, 0, 0, 0.25);
+    padding: 0.6rem 0 0.4rem;
+  }
+
+  .slot-time { font-family: var(--mono); font-size: 0.72rem; color: rgba(0, 0, 0, 0.62); }
+  .slot--plenary .slot-time { color: rgba(255, 255, 255, 0.65); }
+
+  .slot-note { font-size: 0.78rem; font-weight: 600; color: var(--dark); }
+  .slot--plenary .slot-note { color: rgba(255, 255, 255, 0.8); }
+
+  .slot-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: inherit;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .slot--session .slot-title { color: var(--dark); }
+  a.slot-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a.slot-title:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .slot--plenary .slot-title { font-size: 1.15rem; }
+  .slot--break .slot-title { font-weight: 500; color: var(--muted); font-size: 0.95rem; }
+
+  .slot-speakers { font-size: 0.85rem; color: rgba(0, 0, 0, 0.7); }
+  .slot--plenary .slot-speakers { color: rgba(255, 255, 255, 0.78); }
+
+  @media (min-width: 900px) {
+    .slot-room { display: none; }
+
+    .slot--plenary,
+    .slot--break {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      column-gap: 1.25rem;
+    }
+  }
+</style>

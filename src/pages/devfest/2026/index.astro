@@ -1,34 +1,24 @@
 ---
 import { Image } from 'astro:assets';
 import SiteLayout from '../../../layouts/SiteLayout.astro';
+import RoomBar from '../../../components/devfest/RoomBar.astro';
+import SlotCard from '../../../components/devfest/SlotCard.astro';
 import {
   EVENT,
   ROOMS,
-  ROOM_LABELS,
   TRACKS,
-  FORMAT_LABELS,
   sponsors,
-  speakersBySlug,
   speakersByTrack,
   scheduleRows,
-  spansAllRooms,
   formatTime,
   speakerPhoto,
   partnerLogo,
   initials,
-  type Slot,
   type SponsorTier,
 } from '../../../lib/devfest2026';
 
 const rows = scheduleRows();
 const groups = speakersByTrack();
-
-const trackCards = [
-  { track: 'spotlight', name: 'Spotlight', where: 'Auditorium', text: 'Headline talks on the main stage, for everyone.' },
-  { track: 'developer', name: 'Developer', where: 'Room 3.10', text: 'Agentic app development with Gemini, Flutter, Firebase, Android and Cloud.' },
-  { track: 'builder', name: 'Builder', where: 'Room 3.08', text: 'For founders, PMs and designers: prototyping with AI, automation, and no-code and low-code tools.' },
-  { track: 'workshop', name: 'Workshops', where: 'Room 3.03', text: 'Guided, hands-on building and live coding in small groups.' },
-] as const;
 
 const TIERS: { tier: Exclude<SponsorTier, 'diamond'>; label: string }[] = [
   { tier: 'platinum', label: 'Platinum' },
@@ -36,20 +26,9 @@ const TIERS: { tier: Exclude<SponsorTier, 'diamond'>; label: string }[] = [
   { tier: 'silver', label: 'Silver' },
   { tier: 'community', label: 'Community' },
 ];
-const tierGroups = TIERS.map((t) => ({ ...t, sponsors: sponsors.filter((s) => s.tier === t.tier) })).filter((t) => t.sponsors.length > 0);
+const tierRows = TIERS.flatMap((t) => sponsors.filter((s) => s.tier === t.tier).map((sponsor) => ({ ...sponsor, label: t.label })));
 const google = sponsors.find((s) => s.tier === 'diamond');
 
-function slotTitle(slot: Slot) {
-  return slot.talkTitle ?? slot.title;
-}
-function slotLabel(slot: Slot) {
-  // A plenary given by one speaker keeps its own name ("Welcome keynote") as a label.
-  return slot.talkTitle ? slot.title : null;
-}
-function slotTrackColor(slot: Slot) {
-  if (slot.track) return TRACKS[slot.track].color;
-  return slot.kind === 'break' ? 'transparent' : 'var(--dark)';
-}
 ---
 
 <SiteLayout
@@ -61,36 +40,20 @@ function slotTrackColor(slot: Slot) {
   <!-- ═════════════════════════════ MASTHEAD ═════════════════════════════ -->
   <section class="masthead" aria-labelledby="page-heading">
     <div class="container">
-      <a href="/devfest" class="back-link">← DevFest Sydney</a>
-      <p class="eyebrow">{EVENT.dateLabel} &nbsp;/&nbsp; {EVENT.venue}</p>
-      <h1 class="page-heading" id="page-heading">{EVENT.name}</h1>
-      <p class="page-theme">{EVENT.theme} <span>{EVENT.subtitle}.</span></p>
-      <p class="page-note">
-        This event has finished. Thank you to every speaker, sponsor, volunteer and attendee who made it happen.
-      </p>
+      <a href="/devfest" class="back-link">DevFest Sydney</a>
+      <h1 class="page-heading" id="page-heading">DevFest Sydney 2026</h1>
+      <p class="page-theme">Build, Secure, Scale. Developers and builders in the agentic era.</p>
+      <p class="page-facts">Saturday 10 October 2026, {EVENT.venue}</p>
+      <p class="page-note">This event has finished. Thank you to everyone who spoke, sponsored, volunteered and came along.</p>
       <nav class="jump-nav" aria-label="On this page">
-        <a href="#tracks">Tracks</a>
         <a href="#schedule">Schedule</a>
         <a href="#speakers">Speakers</a>
         <a href="#partners">Partners</a>
       </nav>
     </div>
   </section>
-
-  <!-- ══════════════════════════════ TRACKS ══════════════════════════════ -->
-  <section class="section" id="tracks" aria-labelledby="tracks-heading">
-    <div class="container">
-      <h2 class="section-title" id="tracks-heading">Four tracks, one day</h2>
-      <div class="track-grid">
-        {trackCards.map((card) => (
-          <article class="track-card" style={`--track-color: ${TRACKS[card.track].color}`}>
-            <span class="track-tag">{card.name}</span>
-            <p class="track-where">{card.where}</p>
-            <p class="track-text">{card.text}</p>
-          </article>
-        ))}
-      </div>
-    </div>
+  <section aria-label="The four rooms and their tracks">
+    <RoomBar />
   </section>
 
   <!-- ═════════════════════════════ SCHEDULE ═════════════════════════════ -->
@@ -100,46 +63,24 @@ function slotTrackColor(slot: Slot) {
 
       <div class="schedule" role="table" aria-label="DevFest Sydney 2026 schedule">
         <div class="sched-head" role="row">
-          <span role="columnheader" class="sched-time-head">Time</span>
-          {ROOMS.map((room) => (
-            <span role="columnheader" class="sched-room-head">
-              <strong>{ROOM_LABELS[room].name}</strong>
-              <span>{ROOM_LABELS[room].track}</span>
-            </span>
-          ))}
+          <span class="sched-time-head" role="columnheader">Time</span>
+          <div class="sched-rooms" role="presentation"><RoomBar variant="compact" /></div>
         </div>
 
         {rows.map((row) => (
           <div class="sched-row" role="row">
             <span class="sched-time" role="rowheader">{formatTime(row.startTime)}</span>
-            {row.slots.map((slot) => {
-              const full = spansAllRooms(slot);
-              const column = full ? '2 / -1' : `${ROOMS.indexOf(slot.room as (typeof ROOMS)[number]) + 2}`;
-              const label = slotLabel(slot);
-              const names = slot.speakers.map((slug) => speakersBySlug.get(slug)).filter((s) => s !== undefined);
-              return (
-                <div
-                  role="cell"
-                  class:list={['slot', `slot--${slot.kind}`, { 'slot--full': full }]}
-                  style={`grid-column: ${column}; --track-color: ${slotTrackColor(slot)}`}
-                >
-                  {!full && <span class="slot-room">{ROOM_LABELS[slot.room].name}</span>}
-                  <span class="slot-time">{formatTime(slot.startTime)} to {formatTime(slot.endTime)}</span>
-                  {slot.track && (
-                    <span class="track-tag">
-                      {TRACKS[slot.track].label}{slot.format && slot.format !== 'talk' ? ` · ${FORMAT_LABELS[slot.format]}` : ''}
-                    </span>
-                  )}
-                  {label && <span class="track-tag">{label}</span>}
-                  {slot.sessionSlug ? (
-                    <a href={`/devfest/2026/speakers/${slot.sessionSlug}`} class="slot-title">{slotTitle(slot)}</a>
-                  ) : (
-                    <span class="slot-title">{slotTitle(slot)}</span>
-                  )}
-                  {names.length > 0 && <span class="slot-speakers">{names.map((s) => s.name).join(' and ')}</span>}
+            {row.full ? (
+              <div role="cell" class="sched-full">
+                <SlotCard slot={row.full} />
+              </div>
+            ) : (
+              ROOMS.map((room) => (
+                <div role="cell" class="sched-col">
+                  {row.columns[room].map((slot) => <SlotCard slot={slot} />)}
                 </div>
-              );
-            })}
+              ))
+            )}
           </div>
         ))}
       </div>
@@ -152,7 +93,7 @@ function slotTrackColor(slot: Slot) {
       <h2 class="section-title" id="speakers-heading">Speakers</h2>
       {groups.map((group) => (
         <div class="speaker-group" style={`--track-color: ${TRACKS[group.track].color}`}>
-          <h3 class="track-tag group-title">{TRACKS[group.track].label}</h3>
+          <h3 class="group-title">{TRACKS[group.track].label}</h3>
           <ul class="speaker-grid" role="list">
             {group.speakers.map((speaker) => {
               const photo = speakerPhoto(speaker.slug);
@@ -184,203 +125,129 @@ function slotTrackColor(slot: Slot) {
       <div class="headline-partners">
         {google && (
           <a href={google.website} target="_blank" rel="noopener noreferrer" class="headline-partner">
-            <span class="partner-tier">Presented by</span>
-            <Image src={partnerLogo('google')} alt="Google" class="partner-logo partner-logo--lg" height={56} />
-            <p>Google backed DevFest Sydney with an event grant and ecosystem support across Gemini, Google Cloud and Firebase.</p>
+            <span class="partner-role">Presented by</span>
+            <Image src={partnerLogo('google')} alt="Google" class="headline-logo" height={64} />
+            <p>Google backed DevFest Sydney with an event grant and support across Gemini, Google Cloud and Firebase.</p>
           </a>
         )}
         <a href="https://www.torrens.edu.au" target="_blank" rel="noopener noreferrer" class="headline-partner">
-          <span class="partner-tier">Venue partner</span>
-          <Image src={partnerLogo('torrens')} alt="Torrens University Australia" class="partner-logo partner-logo--lg" height={56} />
+          <span class="partner-role">Venue partner</span>
+          <Image src={partnerLogo('torrens')} alt="Torrens University Australia" class="headline-logo" height={64} />
           <p>Torrens University hosted the day at its Surry Hills campus, minutes from Central Station.</p>
         </a>
       </div>
 
-      {tierGroups.map((group) => (
-        <div class="tier">
-          <p class="partner-tier">{group.label}</p>
-          <div class="tier-grid">
-            {group.sponsors.map((sponsor) => (
-              <a href={sponsor.website} target="_blank" rel="noopener noreferrer" class:list={['tier-card', { 'tier-card--bare': !sponsor.description }]}>
-                <Image src={partnerLogo(sponsor.id)} alt={sponsor.name} class="partner-logo" height={44} />
-                {sponsor.description && <p>{sponsor.description}</p>}
-              </a>
-            ))}
-          </div>
-        </div>
-      ))}
+      <ul class="tier-list" role="list">
+        {tierRows.map((sponsor) => (
+          <li class="tier-row">
+            <span class="tier-label">{sponsor.label}</span>
+            <a href={sponsor.website} target="_blank" rel="noopener noreferrer" class="tier-logo-link">
+              <Image src={partnerLogo(sponsor.id)} alt={sponsor.name} class:list={['tier-logo', { 'tier-logo--stacked': partnerLogo(sponsor.id).width / partnerLogo(sponsor.id).height < 2.5 }]} height={72} />
+            </a>
+            <p class="tier-text">{sponsor.description ?? ''}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════ CTA ════════════════════════════════ -->
-  <section class="section-cta" aria-label="DevFest Sydney 2027">
-    <div class="container cta-inner">
-      <div>
-        <h2 class="cta-heading">See you at DevFest 2027.</h2>
-        <p class="cta-sub">Join the community to hear first when dates, tickets and the Call for Speakers open.</p>
+  <!-- ═══════════════════════════════ NEXT ═══════════════════════════════ -->
+  <section class="section next" aria-labelledby="next-heading">
+    <div class="container">
+      <div class="next-inner">
+        <h2 class="next-title" id="next-heading">DevFest Sydney 2027 hasn't been announced yet.</h2>
+        <a href="https://gdg.community.dev/gdg-sydney/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+          Join to hear first
+        </a>
       </div>
-      <a href="https://gdg.community.dev/gdg-sydney/" target="_blank" rel="noopener noreferrer" class="btn-cta">Join the community</a>
     </div>
   </section>
 </SiteLayout>
 
 <style>
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
   /* ─── Masthead ──────────────────────────────────────────────────────── */
   .masthead {
+    background: var(--dark);
+    color: white;
     padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 4.5rem));
-    padding-bottom: clamp(2.5rem, 5vw, 3.5rem);
-    border-bottom: 1px solid var(--border);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
   .back-link {
     display: inline-block;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 1.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-underline-offset: 4px;
+    margin-bottom: 2rem;
   }
-  .back-link:hover { color: var(--dark); }
+  .back-link:hover { color: white; }
 
   .page-heading {
-    font-size: clamp(2.75rem, 7.5vw, 5.25rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--dark);
-    margin: 0.75rem 0 1rem;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    max-width: 10ch;
+    margin-bottom: 1.75rem;
   }
 
   .page-theme {
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--dark);
+    max-width: 32em;
   }
-  .page-theme span { font-weight: 400; color: var(--muted); }
+
+  .page-facts { margin-top: 0.5rem; font-size: 1rem; color: rgba(255, 255, 255, 0.78); }
 
   .page-note {
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
     font-size: 0.95rem;
-    line-height: 1.65;
-    color: var(--muted);
-    max-width: 62ch;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.62);
+    max-width: 52ch;
   }
 
-  .jump-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 2rem;
-  }
+  .jump-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2.25rem; }
 
   .jump-nav a {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    color: var(--dark);
+    color: white;
     text-decoration: none;
-    padding: 0.5em 1.1em;
-    border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: 0.55em 1.2em;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 100px;
-    transition: background 0.15s ease, border-color 0.15s ease;
   }
-  .jump-nav a:hover { background: var(--white); border-color: var(--dark); }
-
-  /* ─── Tracks ────────────────────────────────────────────────────────── */
-  .track-grid { display: grid; gap: 1rem; }
-
-  @media (min-width: 640px) { .track-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1000px) { .track-grid { grid-template-columns: repeat(4, 1fr); } }
-
-  .track-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--track-color);
-    border-radius: 14px;
-    padding: 1.4rem;
-  }
-
-  .track-where {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin: 0.4rem 0 0.75rem;
-  }
-
-  .track-text { font-size: 0.9rem; line-height: 1.65; color: #4a4a4a; }
+  .jump-nav a:hover { background: white; color: var(--dark); }
 
   /* ─── Schedule ──────────────────────────────────────────────────────── */
-  .schedule { display: flex; flex-direction: column; gap: 0.5rem; }
+  .schedule { display: flex; flex-direction: column; gap: 0.6rem; }
 
   .sched-head { display: none; }
 
-  .sched-row {
-    display: grid;
-    gap: 0.5rem;
-  }
+  .sched-row { display: grid; gap: 0.6rem; }
 
   .sched-time {
     font-family: var(--mono);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--dark);
-    padding-top: 1.25rem;
   }
 
-  .slot {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--track-color);
-    border-radius: 10px;
-    padding: 0.9rem 1rem;
-    min-width: 0;
-  }
+  .sched-col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .sched-col:empty { display: none; }
+  .sched-col > :global(.slot) { flex: 1; }
+  /* A row holding a stack of short talks: don't inflate the single sessions beside it. */
+  .sched-row:has(:global(.slot + .slot)) .sched-col > :global(.slot) { flex: 0 0 auto; }
 
-  .slot--break {
-    background: transparent;
-    border-style: dashed;
-    border-left-style: dashed;
-    border-left-width: 1px;
-  }
-
-  .slot--plenary { background: #fbfaf7; }
-
-  .slot-room {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
-
-  .slot-time {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    color: var(--muted);
-  }
-
-  .slot .track-tag { font-size: 0.62rem; }
-
-  .slot-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    color: var(--dark);
-    text-decoration: none;
-    overflow-wrap: anywhere;
-  }
-  a.slot-title:hover { color: var(--blue); }
-
-  .slot--break .slot-title { font-weight: 500; color: var(--muted); }
-
-  .slot-speakers { font-size: 0.82rem; color: var(--muted); }
-
-  /* Mobile: the row time duplicates each card's own time, so hide it. */
   @media (max-width: 899px) {
     .sched-time { display: none; }
-    .slot { grid-column: auto !important; }
   }
 
   @media (min-width: 900px) {
@@ -396,34 +263,41 @@ function slotTrackColor(slot: Slot) {
       top: var(--header-h);
       z-index: 2;
       background: var(--bg);
-      padding-block: 0.75rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 0.25rem;
+      padding-block: 0.6rem;
+      align-items: center;
     }
 
-    .sched-time-head { font-size: 0.7rem; }
+    .sched-rooms { grid-column: 2 / -1; }
 
-    .sched-time-head,
-    .sched-room-head span {
-      font-family: var(--mono);
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
+    .sched-time-head { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
 
-    .sched-room-head { display: flex; flex-direction: column; gap: 0.1rem; }
-    .sched-room-head strong { font-size: 0.85rem; color: var(--dark); }
+    .sched-full { grid-column: 2 / -1; }
+    .sched-col:empty { display: block; }
 
-    /* Slots arrive in data order, not column order; pin them all to one line. */
-    .sched-row > * { grid-row: 1; }
-    .sched-row .slot-room { display: none; }
-    .slot--full { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 1rem; }
-    .sched-time { padding-top: 0.95rem; }
+    .sched-time { padding-top: 1rem; }
+    .sched-row:has(:global(.slot--break)) .sched-time { padding-top: 0.6rem; }
   }
 
   /* ─── Speakers ──────────────────────────────────────────────────────── */
-  .speaker-group + .speaker-group { margin-top: 2.75rem; }
+  .speaker-group + .speaker-group { margin-top: 3rem; }
 
-  .group-title { margin-bottom: 1.1rem; font-size: 0.75rem; }
+  .group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    margin-bottom: 1.25rem;
+  }
+  .group-title::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: var(--track-color);
+  }
 
   .speaker-grid {
     list-style: none;
@@ -432,13 +306,7 @@ function slotTrackColor(slot: Slot) {
     gap: 1.25rem;
   }
 
-  .speaker-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    text-decoration: none;
-    color: inherit;
-  }
+  .speaker-card { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; }
 
   .speaker-photo {
     width: 100%;
@@ -447,13 +315,8 @@ function slotTrackColor(slot: Slot) {
     object-fit: cover;
     border-radius: 14px;
     background: #ebe9e3;
+    border-bottom: 5px solid var(--track-color);
     margin-bottom: 0.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .speaker-card:hover .speaker-photo {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.35);
   }
 
   .speaker-initials {
@@ -461,112 +324,105 @@ function slotTrackColor(slot: Slot) {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    font-weight: 800;
-    color: var(--dark);
-    border-bottom: 4px solid var(--track-color);
-  }
-
-  .speaker-name {
-    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: -0.015em;
     color: var(--dark);
   }
-  .speaker-card:hover .speaker-name { color: var(--blue); }
 
-  .speaker-tagline { font-size: 0.8rem; line-height: 1.5; color: var(--muted); }
+  .speaker-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; color: var(--dark); }
+  .speaker-card:hover .speaker-name { text-decoration: underline; text-underline-offset: 3px; }
+
+  .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
 
   /* ─── Partners ──────────────────────────────────────────────────────── */
-  .headline-partners { display: grid; gap: 1.25rem; margin-bottom: 2.5rem; }
+  .headline-partners {
+    display: grid;
+    background: var(--dark);
+    color: white;
+    border-radius: 16px;
+    overflow: hidden;
+  }
 
-  @media (min-width: 800px) { .headline-partners { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 800px) {
+    .headline-partners { grid-template-columns: 1fr 1fr; }
+    .headline-partner + .headline-partner { border-left: 1px solid rgba(255, 255, 255, 0.14); }
+  }
 
-  .headline-partner,
-  .tier-card {
+  .headline-partner {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem;
-    text-decoration: none;
+    gap: 1.25rem;
+    padding: clamp(1.75rem, 4vw, 2.75rem);
     color: inherit;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
   }
+  .headline-partner + .headline-partner { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  @media (min-width: 800px) { .headline-partner + .headline-partner { border-top: none; } }
 
-  .headline-partner:hover,
-  .tier-card:hover {
-    border-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.3);
-  }
+  .partner-role { font-size: 0.9rem; color: rgba(255, 255, 255, 0.65); }
 
-  .headline-partner p,
-  .tier-card p { font-size: 0.875rem; line-height: 1.7; color: var(--muted); }
-
-  .partner-tier {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
-
-  .partner-logo {
-    height: 40px;
+  /* Logos are monochrome, as on the old site; several source files are white wordmarks. */
+  .headline-logo {
+    height: 56px;
     width: auto;
-    max-width: 180px;
+    max-width: 220px;
     object-fit: contain;
     object-position: left center;
-    /* Monochrome, as on the old site (which inverted them to white). Some source files are
-       white-on-transparent wordmarks, so they must be flattened to show on a light page. */
+    filter: brightness(0) invert(1);
+  }
+
+  .headline-partner p { font-size: 0.95rem; line-height: 1.65; color: rgba(255, 255, 255, 0.75); max-width: 44ch; }
+
+  .tier-list { list-style: none; margin-top: 2.5rem; border-top: 2px solid var(--dark); }
+
+  .tier-row {
+    display: grid;
+    gap: 0.75rem 2.5rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    align-items: center;
+  }
+
+  @media (min-width: 800px) {
+    .tier-row { grid-template-columns: 8rem 13rem 1fr; }
+  }
+
+  .tier-label { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+
+  .tier-logo-link { display: block; width: fit-content; }
+
+  .tier-logo {
+    height: 44px;
+    width: auto;
+    max-width: 190px;
+    object-fit: contain;
+    object-position: left center;
     filter: brightness(0);
-    opacity: 0.85;
-  }
-  .partner-logo--lg { height: 48px; max-width: 200px; }
-
-  .tier + .tier { margin-top: 2rem; }
-  .tier .partner-tier { margin-bottom: 0.875rem; }
-
-  .tier-grid { display: grid; gap: 1.25rem; }
-  @media (min-width: 800px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .tier-card--bare { justify-content: center; min-height: 110px; }
-
-  /* ─── CTA ───────────────────────────────────────────────────────────── */
-  .section-cta {
-    background: var(--blue);
-    padding-block: clamp(3rem, 5vw, 4.5rem);
   }
 
-  .cta-inner {
+  /* Stacked lockups read small at a wordmark's height. */
+  .tier-logo--stacked { height: 64px; }
+
+  .tier-text { font-size: 0.925rem; line-height: 1.65; color: #4a4a4a; max-width: 62ch; }
+
+  /* ─── Next ──────────────────────────────────────────────────────────── */
+  .section.next { border-top: none; padding-top: 0; }
+
+  .next-inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    border-top: 2px solid var(--dark);
+    padding-top: 2.5rem;
   }
 
-  .cta-heading {
-    font-size: clamp(1.5rem, 3.2vw, 2.15rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    color: white;
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-sub { font-size: 1.05rem; color: rgba(255, 255, 255, 0.8); max-width: 48ch; }
-
-  .btn-cta {
-    display: inline-flex;
-    padding: 0.85em 2em;
-    border-radius: 100px;
-    background: white;
-    color: var(--blue);
-    font-size: 0.95rem;
+  .next-title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: opacity 0.15s ease;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    color: var(--dark);
+    max-width: 20ch;
   }
-  .btn-cta:hover { opacity: 0.9; }
 </style>

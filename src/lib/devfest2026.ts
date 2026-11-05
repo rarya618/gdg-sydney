@@ -88,6 +88,29 @@ export const ROOM_LABELS: Record<Room, { name: string; track: string }> = {
   all: { name: 'All rooms', track: '' },
 };
 
+// The four rooms, each owning one Google colour. This mapping is the DevFest visual
+// system: the room bar on the hub, the archive masthead and the schedule's column header.
+export const ROOM_TRACKS: {
+  room: Exclude<Room, 'all'>;
+  track: Track;
+  name: string;
+  color: string;
+  tint: string;
+  text: string;
+}[] = [
+  { room: 'auditorium', track: 'spotlight', name: 'Spotlight', color: 'var(--red)', tint: '#f8d8d8', text: 'Headline talks on the main stage, for everyone.' },
+  { room: 'developer', track: 'developer', name: 'Developer', color: 'var(--blue)', tint: '#c3ecf6', text: 'Agentic apps with Gemini, Flutter, Firebase, Android and Cloud.' },
+  { room: 'builder', track: 'builder', name: 'Builder', color: 'var(--green)', tint: '#ccf6c5', text: 'For founders, PMs and designers building with AI, no-code and low-code.' },
+  { room: 'workshops', track: 'workshop', name: 'Workshops', color: 'var(--yellow)', tint: '#ffe7a5', text: 'Hands-on building and live coding in small groups.' },
+];
+
+export const TRACK_TINTS: Partial<Record<Track, string>> = {
+  spotlight: '#f8d8d8',
+  developer: '#c3ecf6',
+  builder: '#ccf6c5',
+  workshop: '#ffe7a5',
+};
+
 // Times are stored in UTC and pinned to Sydney here, so the build machine's zone is irrelevant.
 export function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-AU', {
@@ -102,15 +125,35 @@ export function spansAllRooms(slot: Slot): boolean {
   return slot.room === 'all' || slot.kind === 'plenary';
 }
 
-// Rows of the schedule grid: one per distinct start time, with full-width slots on their own.
-export function scheduleRows(): { startTime: string; slots: Slot[] }[] {
-  const rows: { startTime: string; slots: Slot[] }[] = [];
+export interface ScheduleRow {
+  startTime: string;
+  // A break or plenary that spans every room; null for a row of sessions.
+  full: Slot | null;
+  // Sessions by room, stacked when several run back to back in one room (lightning talks).
+  columns: Record<Exclude<Room, 'all'>, Slot[]>;
+}
+
+// Rows of the schedule grid. A session joins the current row when it starts before the
+// row's opening sessions end, so the 3:00, 3:10 and 3:20 lightning talks stack under the
+// 2:45 block instead of getting three near-empty rows.
+export function scheduleRows(): ScheduleRow[] {
+  const rows: ScheduleRow[] = [];
+  const emptyColumns = () => ({ auditorium: [], developer: [], builder: [], workshops: [] }) as ScheduleRow['columns'];
   for (const slot of schedule) {
+    if (spansAllRooms(slot)) {
+      rows.push({ startTime: slot.startTime, full: slot, columns: emptyColumns() });
+      continue;
+    }
     const last = rows.at(-1);
-    if (last && last.startTime === slot.startTime && !spansAllRooms(slot) && !last.slots.some(spansAllRooms)) {
-      last.slots.push(slot);
+    // Measured against the sessions that opened the row, not ones stacked into it since.
+    const openers = last && !last.full ? Object.values(last.columns).flat().filter((s) => s.startTime === last.startTime) : [];
+    const firstEnd = openers.length ? Math.min(...openers.map((s) => Date.parse(s.endTime))) : 0;
+    if (last && !last.full && Date.parse(slot.startTime) < firstEnd) {
+      last.columns[slot.room as Exclude<Room, 'all'>].push(slot);
     } else {
-      rows.push({ startTime: slot.startTime, slots: [slot] });
+      const columns = emptyColumns();
+      columns[slot.room as Exclude<Room, 'all'>].push(slot);
+      rows.push({ startTime: slot.startTime, full: null, columns });
     }
   }
   return rows;
