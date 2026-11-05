@@ -70,8 +70,9 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
     overflow: hidden;
   }
 
-  /* Main-stage moments: the brightest thing on the grid. */
-  .slot--plenary { background: var(--fg); color: var(--on-accent); border-top: none; }
+  /* Main-stage moments: a lifted dark surface with an Off White bar (the keynote colour),
+     distinct from the sessions without glaring. */
+  .slot--plenary { background: var(--surface-2); color: var(--fg); border-top-color: var(--fg); }
 
   /* Breaks recede: a faint hatched band, so their length still reads as time. */
   .slot--break {
@@ -82,10 +83,10 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
   }
 
   .slot-time { font-family: var(--mono); font-size: 0.72rem; color: rgba(255, 255, 255, 0.62); }
-  .slot--plenary .slot-time { color: rgba(0, 0, 0, 0.62); }
+  .slot--plenary .slot-time { color: rgba(255, 255, 255, 0.62); }
 
   .slot-note { font-size: 0.78rem; font-weight: 600; color: var(--fg); }
-  .slot--plenary .slot-note { color: rgba(0, 0, 0, 0.75); }
+  .slot--plenary .slot-note { color: rgba(255, 255, 255, 0.75); }
 
   .slot-title {
     font-size: 1rem;
@@ -98,11 +99,11 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
   }
   a.slot-title:hover { text-decoration: underline; text-underline-offset: 3px; }
   a.slot-title:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-  .slot--plenary .slot-title { font-size: 1.15rem; color: var(--on-accent); }
+  .slot--plenary .slot-title { font-size: 1.15rem; color: var(--fg); }
   .slot--break .slot-title { font-weight: 500; color: var(--muted); font-size: 0.95rem; }
 
   .slot-speakers { font-size: 0.85rem; color: rgba(255, 255, 255, 0.72); }
-  .slot--plenary .slot-speakers { color: rgba(0, 0, 0, 0.7); }
+  .slot--plenary .slot-speakers { color: rgba(255, 255, 255, 0.72); }
 
   @media (min-width: 900px) {
     .slot-room { display: none; }
