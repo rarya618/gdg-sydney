@@ -1,0 +1,209 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+// Keep in step with what the site actually does: the Speak form (devfest-sydney endpoint,
+// Firestore, Resend), Google Analytics, and content loaded from Bevy, Cloudinary and
+// Google Maps. Update "Last updated" with every change.
+const sections = [
+  { id: 'what-we-collect', title: 'What we collect' },
+  { id: 'how-we-use-it', title: 'How we use it' },
+  { id: 'analytics', title: 'Analytics and cookies' },
+  { id: 'other-services', title: 'Content from other services' },
+  { id: 'who-we-use', title: 'Services we use' },
+  { id: 'retention', title: 'How long we keep it' },
+  { id: 'your-rights', title: 'Your rights' },
+];
+---
+
+<SiteLayout
+  title="Privacy policy | GDG Sydney"
+  description="How GDG Sydney collects, uses and protects your information on gdgsydney.com, including talk proposals and Google Analytics."
+>
+  <article class="privacy">
+    <div class="container privacy-inner">
+      <header class="privacy-head">
+        <p class="privacy-updated">Last updated 6 November 2026</p>
+        <h1 class="privacy-title">Privacy policy</h1>
+        <p class="privacy-intro">
+          This explains what GDG Sydney collects through gdgsydney.com, how we use it, and who we
+          share it with. Questions? Email <a href="mailto:hello@gdgsydney.com">hello@gdgsydney.com</a>.
+        </p>
+      </header>
+
+      <nav class="privacy-toc" aria-label="On this page">
+        <p class="privacy-toc-label">On this page</p>
+        <ul role="list">
+          {sections.map((section) => (
+            <li><a href={`#${section.id}`}>{section.title}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="privacy-body">
+        <section id="what-we-collect">
+          <h2>What we collect</h2>
+          <p>
+            When you propose a talk or workshop on our <a href="/speak">Speak page</a>, we collect
+            what you enter: your name, email address, LinkedIn or website, talk title, format,
+            abstract, target audience, speaker bio, speaking experience, and anything else you add.
+          </p>
+          <p>When you email us, we keep your message and email address so we can reply.</p>
+          <p>
+            We also collect information about how the site is used, through Google Analytics (see{' '}
+            <a href="#analytics">Analytics and cookies</a>).
+          </p>
+        </section>
+
+        <section id="how-we-use-it">
+          <h2>How we use it</h2>
+          <ul>
+            <li>To review your proposal and get back to you about it.</li>
+            <li>To send a confirmation email when you submit a proposal, with a copy to our organisers.</li>
+            <li>
+              If your talk goes ahead, to list your name, talk details and bio on that meetup's event
+              page, which we agree with you first.
+            </li>
+            <li>To understand which pages people visit and how they find us, so we can improve the site.</li>
+          </ul>
+          <p>We don't sell your information or use it for advertising.</p>
+        </section>
+
+        <section id="analytics">
+          <h2>Analytics and cookies</h2>
+          <p>
+            We use Google Analytics to count visits and see which pages are useful. It sets cookies
+            (named <code>_ga</code> and <code>_ga_72FXHWL6LE</code>) to tell one visit from the next,
+            and collects things like the pages you view, how you arrived, your device and browser,
+            and your approximate location (city or country). Google Analytics doesn't log or store
+            your IP address.
+          </p>
+          <p>
+            We don't use advertising cookies. To opt out, you can block cookies in your browser or
+            install Google's <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Analytics opt-out add-on</a>.
+            Google's handling of this data is covered by{' '}
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.
+          </p>
+        </section>
+
+        <section id="other-services">
+          <h2>Content from other services</h2>
+          <p>
+            Some parts of the site load content from other services, which means your browser
+            connects to them and they can see your IP address:
+          </p>
+          <ul>
+            <li>
+              Our events, organisers and partners load from{' '}
+              <a href="https://gdg.community.dev/gdg-sydney/" target="_blank" rel="noopener noreferrer">Bevy</a>,
+              the community platform Google Developer Groups use, with images from Cloudinary.
+            </li>
+            <li>The venue section of the DevFest Sydney 2026 page shows a Google Maps embed.</li>
+          </ul>
+          <p>
+            Links to other sites, such as Meetup, LinkedIn, Instagram and our ticketing provider, are
+            covered by those sites' own privacy policies.
+          </p>
+        </section>
+
+        <section id="who-we-use">
+          <h2>Services we use</h2>
+          <ul>
+            <li>Firebase and Google Cloud: host the website and store talk proposals.</li>
+            <li>Resend: sends confirmation emails on our behalf.</li>
+            <li>Google Analytics: measures how the site is used.</li>
+          </ul>
+        </section>
+
+        <section id="retention">
+          <h2>How long we keep it</h2>
+          <p>
+            We keep talk proposals for as long as we need them to review them and follow up with you,
+            and for a reasonable time afterwards for our records. If you'd like yours deleted sooner,
+            email us and we'll remove it.
+          </p>
+        </section>
+
+        <section id="your-rights">
+          <h2>Your rights</h2>
+          <p>
+            You can ask us to show you, correct or delete the information we hold about you at any
+            time. Email <a href="mailto:hello@gdgsydney.com">hello@gdgsydney.com</a> and an organiser
+            will look after it.
+          </p>
+          <p>
+            GDG Sydney is an independently run community group and is not an official Google product
+            or service. If we change this policy, we'll update the date at the top of this page.
+          </p>
+        </section>
+      </div>
+    </div>
+  </article>
+</SiteLayout>
+
+<style>
+  .privacy {
+    padding-top: calc(var(--header-h) + clamp(3rem, 7vw, 5rem));
+    padding-bottom: clamp(4rem, 8vw, 6rem);
+  }
+
+  .privacy-inner {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 960px) {
+    .privacy-inner {
+      grid-template-columns: 220px minmax(0, 1fr);
+      column-gap: 5rem;
+    }
+    .privacy-head { grid-column: 1 / -1; }
+    .privacy-toc { position: sticky; top: calc(var(--header-h) + 2rem); align-self: start; }
+  }
+
+  .privacy-updated { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+
+  .privacy-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--fg);
+    margin: 0.75rem 0 1.25rem;
+  }
+
+  .privacy-intro { font-size: 1.1rem; line-height: 1.7; color: var(--text-soft); max-width: 60ch; }
+
+  .privacy-toc-label { font-size: 0.875rem; font-weight: 700; color: var(--fg); margin-bottom: 0.75rem; }
+  .privacy-toc ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .privacy-toc a { font-size: 0.925rem; color: var(--text-soft); text-decoration: none; }
+  .privacy-toc a:hover { color: var(--fg); }
+
+  .privacy-body { display: flex; flex-direction: column; gap: 2.5rem; max-width: 68ch; }
+
+  .privacy-body h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 0.85rem;
+  }
+
+  .privacy-body p,
+  .privacy-body li { font-size: 1rem; line-height: 1.75; color: var(--text-soft); }
+  .privacy-body p + p { margin-top: 0.85rem; }
+
+  .privacy-body ul { list-style: disc; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .privacy-body li::marker { color: var(--muted); }
+  .privacy-body ul + p { margin-top: 0.85rem; }
+
+  .privacy-body code { font-family: var(--mono); font-size: 0.9em; color: var(--fg); }
+
+  .privacy a:not(.privacy-toc a) {
+    color: var(--fg);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+    text-underline-offset: 3px;
+  }
+  .privacy a:not(.privacy-toc a):hover { text-decoration-color: var(--fg); }
+</style>

@@ -288,7 +288,8 @@ import heroPhoto from '../assets/speak/hero.jpg';
             <div class="form-footer">
               <p class="form-note">
                 <span class="required" aria-hidden="true">*</span> Required fields.
-                We'll get back to you within a week.
+                We'll get back to you within a week.{' '}
+                <a href="/privacy" class="form-note-link">How we use your details</a>
               </p>
               <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
                 Send my proposal
@@ -795,6 +796,14 @@ import heroPhoto from '../assets/speak/hero.jpg';
     color: var(--muted);
     line-height: 1.55;
   }
+
+  .form-note-link {
+    color: var(--text-soft);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-underline-offset: 3px;
+  }
+  .form-note-link:hover { color: var(--fg); }
 
   .btn-submit {
     padding: 0.75em 1.75em;
