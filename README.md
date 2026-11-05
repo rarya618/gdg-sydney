@@ -46,6 +46,8 @@ If a page looks unstyled after a large CSS change, restart the dev server. It oc
 | `/devfest/2026` | DevFest Sydney 2026 archive: rooms, schedule, speakers, partners, venue |
 | `/devfest/2026/speakers/<name>` | One page per 2026 speaker |
 
+`/sitemap.xml` and `/robots.txt` are generated at build time by `src/pages/sitemap.xml.ts` and `src/pages/robots.txt.ts`. New pages appear in the sitemap automatically; a new dynamic route (like `[slug]`) needs its paths added in `sitemap.xml.ts`.
+
 ## Project structure
 
 ```text
