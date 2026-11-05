@@ -227,9 +227,14 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 <style is:global>
   /* ─── CoC Masthead ──────────────────────────────────────────────────── */
   .coc-masthead {
+    min-height: var(--hero-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     padding-top: calc(var(--header-h) + 4rem);
     padding-bottom: 3.5rem;
   }
+  .coc-masthead .container { width: 100%; }
 
   .coc-eyebrow {
     display: flex;

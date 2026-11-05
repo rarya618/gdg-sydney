@@ -133,6 +133,8 @@ const isLargeImage = ogImage !== '/logo.png';
     --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
 
     --header-h: 80px;
+    /* Every page hero uses this height, so they match across the site. */
+    --hero-h: min(75svh, 740px);
     --radius-card: 16px;
   }
 
@@ -208,6 +210,10 @@ const isLargeImage = ogImage !== '/logo.png';
   }
   .nav-link:hover,
   .nav-link[aria-current='page'] { color: var(--fg); }
+
+  @media (max-width: 700px) {
+    :root { --hero-h: min(68svh, 580px); }
+  }
 
   @media (max-width: 640px) {
     .header-nav .nav-link { display: none; }

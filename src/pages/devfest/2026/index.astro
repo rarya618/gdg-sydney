@@ -218,9 +218,14 @@ const wall = [
   .masthead {
     background: var(--ink);
     color: white;
-    padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 4.5rem));
-    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    min-height: var(--hero-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: calc(var(--header-h) + 1.5rem);
+    padding-bottom: 2rem;
   }
+  .masthead .container { width: 100%; }
 
   .back-link {
     display: inline-block;
@@ -230,17 +235,17 @@ const wall = [
     text-decoration: underline;
     text-decoration-color: rgba(255, 255, 255, 0.3);
     text-underline-offset: 4px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
   }
   .back-link:hover { color: white; }
 
   .page-heading {
-    font-size: clamp(3rem, 9vw, 7.5rem);
+    font-size: clamp(3rem, 7.5vw, 6.5rem);
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.055em;
     max-width: 10ch;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
   }
 
   .page-theme {
@@ -260,7 +265,11 @@ const wall = [
     max-width: 52ch;
   }
 
-  .jump-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2.25rem; }
+  .jump-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+
+  @media (max-width: 700px) {
+    .page-note { margin-top: 1rem; }
+  }
 
   .jump-nav a {
     font-size: 0.875rem;
