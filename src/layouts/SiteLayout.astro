@@ -1,0 +1,251 @@
+---
+// Shared shell for newer pages: head/meta, header, footer and the base styles that
+// index, speak and code-of-conduct each still carry inline.
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  current?: 'speak' | 'devfest';
+}
+
+const {
+  title,
+  description,
+  ogTitle = title,
+  ogImage = '/logo.png',
+  ogImageAlt = 'GDG Sydney logo',
+  current,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage, Astro.site);
+const isLargeImage = ogImage !== '/logo.png';
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:site_name" content="GDG Sydney" />
+  <meta property="og:title" content={ogTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:image:alt" content={ogImageAlt} />
+  <meta property="og:locale" content="en_AU" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content={isLargeImage ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:title" content={ogTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
+  <slot name="head" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="GDG Sydney home">
+        <img src="/gdg-logo-light.png" alt="Google Developer Group Sydney" class="logo-img" />
+      </a>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="/#events" class="nav-link">Events</a>
+        <a href="/speak" class="nav-link" aria-current={current === 'speak' ? 'page' : undefined}>Speak</a>
+        <a href="/devfest" class="nav-link" aria-current={current === 'devfest' ? 'page' : undefined}>DevFest</a>
+        <a
+          href="https://gdg.community.dev/gdg-sydney/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary btn-sm"
+        >
+          Join the community
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <Footer />
+
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --blue:   #4285F4;
+    --green:  #34A853;
+    --yellow: #f9ab00;
+    --red:    #EA4335;
+
+    --bg:     #f5f4f0;
+    --dark:   #1e1e1e;
+    --text:   #2a2a2a;
+    --muted:  #6b7280;
+    --white:  #ffffff;
+    --border: rgba(0, 0, 0, 0.09);
+
+    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
+    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
+
+    --header-h: 68px;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  [id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
+
+  .container {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 3rem);
+  }
+
+  /* ─── Header ────────────────────────────────────────────────────────── */
+  .header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    height: var(--header-h);
+    background: rgba(245, 244, 240, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .logo { display: flex; align-items: center; text-decoration: none; }
+  .logo-img { height: 48px; width: auto; display: block; flex-shrink: 0; }
+
+  .header-nav { display: flex; align-items: center; gap: 1.75rem; }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-link:hover,
+  .nav-link[aria-current='page'] { color: var(--dark); }
+
+  @media (max-width: 640px) {
+    .header-nav .nav-link { display: none; }
+  }
+
+  /* ─── Buttons ───────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    border-radius: 100px;
+    font-family: var(--sans);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+    border: none;
+    line-height: 1;
+  }
+  .btn:hover  { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-sm { padding: 0.6em 1.4em;  font-size: 0.825rem; }
+  .btn-lg { padding: 0.78em 1.8em; font-size: 1rem; }
+
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
+  }
+  .btn-primary:hover { box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--dark);
+    border: 1.5px solid rgba(0, 0, 0, 0.2);
+  }
+  .btn-ghost:hover { border-color: var(--dark); background: rgba(0, 0, 0, 0.04); }
+
+  /* ─── Sections ──────────────────────────────────────────────────────── */
+  .section { padding-block: clamp(4rem, 7vw, 6rem); }
+  .section + .section { border-top: 1px solid var(--border); }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--dark);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Track dot + dark label: core blue, red and yellow fail AA as small text on --bg. */
+  .track-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dark);
+  }
+  .track-tag::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--track-color, var(--muted));
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+</style>

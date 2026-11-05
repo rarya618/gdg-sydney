@@ -1,0 +1,779 @@
+{
+  "speakers": [
+    {
+      "slug": "aditya-dattatreya",
+      "name": "Aditya Dattatreya",
+      "tagline": "AWS Community Builder (Security) | MS in Cybersecurity@USYD  | Events Director @ USYD CSS | Speaker on AI Security & Cloud Technologies, AI/ML, OpenSource and DevOps",
+      "bio": "I'm a Cloud Platform Engineer and cybersecurity enthusiast currently pursuing a Master's in Cybersecurity at the University of Sydney. I have 2 years of professional experience as a DevOps Engineer, My work focuses on cloud infrastructure, DevOps, platform engineering, AI, and application security and OpenSource, and I'm particularly interested in building secure, production-ready AI systems. Outside of work, I'm passionate about contributing to the developer community through technical talks, workshops, and hands-on sessions. As the Events Director of the University of Sydney Cyber Security Society, I've organised hackathons, capture-the-flag competitions, and community events that help developers and security enthusiasts learn through practical experience. I enjoy exploring how AI and cybersecurity intersect, and my sessions focus on real-world engineering challenges backed by live demonstrations and practical takeaways that attendees can immediately apply to their own projects.",
+      "talkTitle": "Your AI Agent Has Too Many Permissions: Building Secure Gemini Agents Beyond the Prompt",
+      "abstract": "Everyone is talking about prompt engineering. Far fewer are talking about permissions. As AI agents evolve from answering questions to calling APIs, executing tools, and automating workflows, the biggest security risk is often not the model, it's giving the model too much access. In this live, demo-driven session, we'll build a Gemini-powered AI agent using Google AI Studio and the Agent Development Kit (ADK). Then we'll intentionally break it by exploiting excessive tool permissions, prompt injection, and unsafe automation flows. Finally, we'll redesign the agent using secure architectural patterns including least-privilege tool access, approval gates, structured outputs, and auditable actions.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/aditya-d-27102001-sre/",
+      "githubUrl": "https://github.com/adi271001",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "akshay",
+      "name": "Akshay",
+      "tagline": "Master's Student, University of Sydney | Building Trustworthy AI Systems with Gemini & Google Cloud",
+      "bio": "Akshay Harwalkar is a Master's student at the University of Sydney with a background in software engineering and AI. His work focuses on trustworthy AI systems, AI governance, and confidential computing. He is currently building privacy-preserving AI applications using Gemini, Google Cloud Confidential Space, Model Context Protocol (MCP), and Retrieval-Augmented Generation (RAG). He enjoys translating research into practical tools that help developers build more secure, transparent, and verifiable AI systems.",
+      "talkTitle": "Your AI Assistant Shouldn't Trust You: Building Verifiable AI Systems with Gemini and Confidential Computing",
+      "abstract": "Large Language Models are increasingly being used to analyse confidential enterprise documents, but most AI applications still assume the infrastructure and even the developer can be trusted with sensitive data.\n\nIn this session, I'll demonstrate how to build a verifiable AI system using Gemini, Google Cloud Confidential Space, Cloud KMS, Workload Identity Federation, and the Model Context Protocol (MCP). Instead of focusing on another Retrieval-Augmented Generation (RAG) chatbot, we'll build an AI assistant that proves why its answers should be trusted.\n\nThe demo shows how confidential documents remain encrypted until a cryptographically attested Confidential Space workload is verified, preventing even the application developer from accessing the plaintext. Every response is grounded in retrieved evidence, accompanied by citations, checked for unsupported claims, and recorded in a tamper-evident audit trail. I'll also demonstrate how MCP can connect the assistant to GitHub so it can compare governance policies against implementation and identify potential gaps.\n\nAttendees will leave with practical patterns for building trustworthy AI applications using Gemini and Google Cloud services, including confidential computing, secure identity, evidence-backed retrieval, and verifiable AI workflows that can be adapted to enterprise systems.",
+      "track": "developer",
+      "format": "lightning-talk",
+      "linkedinUrl": "https://www.linkedin.com/in/iharwalkar-akshay/",
+      "githubUrl": "https://github.com/akshay9192/",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "brett-morgan",
+      "name": "Brett Morgan",
+      "tagline": "Developer Relations Engineer, Google Cloud",
+      "bio": "Brett builds samples, codelabs, documentation and other fun things to encourage developers to use Antigravity to the fullest. Hailing from Sydney, Australia, he has worked across the entire range of companies from Australia’s largest bank to secretive startups. His interests include all things technical, from mastering Sous Vide cooking in the kitchen to embedded programming on the RP 2350.",
+      "talkTitle": "AI Skills three ways",
+      "abstract": "Skills are documentation for AI. They enable LLMs to more correctly handle problems we hand them. In this talk, we will go from blank slate, show the problems that skills evolved to solve, use skills from the internet, review what makes up a skill, author our own skills, and finally evaluate if the skills we have created are working as intended. The talk will cover using Antigravity both as a tool, and embedding it in an application as an SDK.",
+      "track": "keynote",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/brettmorgan/",
+      "githubUrl": "https://github.com/domesticmouse",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "derek-kim",
+      "name": "Derek Kim",
+      "tagline": "Senior SRE @ Tetrate · Google Developer Expert (Cloud)",
+      "bio": "Derek (Hyomin) Kim is a Site Reliability Engineer and platform engineer at Tetrate, where he works on service mesh technology (Istio/Envoy) and AI-driven automation. Before Tetrate, he spent years as an SRE at Karrot and as a Cloud Engineer at LG Uplus, working across Kubernetes and multi-cloud infrastructure. He's a Google Developer Expert in Cloud who speaks and writes for the developer community. Outside his day job, he builds products, exploring what it means to be a developer in the age of AI.",
+      "talkTitle": "AI: The End of Jobs or the Start of Freedom?",
+      "abstract": "AI is rewriting what it means to be a developer.\n\nAs a mid-level SRE and platform engineer, I've watched AI evolve from a helpful assistant into something that can write, test, and deploy code faster than I can — and that's both exciting and unsettling. Many of us have wondered what our roles will look like when machines start doing the work we used to.\n\nBut what if this isn't the end of our jobs, but a shift in how we create value?\n\nI began to rethink what skills actually matter — realizing that the real value lies not in writing perfect code, but in using AI to solve meaningful problems and adapt quickly.\n\nFrom there, I started walking two parallel paths.\n\nThe first is as an engineer inside a company — using AI to become a better problem-solver, not just a faster coder. At my company, we even use an AI agent in our own on-call rotation: it automatically reads incoming incident tickets, searches our knowledge base, and diagnoses the root cause before an engineer even opens them.\n\nThe second is as an independent builder — applying the same tools to build and iterate faster than ever. Tools like Claude for code generation, Gemini-TTS for interactive services, and Imagen or Veo for visual content have turned what used to take weeks into days, helping me create products that look and feel far more complete with a fraction of the effort.\n\nAI might raise real concerns about job security, but I see it as a reason to evolve, to find new ways to stay relevant, to build, and to grow.\n\nThis is how I've chosen to move forward, and how I'm learning to live, not against AI, but with it.",
+      "track": "spotlight",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/derekkim-cloud/",
+      "githubUrl": "https://github.com/derek10cloud",
+      "websiteUrl": "https://bumate.ai",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "derrick-qin",
+      "name": "Derrick Qin",
+      "tagline": "Senior Cloud Architect at DoiT, Google Developer Expert",
+      "bio": "Derrick is a senior Cloud Architect specialising in data and AI. He is interested in all thing Google Cloud and AI.",
+      "talkTitle": "Token-Maxxing Is Not a Strategy: Getting More Value per Token on Google Cloud",
+      "abstract": "Per-token prices have fallen ~1000× in three years, yet surveys find 47–93% of enterprises over their AI budgets, and OpenAI's own report finds no meaningful link between token use and revenue per employee. Welcome to token-maxxing: confusing activity with impact.\n\nThe models got good, everyone started vibe coding, and AI was dropped into one step of the old process: more PRs, more bugs, burnt-out reviewers, and the biggest model on everything.\nThis talk suggests ways to fix the process first, then the tokens, measuring cost per successful task. Live on Google Cloud: prompt caching on Gemini, an ADK agent that routes each prompt to the right model, and the same routing for your coding agent such as Antigravity CLI.\nYou'll leave with changes you can make on Monday.",
+      "track": "spotlight",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/derrickqin/",
+      "githubUrl": "https://github.com/derrickqin",
+      "websiteUrl": "https://derrickqin.com",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "finn-middleton",
+      "name": "Finn Middleton",
+      "tagline": "Web Developer - Jala Design",
+      "bio": "Finn is an award-winning web developer at Jala Design, who specialises in incorporating AI tools into development workflows to provide a higher quality of work that the human eye can often overlook.\n\nHis recent work won 'Health & Wellness Website of the Year' at the Australian Web Awards, where he & his team used AI tools to raise the bar on both build quality and accessibility, without losing the human care the project called for.",
+      "talkTitle": "AI as a Build Partner: How We Shipped an Award-Winning Website",
+      "abstract": "I work at Jala Design, a web design agency.\n\nEarlier this year, one of our/my projects (a full rebrand and website build for Belongside Families, a not-for-profit supporting parents and carers) won 'Health & Wellness Website of the Year' at the Australian Web Awards.\n\nIn this session, I'd like break down how we built an award-worthy site from the ground up: from naming and brand identity through to UX/UI design and WordPress development, and how AI tools became part of that process along the way. Using it for speeding up development, supporting design decisions, and helping us build in accessibility from the very beginning.\n\nI guess the main lessons I expect attendees to learn are:\n- How to use AI during development to not only speed up progress, but to bring your work up to a higher, award-worthy standard\n- Specific ways to prompt and review AI output so it meets a professional, real-world standard beyond generic defaults\n- How to use AI tools to test and enforce accessibility compliance throughout a build, rather than treating it as a final audit step\n- How to catch and correct accessibility issues AI introduces or misses, before they reach the client\n\nI hope to share insight with designers, developers, and builders who are working on real-world client projects, and hope that they'll come away with real, valuable insight on how to raise the bar on their own work using AI as a genuine quality tool, and not just a speed tool.",
+      "track": "builder",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/finnmiddleton/",
+      "githubUrl": "https://github.com/FinnMidd",
+      "websiteUrl": "https://www.jaladesign.com.au",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "isaac-udy",
+      "name": "Isaac Udy",
+      "tagline": "Kotlin Engineer, Google Developer Expert for Android, open source author",
+      "bio": "I help teams design, build, and ship applications for mobile, desktop, and web, and make better use of AI while doing it. I'm a Google Developer Expert for Android, the author of the open source navigation library Enro, and previously the Android Platform Lead at ANZ, where I set technical direction for a team of more than 70 Android engineers.",
+      "talkTitle": "Kotlin in Google Cloud: Browser, backend, and back again",
+      "abstract": "Kotlin Multiplatform has been gaining a lot of traction over the last few years. It's now possible to build full-stack web applications that use Kotlin for both the frontend and backend.\n\nIsaac has been running applications like this on Google Cloud, and this talk covers how that works; Compose/WASM served from Cloud Storage and a Kotlin/JVM backend on Cloud Run.\n\nIn this session, Isaac will cover:\n* How to build a backend, shared logic, and a web frontend with Kotlin Multiplatform and Compose/WASM\n* How to deploy this to Google Cloud\n* The advantages (and disadvantages) of this approach",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/isaac-udy/",
+      "githubUrl": "https://github.com/isaac-udy",
+      "websiteUrl": "https://isaacudy.com",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "jess-lowe",
+      "name": "Jess Lowe",
+      "tagline": "Software Engineer at Google",
+      "bio": "Jess Lowe is a Software Engineer in the Google Open Source Security Team. She works on OSV.dev, focusing on vulnerability data pipelines, open-source security standards, and software supply chain resilience.",
+      "talkTitle": "It's Just JSON, Right?",
+      "abstract": "Whenever you run a security scan on your dependencies, you trust that the underlying vulnerability database is structured, clean, and machine-readable. After all, it's the modern era - it’s all standardised JSON, right?\n\nIn this interactive \"live\"-coding session, we will peel back the layers of our global vulnerability databases to see what actually powers your dependency alerts. We’ll explore why decentralised open-source data is surprisingly difficult to standardise, how projects like OSV.dev solve this heavy lifting for the developer ecosystem, and what we can do to build cleaner, more resilient data pipelines across the software supply chain.",
+      "track": "spotlight",
+      "format": "talk",
+      "linkedinUrl": "https://linkedin.com/in/jess-lowe",
+      "githubUrl": "https://github.com/jess-lowe",
+      "websiteUrl": "https://osv.dev",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "kartik-arora",
+      "name": "Kartik Arora",
+      "tagline": "Tag plastic to make something fantastic!",
+      "bio": "Kartik Arora is a polyglot Lead Engineer at Bilue and a recognised Google Developer Expert specialising in Android technology. With extensive experience across diverse industries, he focuses on design system architecture, modern UI frameworks, and elevating engineering practices. He is passionate about fostering vibrant developer communities and regularly shares knowledge on build tools and mobile architecture.",
+      "talkTitle": "Hands-On Android App Building with Gemini in Android Studio",
+      "abstract": "Get hands-on experience with the latest Gemini powered coding features inside Android Studio. Working on a real-world multi-module project, you’ll scaffold new features with Agent Mode, convert wireframes into sleek Compose interfaces, run tests and use the Android CLI's powers.",
+      "track": "workshop",
+      "format": "workshop",
+      "linkedinUrl": "https://linkedin.com/in/arorakartik",
+      "githubUrl": "https://github.com/kartikarora",
+      "websiteUrl": "https://kartikarora.me",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "katie-barnett",
+      "name": "Katie Barnett",
+      "tagline": "Engineering Manager @ Bilue | GDE Android",
+      "bio": "Katie is passionate about all things Android. She has taken on a wide variety of challenging projects including in the live event, media and travel space. Her favourite thing is to see someone having a delightful experience using something she has worked on. Katie is very active in the development community, she is a Google Developer Expert for Android, one of the organisers of GDG Melbourne and is a Women Techmakers Ambassador. She frequently runs events, speaks on technical and non-technical topics and enjoys writing blog posts to share her experience with others. Katie is based in Melbourne, Australia but loves to travel the world and outside of tech she enjoys boardgaming and attempting to finish many craft projects.",
+      "talkTitle": "AI, Meet App: Teaching Android Apps to \"Talk\" to Gemini via App Functions",
+      "abstract": "Ever wished your Android app could just understand what your users actually want? Enter App Functions. In this session, we’ll explore how to bridge the gap between Android apps and Gemini. You’ll learn the core concepts of App Functions, see how they expose app capabilities to Google's GenAI ecosystem, and discover how to get Gemini to trigger specific actions within your app seamlessly.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/katiebarnett5/",
+      "githubUrl": "https://github.com/KatieBarnett",
+      "websiteUrl": "https://katiebarnett.dev/",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "katie-mclaughlin",
+      "name": "Katie McLaughlin",
+      "tagline": "Developer Relations Engineer",
+      "bio": "Katie (@glasnt, they/them) has worn many different hats over the years. They have been a software developer across many languages, a systems administrator for multiple operating systems, and a speaker on various topics. They have spent several years as a Developer Relations Engineer for one of the largest tech companies in the world, helping developers learn and grow. When they're not changing the world, they enjoy rambling, fiber arts, and irrevocably changing the Unicode Standard.",
+      "talkTitle": "Elevating the AI-Assisted Developer Experience",
+      "abstract": "The rapid adoption of AI-assisted coding tools has fundamentally changed how developers approach complex engineering tasks. As the industry shifts toward agentic workflows, the gap regarding how these tools impact overall developer productivity and code quality has widened. This talk explores how developers can leverage industry-wide changes and improve their own skills and knowledge. Attendees will leave with a clear plan to protect trust while embracing new workflows, ensuring that the software they build remains high-quality and reliable, regardless of the level of automation.",
+      "track": "builder",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/glasnt/",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "michael-dausmann",
+      "name": "Michael Dausmann",
+      "tagline": "Founder and CTO - Recipes4Me",
+      "bio": "Michael Dausmann is a software engineering and technology leader with more than three decades of experience building complex systems and leading technical teams. He spent 16 years at JPMorgan before joining Children’s Medical Research Institute and ProCan, where he led software engineering, DevOps and applied-AI initiatives supporting large-scale scientific research. Michael is now the founder of Recipes4Me, helping Australian shoppers with recipes, meal planning and shopping. He is particularly interested in practical agent architectures, context efficiency and designing AI that can facilitate compelling user experiences.",
+      "talkTitle": "Human IS the Loop - Embedding user first, voice enabled agents into mobile with Flutter and Gemini",
+      "abstract": "The current model of detached, autonomous agents does not produce compelling and engaging user experiences and adding a \"human in the loop\" only throws the detachment into sharper relief.  \n\n- The agent does the thinking, the user ticks a box\n- The agent decides what to attend to, the user provides guidance when needed\n- The user prompts, the agent creates and acts\n\nTo facilitate truly engaging user experiences we need to build different types of agents.  Agents that focus on the user first and foremost.\n\nThese types of agents should:\n- Understand what problem the user is trying to solve, and what they want to achieve (context, attention, intent)\n- Switch context when the users attention changes but remember where they were up to (context switching and memory)\n- Be experts in a particular domain and understand concepts and workflows that are effective (knowledge, orchestration, workflows)\n- Natively understand the same functional and visual surfaces available to the user and navigate them on behalf of the user (tools/functions/state mutation, ui, routing & navigation)\n\nUsing an example implementation with Flutter, signals, go_router and Gemini, attendees will learn how to:-\n\n- Create an on-device agentic harness which integrates memory, voice input, tool calls and LLM interaction\n- Seamlessly combine an agentic loop with bespoke orchestrated workflows\n- Wire tool calls into state management and app routing\n- Track and respond to changes in user attention and intent and manage state for backgrounded activities\n- Handle interruptions like timers and asynchronous events",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/mdausmann/",
+      "githubUrl": "https://github.com/JavascriptMick",
+      "websiteUrl": "https://recipes4me.com.au/",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "natalia-tapia",
+      "name": "Natalia Tapia",
+      "tagline": "CEO & Founder of Gradstack",
+      "bio": "Natalia is the Founder and CEO of Gradstack, Australia's Workforce Activation Layer for the AI Workforce. With over 12+ years in talent acquisition and workforce intelligence, she has seen firsthand how resume based hiring fails graduates and employers alike. Through Gradstack, she is building the infrastructure to move Australia from self-assessed claims to verified digital profiles, giving graduates & early career candidates a real way to prove what they can do and giving employers a verified pipeline of talent in real-time. Natalia is on a mission to make Australia's workforce ready for the AI driven economy, one verified person at a time.",
+      "talkTitle": "Beyond Self-Reported Skills: A Verified Standard for AI Fluency",
+      "abstract": "Australia needs a 500% increase in its AI-capable workforce by 2030, yet 73% of workers do not know what AI skills they actually need, and 75% of employers say they cannot find the AI talent they are looking for. This gap is most visible, and most damaging, at the point of entering the workforce, where students move from structured learning into a fast paced and changing labour market with no consistent way to measure AI capability at all.\nThis session introduces the Graduate AI Fluency Index (GAFI™), a framework built to close that gap. GAFI™ measures AI fluency across five levels, moving graduates from self-reported confidence to a verified, benchmarked signal that employers can trust and students can act on. Drawing on work building capability-led hiring tools for Australia's early-career workforce, this talk shows how measurement itself builds agency: when students can see exactly where they stand on AI fluency, they gain the confidence to close their own gaps rather than guess at what employers want in an AI driven workforce.\nAttendees will leave with a practical model for embedding AI fluency measurement into curriculum, work-integrated learning, and employability strategies, plus a framework for talking to industry partners about what verified AI capability actually looks like at graduation.\nKey Takeaways\nHow the Graduate AI Fluency Index (GAFI) works, and what the fluency framework measures in practice\nWhy self-reported AI skills are unreliable\nA practical approach for embedding AI fluency benchmarking into curriculum, work-integrated learning, and employability strategy",
+      "track": "builder",
+      "format": "lightning-talk",
+      "linkedinUrl": "https://www.linkedin.com/in/nataliatapia33/",
+      "githubUrl": "",
+      "websiteUrl": "https://www.gradstack.ai",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "nathaniel-butterworth",
+      "name": "Nathaniel Butterworth",
+      "tagline": "Catalysing Science with Google Technology",
+      "bio": "Nate is the Science Catalyst Program Manager working at Google, uniting the amazing research taking place around the world. He has an Honours in Astrophysics, a PhD in Geophysics, and a long tenure of using research computing infrastructure to help solve tricky science problems. Somewhere along the way he became a Carpentries instructor.",
+      "talkTitle": "How did we get here!? 16 years of shifting foundational tech trends.",
+      "abstract": "In this talk, we dissect 1,890+ abstract submission between 2010 to 2025 for the eResearch Australasia conference - a premier forum where frontier scientific discovery meets the accelerated computing, data architectures, and software engineering. Mostly using Gemini 3.5 Flash to map the rise, fall, and consolidation of tech paradigms we can show how early-2010s favourite \"Data Mining\" completely vanished into general Machine Learning, and how 2025 delivered a dramatic divergence: general ML topics dropped from 8.3% to 3.1%, while GenAI surged to 22.2% of all sessions complemented by a 2x spike in High-Performance Computing and GPU-heavy workloads.\n\nBeyond the stats, we will walk through the semantic analysis methodology and prompt techniques used with Gemini Flash to process large unstructured text archives without length-bias, and share interactive visualisations showing where developer focus and infrastructure demand is heading next.",
+      "track": "builder",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/nathaniel-butterworth-72003877/",
+      "githubUrl": "https://github.com/natbutter",
+      "websiteUrl": "https://sites.google.com/view/aiforscience/home",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "olga-mirensky",
+      "name": "Olga Mirensky",
+      "tagline": "Senior Staff SRE",
+      "bio": "Olga is a Senior Staff SRE at Ping Identity with deep roots in Kubernetes, GitOps, FinOps, performance and cloud-native systems. She has spent her career building platforms and developer tooling across large enterprises in tech and financial services industries. When she’s not working or tinkering on her never-ending side projects, running AI experiments on DGX Spark, she is either running half marathons with friends or camping in the woods.",
+      "talkTitle": "Structure Over Prompts: Building an SRE Agent on Gemini Enterprise Agent Platform",
+      "abstract": "We built an automated SRE agent using the Agent Development Kit (ADK) and Gemini Enterprise Agent Platform to investigate end-to-end test failures. The agent's mission: collect and parse logs, analyse source code diffs, locate the root cause, and categorise the failure as a legitimate bug, a PR regression or a flake.\n\nOur first iteration produced answers but suffered from typical agentic fragility: edge cases  unbounded execution loops even despite token guards, non-deterministic routing paths through identical errors, and overconfident hallucinations such as claiming an \"infrastructure failure\" based on a single line of a log file.\n\nThe fix wasn't a better prompt - it was treating the agent as a software program rather than a series of LLM calls. Instead of dumping files, logs, and prompts into an LLM and hoping for the best, we encoded the investigation process into the agent's structure: explicit states, typed transitions, and guardrails defined in ADK. This is what brought determinism into a highly indeterministic system, while reducing the prompts volume.\n\nThe talk also covers context engineering under time and platform constraints: no persistent volumes or local git clones, so all source code access runs through GitHub APIs. But PR diffs and fetched files can be large, naively adding them to the context will lead to token waste and dilute the attention mechanism, causing the LLM's output quality to degrade.\n\nWe will walk through the production graph topology, the custom tool boundaries, and the inline verifier that forces the agent to be uncertain and honest rather than confident and wrong.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/olgamirensky/",
+      "githubUrl": "https://github.com/olga-mir",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "phil-nash",
+      "name": "Phil Nash",
+      "tagline": "Developer experience engineer, Resend",
+      "bio": "Phil is a developer experience engineer for Resend, a Google Developer Expert, and an AAIF Ambassador living in Melbourne, Australia. He's been working in developer relations for more than a decade, speaking at conferences since 2012, and writing JavaScript since before jQuery. Away from the keyboard, Phil enjoys travel, live music, and hanging out with his mini sausage dog, Ruby.",
+      "talkTitle": "A new class of user",
+      "abstract": "Whether you like it or not, AI agents are here and they are roaming the web working on behalf of real people. They read web content, search, navigate, and fill in forms; some are even empowered to use credit cards and buy things. As web developers, how do we respond to this? What does it mean to build for the web when the user may not be human?\n\nThis talk is intended to start the conversation around who we are serving as web developers.\nDo we need a new \"agent-first\" design paradigm or can we simply pretend nothing has changed? As our entire industry goes through a huge upheaval, what are the choices we can make that ensure the web continues to be for everyone as we expand the scope of \"everyone\"?",
+      "track": "spotlight",
+      "format": "talk",
+      "linkedinUrl": "https://linkedin.com/in/philnash",
+      "githubUrl": "https://github.com/philnash",
+      "websiteUrl": "https://philna.sh",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "qasim-tariq",
+      "name": "Qasim Tariq",
+      "tagline": "",
+      "bio": "",
+      "talkTitle": "RAG Found It. Should Your AI Say It?",
+      "abstract": "AnuInfo is a chatbot built by a GDG on Campus ANU project team. It answers questions about ANU using official university sources and gives you the pages the answer came from.\nANU information is spread across course pages, the events calendar, accommodation, scholarships, jobs and student support, each on its own site with its own layout. Searching them is painful, so students give up before they find the thing that helps them. That matters most for the services people need when something has gone wrong: booking the free legal service, finding a scholarship they are eligible for, working out who to contact for support. \n\nAnuInfo makes those reachable by asking a normal question.\nIt is a RAG pipeline with agents on top. Retrieval matches your question against the content of the pages rather than titles and keywords, agents handle the things a single retrieval pass cannot, and the index is polled and refreshed so answers track changes on the source sites.\nWhat we cover:\n\t•\tThe RAG pipeline: ingestion, chunking, embedding, retrieval, and how we keep answers grounded in real pages\n\t•\tHow agents work with a RAG model\n\t•\tKeeping the index current as ANU pages change through the year\n\t•\tGetting the model to say it does not know instead of inventing a deadline\n\t•\tRunning it publicly: prompt injection, staying on topic, rate limiting\n\t•\tShipping it as a student team with mentors on a semester timeline . You leave with a practical picture of building RAG and agents on messy real-world web content, and what it takes to make it reliable and safe for use.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": false,
+      "sessionPartners": [
+        {
+          "name": "Yuting Mao",
+          "slug": "yuting-mao"
+        }
+      ]
+    },
+    {
+      "slug": "shang-yi-lim",
+      "name": "Shang Yi Lim",
+      "tagline": "GDE Firebase, Google Cloud , Staff Engineer @ Hubble.Build",
+      "bio": "Shang Yi is a software developer that jumps on new technology on the first chance. He is a Google Developer Expert in Firebase, Google Cloud. Sometimes, he gets distracted by random stuff ranging from cooking, machinery, DIY projects to creepypastas.",
+      "talkTitle": "Build a Zero-Code Multi-Agent System with Agent Studio",
+      "abstract": "Learn how to use Agent Studio to design, instruct, and test intelligent agents using everyday language.\n\nYou will build a singular Personal Assistant Agent that houses three specialized personas",
+      "track": "workshop",
+      "format": "workshop",
+      "linkedinUrl": "https://www.linkedin.com/in/shang-yi-lim",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "sharat-madanapalli",
+      "name": "Sharat Madanapalli",
+      "tagline": "Founder at InTune AI",
+      "bio": "Sharat Madanapalli is the founder of InTune AI, a Sydney-based consultancy that helps businesses find where AI can deliver measurable value and builds systems they cannot buy off the shelf. He has spent a decade working in applied AI, from earning his PhD at UNSW Sydney to leading data and AI teams at startups. Today, he leads a team that builds production AI agents for aviation, cybersecurity, and enterprise operations.",
+      "talkTitle": "Lessons from Building an AI Audit Assistant",
+      "abstract": "Auditors review more than 50 documents and answer up to 450 checklist questions before each audit. Preparation can take five days. We built Audit Assist, a production AI product that cut that time to hours. An aviation audit firm that runs more than 70 audits each year now uses it.\n\nWhile building it, we found that several common AI product patterns broke down. Standard RAG struggled with long, multilingual documents containing tables, images and flowcharts. Experienced auditors needed evidence they could inspect, rather than polished answers they were asked to trust. A chat interface also failed to match how auditors move from source documents to checklist responses and findings.\nI will share the approaches that failed, the changes that worked, and how working alongside auditors reshaped the original product brief. I will explain how we let auditors trace every finding back to its source and why the interface mattered as much as the underlying models.",
+      "track": "builder",
+      "format": "talk",
+      "linkedinUrl": "https://linkedin.com/in/sharat910",
+      "githubUrl": "https://github.com/sharat910",
+      "websiteUrl": "https://intuneai.com.au",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "stefan-avgoustakis",
+      "name": "stefan avgoustakis",
+      "tagline": "Head of Customer Engineering Google Cloud Security (ANZ)",
+      "bio": "Stefan is the head of customer engineering for Google Cloud Security and leads Google’s technical security engagements with some of Australia’s largest organisations across Financial, Public Sector, Retail and other industries. Stefan has been with Google for over 4 years, having previously worked in similar roles at companies like Amazon Web Services and Cisco. Based in Sydney, Stefan has been working as a trusted advisor to Google's most strategic customers focusing on managing CyberSecurity, Identity, & Compliance risks.",
+      "talkTitle": "zero-trust agents - agentic AI defense patterns",
+      "abstract": "Agentic frameworks allow for creating autonomous workflows that integrate with production systems via tools that access live databases, internal APIs, and runtime environments.\n\nWhen an agent is granted credentials to perform state-mutating actions—such as processing financial transactions, modifying database records, or executing arbitrary code—it introduces significant security risks.\n\nThe core challenge lies in the agent's operational model: an LLM determines its own tool-use sequence and execution path based on non-deterministic, natural-language inputs. Traditional security models, like perimeter security and static ACLs, can authenticate the agent itself but lack the capability to inspect or enforce policies on the specific, runtime-generated actions the agent decides to execute internally. This creates a critical visibility gap and a new attack surface within your security boundary.\n\nIn this session we introduce defense patterns for agentic AI systems build with ADK - we explore 3 different but complimentary patterns :\n\n1. Cryptographic write signatures: Assign each agent a hardware-backed key to sign every database mutation, ensuring non-repudiation and tamper detection.\n2. Kernel-level code isolation: Execute all dynamically generated code inside a gVisor user-space sandbox with zero network egress and strict resource limits.\n3. Deterministic semantic gateways: Proxy model inputs and outputs through deterministic validation rules enforced by automated CI/CD test suites.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/stefanavgoustakis/",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "suesi-tran",
+      "name": "Suesi Tran",
+      "tagline": "Founder @ Nartus, Builder @ MemoirME",
+      "bio": "Suesi Tran is a Google Developer Expert in Dart & Flutter & Firebase, GDG Co-Organiser at GDG Melbourne and Flutter Melbourne, and a Women Techmaker Melbourne Ambassador. She has more than 18 years experience in mobile development, and started Flutter development since 2017. \n\nSuesi is the founder of Nartus, the company behind MemoirME - a digital diary designed to help people preserve meaningful memories, relieve stress, and support better mental well-being. MemoirME empowers users to tell their own stories, in their own voices, with the goal of fostering reflection, healing, and personal growth.",
+      "talkTitle": "I fired my marketing team for AI Agents",
+      "abstract": "I built a full AI automation agents using n8n, which include Gemini 3.5 Flash, Gemma4, Schedule automation, and Gemini Omni, Nano Banana to automate creating and posting my social content for MemoirME social pages. Time spent per week from 40hrs down to 2hrs, team size from 8 members down to 1 member.",
+      "track": "builder",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/suesitran/",
+      "githubUrl": "https://github.com/suesitran",
+      "websiteUrl": "https://www.suesitran.nexus/",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "yash-mehta",
+      "name": "Yash Mehta",
+      "tagline": "Senior Consultant at Vivanti, Google Developer Expert (Google Cloud)",
+      "bio": "Yash is a Senior Consultant at Vivanti and a Google Developer Expert specialising in Google Cloud, AI and ML. He's delivered large, complex projects across telecommunications, media & marketing, financial services, retail and e-commerce, with deep experience in AI & MLOps, real-time data processing, cloud architecture and data engineering.",
+      "talkTitle": "You built an Agent. What next?",
+      "abstract": "Building an agent is the easy part now. A prompt to your coding assistant, an LLM to write the glue code, and you have something that works on your machine. I WISH \"it works on my machine\" was an acceptable answer for enterprises, but the reality is there's a ladder to climb before you even think about deploying your agent: architecture review boards, security assessments, IAM policies, networking, and a dozen other things nobody's tutorial mentioned. This talk walks through what it actually takes to get your agent into production on GCP. You'll leave knowing the questions your security and platform teams will ask, and how to have answers ready",
+      "track": "spotlight",
+      "format": "talk",
+      "linkedinUrl": "https://www.linkedin.com/in/yash-mehta10",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": true,
+      "sessionPartners": []
+    },
+    {
+      "slug": "yuting-mao",
+      "name": "Yuting Mao",
+      "tagline": "",
+      "bio": "",
+      "talkTitle": "RAG Found It. Should Your AI Say It?",
+      "abstract": "AnuInfo is a chatbot built by a GDG on Campus ANU project team. It answers questions about ANU using official university sources and gives you the pages the answer came from.\nANU information is spread across course pages, the events calendar, accommodation, scholarships, jobs and student support, each on its own site with its own layout. Searching them is painful, so students give up before they find the thing that helps them. That matters most for the services people need when something has gone wrong: booking the free legal service, finding a scholarship they are eligible for, working out who to contact for support. \n\nAnuInfo makes those reachable by asking a normal question.\nIt is a RAG pipeline with agents on top. Retrieval matches your question against the content of the pages rather than titles and keywords, agents handle the things a single retrieval pass cannot, and the index is polled and refreshed so answers track changes on the source sites.\nWhat we cover:\n\t•\tThe RAG pipeline: ingestion, chunking, embedding, retrieval, and how we keep answers grounded in real pages\n\t•\tHow agents work with a RAG model\n\t•\tKeeping the index current as ANU pages change through the year\n\t•\tGetting the model to say it does not know instead of inventing a deadline\n\t•\tRunning it publicly: prompt injection, staying on topic, rate limiting\n\t•\tShipping it as a student team with mentors on a semester timeline . You leave with a practical picture of building RAG and agents on messy real-world web content, and what it takes to make it reliable and safe for use.",
+      "track": "developer",
+      "format": "talk",
+      "linkedinUrl": "",
+      "githubUrl": "",
+      "websiteUrl": "",
+      "hasPhoto": false,
+      "sessionPartners": [
+        {
+          "name": "Qasim Tariq",
+          "slug": "qasim-tariq"
+        }
+      ]
+    }
+  ],
+  "schedule": [
+    {
+      "kind": "break",
+      "title": "Registration",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-09T22:00:00.000Z",
+      "endTime": "2026-10-09T23:00:00.000Z",
+      "room": "all"
+    },
+    {
+      "kind": "plenary",
+      "title": "Welcome from GDG Sydney",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-09T23:00:00.000Z",
+      "endTime": "2026-10-09T23:15:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "plenary",
+      "title": "Welcome keynote",
+      "talkTitle": "AI Skills three ways",
+      "speakers": [
+        "brett-morgan"
+      ],
+      "sessionSlug": "brett-morgan",
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-09T23:15:00.000Z",
+      "endTime": "2026-10-09T23:50:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "You built an Agent. What next?",
+      "talkTitle": null,
+      "speakers": [
+        "yash-mehta"
+      ],
+      "sessionSlug": "yash-mehta",
+      "track": "spotlight",
+      "format": "talk",
+      "startTime": "2026-10-09T23:50:00.000Z",
+      "endTime": "2026-10-10T00:35:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "I fired my marketing team for AI Agents",
+      "talkTitle": null,
+      "speakers": [
+        "suesi-tran"
+      ],
+      "sessionSlug": "suesi-tran",
+      "track": "builder",
+      "format": "talk",
+      "startTime": "2026-10-09T23:50:00.000Z",
+      "endTime": "2026-10-10T00:35:00.000Z",
+      "room": "builder"
+    },
+    {
+      "kind": "session",
+      "title": "Human IS the Loop - Embedding user first, voice enabled agents into mobile with Flutter and Gemini",
+      "talkTitle": null,
+      "speakers": [
+        "michael-dausmann"
+      ],
+      "sessionSlug": "michael-dausmann",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-09T23:50:00.000Z",
+      "endTime": "2026-10-10T00:35:00.000Z",
+      "room": "developer"
+    },
+    {
+      "kind": "session",
+      "title": "Hands-On Android App Building with Gemini in Android Studio",
+      "talkTitle": null,
+      "speakers": [
+        "kartik-arora"
+      ],
+      "sessionSlug": "kartik-arora",
+      "track": "workshop",
+      "format": "workshop",
+      "startTime": "2026-10-09T23:50:00.000Z",
+      "endTime": "2026-10-10T01:20:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "session",
+      "title": "Token-Maxxing Is Not a Strategy: Getting More Value per Token on Google Cloud",
+      "talkTitle": null,
+      "speakers": [
+        "derrick-qin"
+      ],
+      "sessionSlug": "derrick-qin",
+      "track": "spotlight",
+      "format": "talk",
+      "startTime": "2026-10-10T00:35:00.000Z",
+      "endTime": "2026-10-10T01:20:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "How did we get here!? 16 years of shifting foundational tech trends.",
+      "talkTitle": null,
+      "speakers": [
+        "nathaniel-butterworth"
+      ],
+      "sessionSlug": "nathaniel-butterworth",
+      "track": "builder",
+      "format": "talk",
+      "startTime": "2026-10-10T00:35:00.000Z",
+      "endTime": "2026-10-10T01:20:00.000Z",
+      "room": "builder"
+    },
+    {
+      "kind": "session",
+      "title": "AI, Meet App: Teaching Android Apps to \"Talk\" to Gemini via App Functions",
+      "talkTitle": null,
+      "speakers": [
+        "katie-barnett"
+      ],
+      "sessionSlug": "katie-barnett",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T00:35:00.000Z",
+      "endTime": "2026-10-10T01:20:00.000Z",
+      "room": "developer"
+    },
+    {
+      "kind": "session",
+      "title": "It's Just JSON, Right?",
+      "talkTitle": null,
+      "speakers": [
+        "jess-lowe"
+      ],
+      "sessionSlug": "jess-lowe",
+      "track": "spotlight",
+      "format": "talk",
+      "startTime": "2026-10-10T01:20:00.000Z",
+      "endTime": "2026-10-10T02:00:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "Lessons from Building an AI Audit Assistant",
+      "talkTitle": null,
+      "speakers": [
+        "sharat-madanapalli"
+      ],
+      "sessionSlug": "sharat-madanapalli",
+      "track": "builder",
+      "format": "talk",
+      "startTime": "2026-10-10T01:20:00.000Z",
+      "endTime": "2026-10-10T02:00:00.000Z",
+      "room": "builder"
+    },
+    {
+      "kind": "session",
+      "title": "zero-trust agents - agentic AI defense patterns",
+      "talkTitle": null,
+      "speakers": [
+        "stefan-avgoustakis"
+      ],
+      "sessionSlug": "stefan-avgoustakis",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T01:20:00.000Z",
+      "endTime": "2026-10-10T02:00:00.000Z",
+      "room": "developer"
+    },
+    {
+      "kind": "session",
+      "title": "Your AI Agent Has Too Many Permissions: Building Secure Gemini Agents Beyond the Prompt",
+      "talkTitle": null,
+      "speakers": [
+        "aditya-dattatreya"
+      ],
+      "sessionSlug": "aditya-dattatreya",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T01:20:00.000Z",
+      "endTime": "2026-10-10T02:00:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "break",
+      "title": "Lunch",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-10T02:00:00.000Z",
+      "endTime": "2026-10-10T03:00:00.000Z",
+      "room": "all"
+    },
+    {
+      "kind": "session",
+      "title": "AI: The End of Jobs or the Start of Freedom?",
+      "talkTitle": null,
+      "speakers": [
+        "derek-kim"
+      ],
+      "sessionSlug": "derek-kim",
+      "track": "spotlight",
+      "format": "talk",
+      "startTime": "2026-10-10T03:00:00.000Z",
+      "endTime": "2026-10-10T03:45:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "AI as a Build Partner: How We Shipped an Award-Winning Website",
+      "talkTitle": null,
+      "speakers": [
+        "finn-middleton"
+      ],
+      "sessionSlug": "finn-middleton",
+      "track": "builder",
+      "format": "talk",
+      "startTime": "2026-10-10T03:00:00.000Z",
+      "endTime": "2026-10-10T03:45:00.000Z",
+      "room": "builder"
+    },
+    {
+      "kind": "session",
+      "title": "Structure Over Prompts: Building an SRE Agent on Gemini Enterprise Agent Platform",
+      "talkTitle": null,
+      "speakers": [
+        "olga-mirensky"
+      ],
+      "sessionSlug": "olga-mirensky",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T03:00:00.000Z",
+      "endTime": "2026-10-10T03:45:00.000Z",
+      "room": "developer"
+    },
+    {
+      "kind": "session",
+      "title": "Build a Zero-Code Multi-Agent System with Agent Studio",
+      "talkTitle": null,
+      "speakers": [
+        "shang-yi-lim"
+      ],
+      "sessionSlug": "shang-yi-lim",
+      "track": "workshop",
+      "format": "workshop",
+      "startTime": "2026-10-10T03:00:00.000Z",
+      "endTime": "2026-10-10T04:00:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "session",
+      "title": "A new class of user",
+      "talkTitle": null,
+      "speakers": [
+        "phil-nash"
+      ],
+      "sessionSlug": "phil-nash",
+      "track": "spotlight",
+      "format": "talk",
+      "startTime": "2026-10-10T03:45:00.000Z",
+      "endTime": "2026-10-10T04:30:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "session",
+      "title": "Elevating the AI-Assisted Developer Experience",
+      "talkTitle": null,
+      "speakers": [
+        "katie-mclaughlin"
+      ],
+      "sessionSlug": "katie-mclaughlin",
+      "track": "builder",
+      "format": "talk",
+      "startTime": "2026-10-10T03:45:00.000Z",
+      "endTime": "2026-10-10T04:30:00.000Z",
+      "room": "builder"
+    },
+    {
+      "kind": "session",
+      "title": "Kotlin in Google Cloud: Browser, backend, and back again",
+      "talkTitle": null,
+      "speakers": [
+        "isaac-udy"
+      ],
+      "sessionSlug": "isaac-udy",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T03:45:00.000Z",
+      "endTime": "2026-10-10T04:30:00.000Z",
+      "room": "developer"
+    },
+    {
+      "kind": "session",
+      "title": "Your AI Assistant Shouldn't Trust You: Building Verifiable AI Systems with Gemini and Confidential Computing",
+      "talkTitle": null,
+      "speakers": [
+        "akshay"
+      ],
+      "sessionSlug": "akshay",
+      "track": "developer",
+      "format": "lightning-talk",
+      "startTime": "2026-10-10T04:00:00.000Z",
+      "endTime": "2026-10-10T04:10:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "session",
+      "title": "Beyond Self-Reported Skills: A Verified Standard for AI Fluency",
+      "talkTitle": null,
+      "speakers": [
+        "natalia-tapia"
+      ],
+      "sessionSlug": "natalia-tapia",
+      "track": "builder",
+      "format": "lightning-talk",
+      "startTime": "2026-10-10T04:10:00.000Z",
+      "endTime": "2026-10-10T04:20:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "session",
+      "title": "RAG Found It. Should Your AI Say It?",
+      "talkTitle": null,
+      "speakers": [
+        "qasim-tariq",
+        "yuting-mao"
+      ],
+      "sessionSlug": "qasim-tariq",
+      "track": "developer",
+      "format": "talk",
+      "startTime": "2026-10-10T04:20:00.000Z",
+      "endTime": "2026-10-10T04:30:00.000Z",
+      "room": "workshops"
+    },
+    {
+      "kind": "break",
+      "title": "Afternoon tea",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-10T04:30:00.000Z",
+      "endTime": "2026-10-10T05:00:00.000Z",
+      "room": "all"
+    },
+    {
+      "kind": "plenary",
+      "title": "Builder Showcase",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-10T05:00:00.000Z",
+      "endTime": "2026-10-10T05:30:00.000Z",
+      "room": "auditorium"
+    },
+    {
+      "kind": "plenary",
+      "title": "Closing keynote",
+      "talkTitle": null,
+      "speakers": [],
+      "sessionSlug": null,
+      "track": null,
+      "format": null,
+      "startTime": "2026-10-10T05:30:00.000Z",
+      "endTime": "2026-10-10T06:15:00.000Z",
+      "room": "auditorium"
+    }
+  ],
+  "sponsors": [
+    {
+      "id": "google",
+      "name": "Google",
+      "tier": "diamond",
+      "website": "https://www.google.com",
+      "description": null
+    },
+    {
+      "id": "aviato-consulting",
+      "name": "Aviato Consulting",
+      "tier": "gold",
+      "website": "https://aviato.consulting",
+      "description": "Founded by ex-Googlers, Aviato Consulting is an award-winning Google Cloud consultancy specialising in Cloud Architecture, App development, and Enterprise AI & Data. Aviato helps organisations build scalable, modern applications and deploy intelligent AI systems powered by Google Cloud and Gemini."
+    },
+    {
+      "id": "asana",
+      "name": "Asana",
+      "tier": "silver",
+      "website": "https://asana.com",
+      "description": "Asana is a work management platform that helps teams plan, organise and track their work in one place, from daily tasks to company-wide goals. With AI teammates and integrations with Google Workspace and hundreds of other tools, Asana gives developers and builders a clear view of who is doing what, by when, so teams can move faster with less coordination overhead."
+    },
+    {
+      "id": "core-x",
+      "name": "Core-X",
+      "tier": "community",
+      "website": "https://core-x.ai",
+      "description": null
+    },
+    {
+      "id": "vivanti",
+      "name": "Vivanti",
+      "tier": "platinum",
+      "website": "https://www.vivanti.com",
+      "description": "Vivanti is a technology consultancy helping organisations turn data and technology into meaningful business outcomes. With 20+ years of experience across data, analytics, cloud, AI, architecture, integration and digital transformation, we bring together experienced people and practical expertise to solve complex challenges."
+    }
+  ]
+}

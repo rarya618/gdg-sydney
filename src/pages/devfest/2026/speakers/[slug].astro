@@ -1,0 +1,232 @@
+---
+import { Image, getImage } from 'astro:assets';
+import SiteLayout from '../../../../layouts/SiteLayout.astro';
+import {
+  EVENT,
+  TRACKS,
+  FORMAT_LABELS,
+  ROOM_LABELS,
+  speakers,
+  sessionForSpeaker,
+  formatTime,
+  speakerPhoto,
+  initials,
+  type Speaker,
+} from '../../../../lib/devfest2026';
+
+export function getStaticPaths() {
+  return speakers.map((speaker) => ({ params: { slug: speaker.slug }, props: { speaker } }));
+}
+
+const { speaker } = Astro.props as { speaker: Speaker };
+const photo = speakerPhoto(speaker.slug);
+// Social cards don't reliably render WebP; PNG keeps the cut-out transparency.
+const ogImage = photo ? await getImage({ src: photo, width: 600, height: 600, format: 'png' }) : undefined;
+// A co-speaker isn't listed on the schedule slot, so fall back to their lead's.
+const session = sessionForSpeaker(speaker.slug) ?? speaker.sessionPartners.map((p) => sessionForSpeaker(p.slug)).find(Boolean);
+const track = TRACKS[speaker.track];
+
+const paragraphs = (text: string) => text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+
+const links = [
+  { label: 'LinkedIn', url: speaker.linkedinUrl },
+  { label: 'GitHub', url: speaker.githubUrl },
+  { label: 'Website', url: speaker.websiteUrl },
+].filter((link) => link.url);
+
+const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitle}".`;
+---
+
+<SiteLayout
+  title={`${speaker.name} | DevFest Sydney 2026`}
+  ogTitle={`${speaker.name} at DevFest Sydney 2026`}
+  description={description}
+  ogImage={ogImage?.src}
+  ogImageAlt={photo ? `Photo of ${speaker.name}` : undefined}
+  current="devfest"
+>
+  <article class="speaker-page" style={`--track-color: ${track.color}`}>
+    <div class="container">
+      <a href="/devfest/2026#speakers" class="back-link">← All DevFest 2026 speakers</a>
+
+      <header class="speaker-head">
+        {photo ? (
+          <Image src={photo} alt={`Photo of ${speaker.name}`} width={360} height={360} class="speaker-photo" loading="eager" />
+        ) : (
+          <span class="speaker-photo speaker-initials" aria-hidden="true">{initials(speaker.name)}</span>
+        )}
+        <div>
+          <span class="track-tag">{track.label} &nbsp;/&nbsp; {FORMAT_LABELS[speaker.format]}</span>
+          <h1 class="speaker-name">{speaker.name}</h1>
+          {speaker.tagline && <p class="speaker-tagline">{speaker.tagline}</p>}
+          {links.length > 0 && (
+            <ul class="speaker-links" role="list">
+              {links.map((link) => (
+                <li>
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </header>
+
+      <div class="speaker-body">
+        <section class="talk" aria-labelledby="talk-title">
+          <p class="eyebrow">The talk</p>
+          <h2 class="talk-title" id="talk-title">{speaker.talkTitle}</h2>
+          {session && (
+            <p class="talk-when">
+              {EVENT.dateLabel}, {formatTime(session.startTime)} to {formatTime(session.endTime)}
+              &nbsp;/&nbsp; {ROOM_LABELS[session.room].name}
+            </p>
+          )}
+          {speaker.sessionPartners.length > 0 && (
+            <p class="talk-with">
+              With{' '}
+              {speaker.sessionPartners.map((partner, index) => (
+                <>
+                  {index > 0 && ', '}
+                  <a href={`/devfest/2026/speakers/${partner.slug}`}>{partner.name}</a>
+                </>
+              ))}
+            </p>
+          )}
+          <div class="prose">
+            {paragraphs(speaker.abstract).map((p) => <p>{p}</p>)}
+          </div>
+        </section>
+
+        {speaker.bio && (
+          <section class="bio" aria-labelledby="bio-heading">
+            <p class="eyebrow" id="bio-heading">About {speaker.name.split(' ')[0]}</p>
+            <div class="prose">
+              {paragraphs(speaker.bio).map((p) => <p>{p}</p>)}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  </article>
+</SiteLayout>
+
+<style>
+  .speaker-page {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 4rem));
+    padding-bottom: clamp(4rem, 8vw, 6rem);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+  }
+  .back-link:hover { color: var(--dark); }
+
+  .speaker-head {
+    display: grid;
+    gap: 1.75rem;
+    align-items: center;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .speaker-head { grid-template-columns: 200px 1fr; gap: 2.5rem; }
+  }
+
+  .speaker-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    object-fit: cover;
+    background: #ebe9e3;
+    border-bottom: 4px solid var(--track-color);
+  }
+
+  .speaker-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--dark);
+  }
+
+  .speaker-name {
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    color: var(--dark);
+    margin: 0.75rem 0 0.6rem;
+  }
+
+  .speaker-tagline { font-size: 1.05rem; line-height: 1.55; color: var(--muted); }
+
+  .speaker-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .speaker-links a {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-decoration: none;
+    padding: 0.45em 1em;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 100px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .speaker-links a:hover { background: var(--white); border-color: var(--dark); }
+
+  .speaker-body {
+    display: grid;
+    gap: 3rem;
+    padding-top: 2.5rem;
+  }
+
+  @media (min-width: 960px) {
+    .speaker-body { grid-template-columns: 1.6fr 1fr; gap: 4.5rem; }
+  }
+
+  .talk-title {
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--dark);
+    margin: 0.6rem 0 0.75rem;
+  }
+
+  .talk-when {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .talk-with { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .talk-with a { color: var(--blue); font-weight: 600; text-decoration: none; }
+  .talk-with a:hover { text-decoration: underline; }
+
+  .prose { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  .prose p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #3d3d3d;
+    white-space: pre-line;
+    max-width: 68ch;
+  }
+
+  .bio .prose p { font-size: 0.925rem; color: var(--muted); }
+</style>
