@@ -1,5 +1,5 @@
 ---
-import { hasDarkLogo, logoSrc } from '../lib/logo';
+import { hasDarkLogo, logoSrc, logoWidth, logoHeight } from '../lib/logo';
 
 const year = new Date().getFullYear();
 ---
@@ -16,7 +16,7 @@ const year = new Date().getFullYear();
     <!-- Brand -->
     <div class="footer-brand">
       <div class="footer-logo">
-        <img src={logoSrc} alt="Google Developer Group Sydney" class:list={['logo-img-footer', { 'logo-chip': !hasDarkLogo }]} />
+        <img src={logoSrc} alt="Google Developer Group Sydney" width={logoWidth} height={logoHeight} class:list={['logo-img-footer', { 'logo-chip': !hasDarkLogo }]} />
       </div>
       <p class="footer-motto">Learn. Build. Connect.</p>
       <p class="footer-tagline">Part of the global Google Developer Groups network</p>

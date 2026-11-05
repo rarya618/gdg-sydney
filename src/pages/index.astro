@@ -14,13 +14,16 @@ import Partners from '../components/Partners';
   ogImage="/operaHouse.png"
   ogImageAlt="Sydney Opera House illustration"
 >
+  <!-- Events, team and partners load from Bevy; its images come from Cloudinary. -->
+  <link rel="preconnect" href="https://gdg.community.dev" slot="head" />
+  <link rel="preconnect" href="https://res.cloudinary.com" slot="head" />
 
   <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section class="hero" id="home" aria-labelledby="hero-heading" data-hero>
     <div class="hero-illustration" aria-hidden="true">
       <div class="hero-photos">
-        <img src="/hero-crowd.jpg" alt="" class="hero-photo hero-photo-back" />
-        <img src="/hero-talk.jpg" alt="" class="hero-photo hero-photo-front" />
+        <img src="/hero-crowd.jpg" alt="" width="1500" height="1000" fetchpriority="high" class="hero-photo hero-photo-back" />
+        <img src="/hero-talk.jpg" alt="" width="1500" height="1002" fetchpriority="high" class="hero-photo hero-photo-front" />
       </div>
     </div>
 
@@ -44,7 +47,7 @@ import Partners from '../components/Partners';
             Join the community
           </a>
           <a href="/speak" class="hero-speak-link">
-            Speak at a meetup →
+            Speak at a meetup <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -717,10 +720,12 @@ import Partners from '../components/Partners';
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
 
+  /* A fixed box (matching the width/height attributes) so tiles never shift as Bevy's
+     logos load; object-fit keeps each logo's own proportions inside it. */
   .partner-logo {
-    max-height: 96px;
-    max-width: 260px;
-    width: auto;
+    width: 200px;
+    height: 80px;
+    max-width: 100%;
     object-fit: contain;
     opacity: 0.85;
     transition: opacity 0.2s ease;

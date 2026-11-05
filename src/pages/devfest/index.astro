@@ -304,12 +304,6 @@ const strip = [
     object-fit: cover;
   }
 
-  .lineup-face:focus-visible,
-  .involved-row a:focus-visible,
-  .hero-link:focus-visible {
-    outline: 3px solid var(--blue);
-    outline-offset: 3px;
-  }
 
   /* ─── Lower sections: title left, content right ─────────────────────── */
   .split { display: grid; gap: 1.5rem; }
@@ -397,7 +391,6 @@ const strip = [
   }
   .faq-item[open] summary::after { transform: rotate(45deg); }
 
-  .faq-item summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 
   .faq-item p {
     padding-bottom: 1.5rem;

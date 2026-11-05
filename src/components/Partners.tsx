@@ -42,7 +42,7 @@ export default function Partners() {
               aria-label={partner.company}
               key={partner.company}
             >
-              <img src={partner.logo} alt={partner.company} className="partner-logo" loading="lazy" />
+              <img src={partner.logo} alt={partner.company} width={200} height={80} className="partner-logo" loading="lazy" />
             </a>
           ))}
         </div>

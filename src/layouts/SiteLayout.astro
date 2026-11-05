@@ -3,7 +3,7 @@
 // tokens. The site is dark only; change the palette here, not in individual pages.
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
-import { hasDarkLogo, logoSrc } from '../lib/logo';
+import { hasDarkLogo, logoSrc, logoWidth, logoHeight } from '../lib/logo';
 
 interface Props {
   title: string;
@@ -35,6 +35,9 @@ const isLargeImage = ogImage !== '/logo.png';
 <head>
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- The two Google Sans weights every page uses first. -->
+  <link rel="preload" href="/fonts/GoogleSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preload" href="/fonts/GoogleSans-Bold.ttf" as="font" type="font/ttf" crossorigin />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#1e1e1e" />
@@ -62,10 +65,18 @@ const isLargeImage = ogImage !== '/logo.png';
 </head>
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <header class="header">
     <div class="container header-inner">
       <a href="/" class="logo" aria-label="GDG Sydney home">
-        <img src={logoSrc} alt="Google Developer Group Sydney" class:list={['logo-img', { 'logo-chip': !hasDarkLogo }]} />
+        <img
+          src={logoSrc}
+          alt="Google Developer Group Sydney"
+          width={logoWidth}
+          height={logoHeight}
+          class:list={['logo-img', { 'logo-chip': !hasDarkLogo }]}
+        />
       </a>
       <nav class="header-nav" aria-label="Main navigation">
         <a href="/#events" class="nav-link">Events</a>
@@ -79,29 +90,77 @@ const isLargeImage = ogImage !== '/logo.png';
         >
           Join the community
         </a>
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Open menu"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path class="nav-toggle-open" d="M4 7h16M4 12h16M4 17h16" />
+            <path class="nav-toggle-close" d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
       </nav>
     </div>
+    <!-- Phones only: the page links, which don't fit in the header bar. -->
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Site pages" hidden>
+      <a href="/#events" class="mobile-nav-link">Events</a>
+      <a href="/speak" class="mobile-nav-link" aria-current={current === 'speak' ? 'page' : undefined}>Speak</a>
+      <a href="/devfest" class="mobile-nav-link" aria-current={current === 'devfest' ? 'page' : undefined}>DevFest</a>
+    </nav>
   </header>
   <script>
-    // The header stays see-through over the page hero and only fills in once the hero has
-    // almost scrolled away (its bottom reaches the header). Pages without a hero
-    // (marked data-hero) fill in as soon as you scroll.
     const header = document.querySelector<HTMLElement>('.header');
     const hero = document.querySelector<HTMLElement>('[data-hero]');
+
     if (header) {
-      const update = () => {
-        const overHero = hero
-          ? hero.getBoundingClientRect().bottom > header.offsetHeight
-          : window.scrollY < 8;
-        header.classList.toggle('is-at-top', overHero);
-      };
-      update();
-      window.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update, { passive: true });
+      // The header stays see-through over the page hero and only fills in once the hero has
+      // almost scrolled away (its bottom reaches the header). Watched with an
+      // IntersectionObserver, so nothing is measured on every scroll. Pages without a hero
+      // (marked data-hero) fill in as soon as you scroll.
+      if (hero && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          ([entry]) => header.classList.toggle('is-at-top', entry.isIntersecting),
+          { rootMargin: `-${header.offsetHeight}px 0px 0px 0px` }
+        );
+        observer.observe(hero);
+      } else {
+        const update = () => header.classList.toggle('is-at-top', window.scrollY < 8);
+        update();
+        window.addEventListener('scroll', update, { passive: true });
+      }
+
+      // Mobile menu.
+      const toggle = header.querySelector<HTMLButtonElement>('.nav-toggle');
+      const menu = header.querySelector<HTMLElement>('#mobile-nav');
+      if (toggle && menu) {
+        const setOpen = (open: boolean) => {
+          menu.hidden = !open;
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          header.classList.toggle('menu-open', open);
+        };
+        toggle.addEventListener('click', () => setOpen(menu.hidden));
+        menu.addEventListener('click', (event) => {
+          if ((event.target as HTMLElement).closest('a')) setOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !menu.hidden) {
+            setOpen(false);
+            toggle.focus();
+          }
+        });
+        // Rotating to a wide screen hides the toggle, so close the menu with it.
+        window.matchMedia('(min-width: 641px)').addEventListener('change', (event) => {
+          if (event.matches) setOpen(false);
+        });
+      }
     }
   </script>
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <slot />
   </main>
 
@@ -112,7 +171,34 @@ const isLargeImage = ogImage !== '/logo.png';
 
 <style is:global>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; color-scheme: dark; }
+  /* scroll-padding keeps anchor jumps and keyboard focus clear of the fixed header. */
+  html { scroll-behavior: smooth; color-scheme: dark; scroll-padding-top: calc(var(--header-h) + 1rem); }
+
+  /* Headings never leave a single word on their last line. */
+  h1, h2, h3 { text-wrap: balance; }
+
+  /* One visible focus ring for every link and control, site-wide. Inputs have their own
+     border-and-glow focus style. :where() keeps this at zero specificity. */
+  :where(a, button, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 3px solid var(--blue-text);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  main:focus { outline: none; }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -100px;
+    z-index: 200;
+    padding: 0.65rem 1.1rem;
+    border-radius: 8px;
+    background: var(--fg);
+    color: var(--on-accent);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .skip-link:focus { top: 1rem; }
 
   :root {
     --blue:   #4285F4;
@@ -157,7 +243,6 @@ const isLargeImage = ogImage !== '/logo.png';
     overflow-x: hidden;
   }
 
-  [id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
 
   .container {
     max-width: 1160px;
@@ -189,6 +274,53 @@ const isLargeImage = ogImage !== '/logo.png';
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+
+  /* An open mobile menu always gets the solid header, so its links stay readable. */
+  .header.menu-open {
+    background: var(--bg);
+    border-bottom-color: var(--border);
+  }
+
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .nav-toggle:hover { background: rgba(255, 255, 255, 0.06); }
+  .nav-toggle-close { display: none; }
+  .nav-toggle[aria-expanded='true'] .nav-toggle-open { display: none; }
+  .nav-toggle[aria-expanded='true'] .nav-toggle-close { display: block; }
+
+  .mobile-nav {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem clamp(1.25rem, 5vw, 3rem) 1rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-nav[hidden] { display: none; }
+
+  .mobile-nav-link {
+    padding: 0.85rem 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    border-top: 1px solid var(--border);
+  }
+  .mobile-nav-link:first-child { border-top: none; }
+  .mobile-nav-link:hover,
+  .mobile-nav-link[aria-current='page'] { color: var(--fg); }
 
   .header-inner {
     display: flex;
@@ -226,8 +358,10 @@ const isLargeImage = ogImage !== '/logo.png';
   }
 
   @media (max-width: 640px) {
+    .header-nav { gap: 0.6rem; }
     .header-nav .nav-link { display: none; }
-    .logo-img { height: 34px; }
+    .nav-toggle { display: inline-flex; }
+    .logo-img { height: 30px; }
     .header-nav .btn-sm { padding: 0.55em 1.1em; font-size: 0.8rem; }
   }
 

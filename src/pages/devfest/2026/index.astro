@@ -212,7 +212,6 @@ const wall = [
 </SiteLayout>
 
 <style>
-  :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 
   /* ─── Masthead ──────────────────────────────────────────────────────── */
   .masthead {
@@ -344,6 +343,8 @@ const wall = [
     /* A small inset so neighbouring slots never touch; heights stay proportional. */
     .timeline-slot { padding: 3px 0; min-height: 0; }
     .timeline-slot > :global(.slot) { height: 100%; }
+    /* On top of the page's scroll padding, clear the sticky room headings too. */
+    .timeline-slot :global(a) { scroll-margin-top: 4.5rem; }
   }
 
   /* ─── Speakers ──────────────────────────────────────────────────────── */
