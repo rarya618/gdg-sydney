@@ -425,18 +425,7 @@ const isLargeImage = ogImage !== '/logo.png';
   }
 
   .logo { display: flex; align-items: center; text-decoration: none; }
-  /* Big at the top of the page; shrinks once the header fills in on scroll. Scaled with
-     transform from the left edge, so nothing else in the header moves. */
-  .logo-img {
-    height: 60px;
-    width: auto;
-    display: block;
-    flex-shrink: 0;
-    transform-origin: left center;
-    transform: scale(0.75);
-    transition: transform 0.25s ease;
-  }
-  .header.is-at-top .logo-img { transform: none; }
+  .logo-img { height: 60px; width: auto; display: block; flex-shrink: 0; }
 
   /* Fallback until public/gdg-logo-dark.png exists: the light-background logo on a light
      chip, since the brand guide doesn't allow recolouring it. See src/lib/logo.ts. */
