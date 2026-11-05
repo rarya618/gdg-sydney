@@ -13,6 +13,7 @@ function formatEventDate(iso: string) {
 }
 
 function classifyEvent(event: BevyPastEvent): { label: string; accent: string } {
+  if (/devfest/i.test(event.title)) return { label: 'Conference', accent: 'red' };
   if (/meetup/i.test(event.title)) return { label: 'Meetup', accent: 'yellow' };
   if (/workshop/i.test(event.title)) return { label: 'Workshop', accent: 'green' };
   return { label: 'Talk', accent: 'blue' };

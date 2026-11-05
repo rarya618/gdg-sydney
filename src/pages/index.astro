@@ -457,6 +457,7 @@ import Partners from '../components/Partners';
   .event-card--blue .event-card-accent { background: var(--blue); }
   .event-card--green .event-card-accent { background: var(--green); }
   .event-card--yellow .event-card-accent { background: var(--yellow); }
+  .event-card--red .event-card-accent { background: var(--red); }
 
   .event-card-body {
     padding: 1.75rem;
@@ -498,6 +499,8 @@ import Partners from '../components/Partners';
   .event-card--green .event-tag::before { background: var(--green); }
   .event-card--yellow .event-tag { color: var(--yellow-text); }
   .event-card--yellow .event-tag::before { background: var(--yellow); }
+  .event-card--red .event-tag { color: var(--red-text); }
+  .event-card--red .event-tag::before { background: var(--red); }
 
   .event-meta {
     display: flex;
@@ -588,6 +591,16 @@ import Partners from '../components/Partners';
   }
   .event-card--yellow .event-rsvp:hover {
     box-shadow: 0 4px 18px rgba(249, 171, 0, 0.42);
+    transform: translateY(-1px);
+  }
+
+  .event-card--red .event-rsvp {
+    background: var(--red);
+    color: white;
+    box-shadow: 0 1px 6px rgba(234, 67, 53, 0.28);
+  }
+  .event-card--red .event-rsvp:hover {
+    box-shadow: 0 4px 18px rgba(234, 67, 53, 0.42);
     transform: translateY(-1px);
   }
 
@@ -713,6 +726,8 @@ import Partners from '../components/Partners';
   .past-tag--green::before { background: var(--green); }
   .past-tag--yellow { color: var(--yellow-text); }
   .past-tag--yellow::before { background: var(--yellow); }
+  .past-tag--red { color: var(--red-text); }
+  .past-tag--red::before { background: var(--red); }
 
   .past-title {
     font-size: 0.95rem;
@@ -726,6 +741,23 @@ import Partners from '../components/Partners';
     font-size: 0.68rem;
     color: var(--muted);
     white-space: nowrap;
+  }
+
+  /* Phones: the three columns squeezed the title into a narrow strip, so the tag and date
+     share the top line and the title gets the full width underneath. */
+  @media (max-width: 640px) {
+    .past-item {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'tag date'
+        'title title';
+      row-gap: 0.45rem;
+      align-items: baseline;
+      padding-block: 1rem;
+    }
+    .past-tag { grid-area: tag; }
+    .past-date { grid-area: date; }
+    .past-title { grid-area: title; font-size: 1rem; }
   }
 
   /* ─── Partners ─────────────────────────────────────────────────────── */
