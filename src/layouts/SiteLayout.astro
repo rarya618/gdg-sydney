@@ -109,6 +109,14 @@ const isLargeImage = ogImage !== '/logo.png';
       <a href="/#events" class="mobile-nav-link">Events</a>
       <a href="/speak" class="mobile-nav-link" aria-current={current === 'speak' ? 'page' : undefined}>Speak</a>
       <a href="/devfest" class="mobile-nav-link" aria-current={current === 'devfest' ? 'page' : undefined}>DevFest</a>
+      <a
+        href="https://gdg.community.dev/gdg-sydney/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-primary btn-lg mobile-nav-join"
+      >
+        Join the community
+      </a>
     </nav>
   </header>
   <script>
@@ -319,6 +327,11 @@ const isLargeImage = ogImage !== '/logo.png';
     border-top: 1px solid var(--border);
   }
   .mobile-nav-link:first-child { border-top: none; }
+
+  .mobile-nav-join {
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
   .mobile-nav-link:hover,
   .mobile-nav-link[aria-current='page'] { color: var(--fg); }
 
@@ -358,11 +371,11 @@ const isLargeImage = ogImage !== '/logo.png';
   }
 
   @media (max-width: 640px) {
-    .header-nav { gap: 0.6rem; }
-    .header-nav .nav-link { display: none; }
+    /* Phones: the page links and the join button live in the menu panel. */
+    .header-nav .nav-link,
+    .header-nav .btn { display: none; }
     .nav-toggle { display: inline-flex; }
-    .logo-img { height: 30px; }
-    .header-nav .btn-sm { padding: 0.55em 1.1em; font-size: 0.8rem; }
+    .logo-img { height: 34px; }
   }
 
   /* ─── Buttons ───────────────────────────────────────────────────────── */
