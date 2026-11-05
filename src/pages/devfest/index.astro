@@ -3,7 +3,10 @@ import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import RoomBar from '../../components/devfest/RoomBar.astro';
 import { EVENT, speakers, speakerPhoto, initials, TRACKS } from '../../lib/devfest2026';
-import heroPhoto from '../../assets/devfest/photos/hero.jpg';
+import heroPhoto from '../../assets/devfest/photos/crowd.jpg';
+import speakerPhotoImg from '../../assets/devfest/photos/speaker.jpg';
+import workshopPhoto from '../../assets/devfest/photos/workshop.jpg';
+import audiencePhoto from '../../assets/devfest/photos/audience.jpg';
 import { DEVFEST_FAQ, faqStructuredData } from '../../lib/devfestFaq';
 
 const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
@@ -12,6 +15,13 @@ const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 
 const lineup = [...speakers].sort((a, b) => Number(b.track === 'keynote') - Number(a.track === 'keynote'));
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
+
+// Photos are from a past DevFest Sydney, so they're captioned generally, not as 2026.
+const strip = [
+  { src: speakerPhotoImg, alt: 'A speaker presenting to a full room at DevFest Sydney' },
+  { src: workshopPhoto, alt: 'Attendees building on laptops in a DevFest Sydney workshop' },
+  { src: audiencePhoto, alt: 'The audience listening in the DevFest Sydney auditorium' },
+];
 ---
 
 <SiteLayout
@@ -26,32 +36,32 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
   <!-- ═════════════════════════════ HERO ═════════════════════════════════ -->
   <section class="hero" aria-labelledby="df-heading">
-    <div class="hero-panel">
-      <div class="hero-copy">
-        <h1 class="hero-title" id="df-heading">DevFest<br />Sydney</h1>
-        <p class="hero-lede">
-          GDG Sydney's annual conference for developers and builders, presented by Google.
-          One day, four rooms, all community-run.
-        </p>
-        <div class="hero-next">
-          <p>DevFest Sydney 2027 hasn't been announced yet.</p>
-          <div class="hero-actions">
-            <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-              Join to hear first
-            </a>
-            <a href="/devfest/2026" class="hero-link">See DevFest 2026</a>
-          </div>
+    <Image
+      src={heroPhoto}
+      alt="A packed auditorium at DevFest Sydney"
+      widths={[800, 1400, 2000]}
+      sizes="100vw"
+      class="hero-photo"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <h1 class="hero-title" id="df-heading">DevFest<br />Sydney</h1>
+      <p class="hero-lede">
+        GDG Sydney's annual conference for developers and builders, presented by Google.
+        One day, four rooms, all community-run.
+      </p>
+      <div class="hero-next">
+        <p>DevFest Sydney 2027 hasn't been announced yet.</p>
+        <div class="hero-actions">
+          <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+            Join to hear first
+          </a>
+          <a href="/devfest/2026" class="hero-link">See DevFest 2026</a>
         </div>
       </div>
     </div>
-    <Image
-      src={heroPhoto}
-      alt="A full room watching a talk at DevFest Sydney"
-      widths={[640, 1000, 1400]}
-      sizes="(min-width: 900px) 50vw, 100vw"
-      class="hero-photo"
-      loading="eager"
-    />
   </section>
 
   <section aria-label="The four DevFest rooms">
@@ -94,6 +104,12 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
         })}
       </ul>
     </div>
+  </section>
+
+  <section class="strip" aria-label="Photos from DevFest Sydney">
+    {strip.map((photo) => (
+      <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="(min-width: 700px) 33vw, 100vw" class="strip-photo" />
+    ))}
   </section>
 
   <!-- ═══════════════════════════ GET INVOLVED ══════════════════════════ -->
@@ -139,56 +155,66 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 </SiteLayout>
 
 <style>
-  /* ─── Hero: ink panel beside a full-height photo ────────────────────── */
+  /* ─── Hero: full-bleed photo, type over a scrim ───────────────────── */
   .hero {
-    display: grid;
-    background: var(--ink);
-    color: white;
-    padding-top: var(--header-h);
-  }
-
-  @media (min-width: 900px) {
-    .hero {
-      grid-template-columns: 1fr 1fr;
-      min-height: min(88svh, 820px);
-    }
-  }
-
-  .hero-panel {
+    position: relative;
     display: flex;
-    align-items: center;
-    padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+    align-items: flex-end;
+    min-height: min(92svh, 880px);
+    padding-top: var(--header-h);
+    color: white;
+    background: var(--ink);
+    overflow: hidden;
   }
 
-  /* Align the copy with the site's container edge on wide screens. */
-  @media (min-width: 1260px) {
-    .hero-panel { padding-left: calc((100vw - 1160px) / 2 + 3rem); }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
   }
 
-  .hero-copy { max-width: 34rem; }
+  /* Heavy on the left and bottom where the type sits, clear on the right so the crowd shows. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(20, 20, 20, 0.94) 0%, rgba(20, 20, 20, 0.78) 38%, rgba(20, 20, 20, 0.2) 72%, rgba(20, 20, 20, 0.05) 100%),
+      linear-gradient(0deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0) 45%);
+  }
+
+  .hero-content {
+    position: relative;
+    width: 100%;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
 
   .hero-title {
-    font-size: clamp(3.75rem, 10vw, 8.5rem);
+    font-size: clamp(4rem, 12.5vw, 11rem);
     font-weight: 700;
-    line-height: 0.88;
-    letter-spacing: -0.055em;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
     margin-bottom: 2rem;
   }
 
   .hero-lede {
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.78);
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
     max-width: 30em;
   }
 
   .hero-next {
-    margin-top: 2.5rem;
+    margin-top: 2.25rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    max-width: 34rem;
   }
 
-  .hero-next p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.78); margin-bottom: 1.25rem; }
+  .hero-next p { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.25rem; }
 
   .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
 
@@ -197,22 +223,33 @@ const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
     font-weight: 600;
     font-size: 0.95rem;
     text-decoration: underline;
-    text-decoration-color: rgba(255, 255, 255, 0.4);
+    text-decoration-color: rgba(255, 255, 255, 0.45);
     text-underline-offset: 4px;
   }
   .hero-link:hover { text-decoration-color: white; }
 
-  .hero-photo {
-    width: 100%;
-    height: 100%;
-    min-height: 280px;
-    max-height: 60svh;
-    object-fit: cover;
-    display: block;
+  /* On narrow screens the type covers most of the photo, so darken it evenly. */
+  @media (max-width: 700px) {
+    .hero-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 10%, rgba(20, 20, 20, 0.55) 100%); }
   }
 
-  @media (min-width: 900px) {
-    .hero-photo { max-height: none; }
+  /* ─── Photo strip ───────────────────────────────────────────────────── */
+  .strip {
+    display: grid;
+    gap: 4px;
+    background: var(--ink);
+  }
+
+  @media (min-width: 700px) {
+    .strip { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .strip-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
   }
 
   /* ─── 2026 recap ────────────────────────────────────────────────────── */

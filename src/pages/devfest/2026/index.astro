@@ -23,14 +23,28 @@ const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${enco
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
 const groups = speakersByTrack();
 
-const TIERS: { tier: Exclude<SponsorTier, 'diamond'>; label: string }[] = [
-  { tier: 'platinum', label: 'Platinum' },
-  { tier: 'gold', label: 'Gold' },
-  { tier: 'silver', label: 'Silver' },
-  { tier: 'community', label: 'Community' },
-];
-const tierRows = TIERS.flatMap((t) => sponsors.filter((s) => s.tier === t.tier).map((sponsor) => ({ ...sponsor, label: t.label })));
+// One sponsor wall, sized by tier: the headline partners and Gold/Silver share a row,
+// Platinum gets a full-width card, Community a small logo tile.
+const TIER_LAYOUT: Record<Exclude<SponsorTier, 'diamond'>, { label: string; size: 'full' | 'half' | 'small' }> = {
+  platinum: { label: 'Platinum', size: 'full' },
+  gold: { label: 'Gold', size: 'half' },
+  silver: { label: 'Silver', size: 'half' },
+  community: { label: 'Community', size: 'small' },
+};
 const google = sponsors.find((s) => s.tier === 'diamond');
+const wall = [
+  ...(google
+    ? [{ id: 'google', name: 'Google', website: google.website, role: 'Presented by', size: 'half' as const,
+        description: 'Google backed DevFest Sydney with an event grant and support across Gemini, Google Cloud and Firebase.' }]
+    : []),
+  { id: 'torrens', name: 'Torrens University Australia', website: 'https://www.torrens.edu.au', role: 'Venue partner', size: 'half' as const,
+    description: 'Torrens University hosted the day at its Surry Hills campus, minutes from Central Station.' },
+  ...(['platinum', 'gold', 'silver', 'community'] as const).flatMap((tier) =>
+    sponsors
+      .filter((s) => s.tier === tier)
+      .map((s) => ({ id: s.id, name: s.name, website: s.website, role: TIER_LAYOUT[tier].label, size: TIER_LAYOUT[tier].size, description: s.description }))
+  ),
+];
 
 ---
 
@@ -126,31 +140,22 @@ const google = sponsors.find((s) => s.tier === 'diamond');
     <div class="container">
       <h2 class="section-title" id="partners-heading">Partners</h2>
 
-      <div class="headline-partners">
-        {google && (
-          <a href={google.website} target="_blank" rel="noopener noreferrer" class="headline-partner">
-            <span class="partner-role">Presented by</span>
-            <Image src={partnerLogo('google')} alt="Google" class="headline-logo" height={64} />
-            <p>Google backed DevFest Sydney with an event grant and support across Gemini, Google Cloud and Firebase.</p>
-          </a>
-        )}
-        <a href="https://www.torrens.edu.au" target="_blank" rel="noopener noreferrer" class="headline-partner">
-          <span class="partner-role">Venue partner</span>
-          <Image src={partnerLogo('torrens')} alt="Torrens University Australia" class="headline-logo" height={64} />
-          <p>Torrens University hosted the day at its Surry Hills campus, minutes from Central Station.</p>
-        </a>
-      </div>
-
-      <ul class="tier-list" role="list">
-        {tierRows.map((sponsor) => (
-          <li class="tier-row">
-            <span class="tier-label">{sponsor.label}</span>
-            <a href={sponsor.website} target="_blank" rel="noopener noreferrer" class="tier-logo-link">
-              <Image src={partnerLogo(sponsor.id)} alt={sponsor.name} class:list={['tier-logo', { 'tier-logo--stacked': partnerLogo(sponsor.id).width / partnerLogo(sponsor.id).height < 2.5 }]} height={72} />
-            </a>
-            <p class="tier-text">{sponsor.description ?? ''}</p>
-          </li>
-        ))}
+      <ul class="wall" role="list">
+        {wall.map((partner) => {
+          const logo = partnerLogo(partner.id);
+          const stacked = logo.width / logo.height < 2.5;
+          return (
+            <li class:list={['wall-card', `wall-card--${partner.size}`]}>
+              <a href={partner.website} target="_blank" rel="noopener noreferrer" class="wall-link">
+                <span class="wall-role">{partner.role}</span>
+                <span class="wall-logo-box">
+                  <Image src={logo} alt={partner.name} class:list={['wall-logo', { 'wall-logo--stacked': stacked }]} height={96} />
+                </span>
+                {partner.description && partner.size !== 'small' && <p class="wall-text">{partner.description}</p>}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   </section>
@@ -364,78 +369,72 @@ const google = sponsors.find((s) => s.tier === 'diamond');
 
   .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
 
-  /* ─── Partners ──────────────────────────────────────────────────────── */
-  .headline-partners {
+  /* ─── Partners: one wall, card size follows tier ───────────────────── */
+  .wall {
+    list-style: none;
     display: grid;
-    background: var(--surface);
-    color: white;
-    border-radius: 16px;
-    overflow: hidden;
+    gap: 1rem;
   }
 
   @media (min-width: 800px) {
-    .headline-partners { grid-template-columns: 1fr 1fr; }
-    .headline-partner + .headline-partner { border-left: 1px solid rgba(255, 255, 255, 0.14); }
+    .wall { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .wall-card--full { grid-column: span 6; }
+    .wall-card--half { grid-column: span 3; }
+    .wall-card--small { grid-column: span 2; }
   }
 
-  .headline-partner {
+  .wall-card { min-width: 0; }
+
+  .wall-link {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    padding: clamp(1.75rem, 4vw, 2.75rem);
+    height: 100%;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
     color: inherit;
     text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
-  .headline-partner + .headline-partner { border-top: 1px solid rgba(255, 255, 255, 0.14); }
-  @media (min-width: 800px) { .headline-partner + .headline-partner { border-top: none; } }
+  .wall-link:hover { border-color: rgba(255, 255, 255, 0.28); background: var(--surface-2); }
 
-  .partner-role { font-size: 0.9rem; color: rgba(255, 255, 255, 0.65); }
+  .wall-role { font-size: 0.875rem; font-weight: 600; color: var(--muted); }
 
-  /* Logos are shown as white silhouettes, as on the old dark site; the source files mix
-     colour and white wordmarks, so flattening them is the only consistent option. */
-  .headline-logo {
-    height: 56px;
+  .wall-logo-box { display: flex; align-items: center; min-height: 64px; }
+
+  /* White silhouettes, as on the old dark site; the source files mix colour and white
+     wordmarks, so flattening them is the only consistent treatment. */
+  .wall-logo {
+    height: 48px;
     width: auto;
-    max-width: 220px;
+    max-width: min(100%, 240px);
     object-fit: contain;
     object-position: left center;
     filter: brightness(0) invert(1);
   }
+  .wall-logo--stacked { height: 64px; }
 
-  .headline-partner p { font-size: 0.95rem; line-height: 1.65; color: rgba(255, 255, 255, 0.75); max-width: 44ch; }
+  /* Wide wordmarks are capped by width so a lower tier never outweighs a higher one. */
+  .wall-card--half .wall-logo { max-width: 200px; }
+  .wall-card--full .wall-logo { height: 60px; max-width: 280px; }
+  .wall-card--small .wall-logo { height: 40px; max-width: 170px; }
+  .wall-card--small .wall-logo-box { min-height: 48px; }
 
-  .tier-list { list-style: none; margin-top: 2.5rem; border-top: 2px solid var(--fg); }
+  .wall-text { font-size: 0.925rem; line-height: 1.65; color: var(--text-soft); max-width: 62ch; }
 
-  .tier-row {
-    display: grid;
-    gap: 0.75rem 2.5rem;
-    padding-block: 1.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-    align-items: center;
-  }
-
+  /* Platinum: logo beside its description. */
   @media (min-width: 800px) {
-    .tier-row { grid-template-columns: 8rem 13rem 1fr; }
+    .wall-card--full .wall-link {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      grid-template-rows: auto 1fr;
+      column-gap: 3rem;
+      align-items: center;
+    }
+    .wall-card--full .wall-role { grid-column: 1 / -1; }
   }
-
-  .tier-label { font-size: 0.95rem; font-weight: 700; color: var(--fg); }
-
-  .tier-logo-link { display: block; width: fit-content; }
-
-  .tier-logo {
-    height: 44px;
-    width: auto;
-    max-width: 190px;
-    object-fit: contain;
-    object-position: left center;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
-  }
-
-  /* Stacked lockups read small at a wordmark's height. */
-  .tier-logo--stacked { height: 64px; }
-
-  .tier-text { font-size: 0.925rem; line-height: 1.65; color: var(--text-soft); max-width: 62ch; }
 
   /* ─── Venue ─────────────────────────────────────────────────────────── */
   .venue { display: grid; gap: 2.5rem; align-items: center; }

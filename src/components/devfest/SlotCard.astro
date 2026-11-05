@@ -57,13 +57,14 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
     gap: 0.3rem;
     padding: 1rem 1.1rem 1.1rem;
     border-radius: 10px;
-    /* A dark wash of the track colour: readable light text, track still obvious. */
-    background: color-mix(in srgb, var(--tint, var(--surface-2)) 22%, var(--bg));
+    /* Dark card with a solid track-colour bar: crisp on dark, track obvious at a glance. */
+    background: var(--surface);
+    border-top: 4px solid var(--tint, var(--surface-2));
     min-width: 0;
   }
 
   /* Main-stage moments: the brightest thing on the grid. */
-  .slot--plenary { background: var(--fg); color: var(--on-accent); }
+  .slot--plenary { background: var(--fg); color: var(--on-accent); border-top: none; }
 
   /* Breaks recede: no box, just a rule. */
   .slot--break {
