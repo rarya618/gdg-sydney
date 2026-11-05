@@ -83,11 +83,21 @@ const isLargeImage = ogImage !== '/logo.png';
     </div>
   </header>
   <script>
+    // The header stays see-through over the page hero and only fills in once the hero has
+    // almost scrolled away (its bottom reaches the header). Pages without a hero
+    // (marked data-hero) fill in as soon as you scroll.
     const header = document.querySelector<HTMLElement>('.header');
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
     if (header) {
-      const update = () => header.classList.toggle('is-at-top', window.scrollY < 8);
+      const update = () => {
+        const overHero = hero
+          ? hero.getBoundingClientRect().bottom > header.offsetHeight
+          : window.scrollY < 8;
+        header.classList.toggle('is-at-top', overHero);
+      };
       update();
       window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
     }
   </script>
 
@@ -171,8 +181,8 @@ const isLargeImage = ogImage !== '/logo.png';
     transition: background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
   }
 
-  /* At the very top the header is see-through; it gains its background once the page
-     scrolls. Set by the script below, so without JS the header simply stays solid. */
+  /* Over the page hero the header is see-through; it gains its background once the hero
+     has scrolled away. Set by the script below, so without JS the header stays solid. */
   .header.is-at-top {
     background: transparent;
     border-bottom-color: transparent;
