@@ -8,8 +8,8 @@ import heroPhoto from '../assets/speak/hero.jpg';
 <SiteLayout
   title="Speak at GDG Sydney | Google Developer Group"
   ogTitle="Speak at GDG Sydney"
-  description="Propose a talk for a GDG Sydney meetup: a 5 to 10 minute lightning talk or a 20 to 30 minute talk. First-time speakers are welcome, and we reply within a week."
-  ogDescription="Give a talk at a GDG Sydney meetup. Lightning talks or full talks, first-time speakers welcome, and we reply within a week."
+  description="Propose a talk or workshop for a GDG Sydney meetup: a 20 to 30 minute talk or a 60 to 90 minute hands-on workshop. First-time speakers are welcome, and we reply within a week."
+  ogDescription="Give a talk or run a workshop at a GDG Sydney meetup. First-time speakers welcome, and we reply within a week."
   current="speak"
 >
 
@@ -76,7 +76,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
               </li>
               <li class="info-item">
                 <span class="info-dot" style="background: var(--yellow)"></span>
-                First-time speakers and short talks are welcome
+                First-time speakers are welcome
               </li>
               <li class="info-item">
                 <span class="info-dot" style="background: var(--red)"></span>
@@ -89,14 +89,14 @@ import heroPhoto from '../assets/speak/hero.jpg';
             <p class="info-label">Talk formats</p>
             <div class="format-cards">
               <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--blue-text)">Lightning</span>
-                <p class="format-duration">5 to 10 min</p>
-                <p class="format-desc">A focused demo, quick tip, or intro to a tool.</p>
-              </div>
-              <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--green-text)">Standard</span>
+                <span class="format-tag" style="--tag-color: var(--blue-text)">Standard</span>
                 <p class="format-duration">20 to 30 min</p>
                 <p class="format-desc">A full talk with time for audience questions.</p>
+              </div>
+              <div class="format-card">
+                <span class="format-tag" style="--tag-color: var(--yellow-text)">Workshop</span>
+                <p class="format-duration">60 to 90 min</p>
+                <p class="format-desc">A hands-on session where attendees build along with you.</p>
               </div>
             </div>
           </div>
@@ -185,17 +185,17 @@ import heroPhoto from '../assets/speak/hero.jpg';
               <legend class="field-label">Talk format <span class="required" aria-hidden="true">*</span></legend>
               <div class="radio-group" role="radiogroup">
                 <label class="radio-card">
-                  <input type="radio" name="format" value="lightning" required />
-                  <span class="radio-inner">
-                    <span class="radio-name">Lightning talk</span>
-                    <span class="radio-sub">5 to 10 minutes</span>
-                  </span>
-                </label>
-                <label class="radio-card">
                   <input type="radio" name="format" value="standard" required />
                   <span class="radio-inner">
                     <span class="radio-name">Standard talk</span>
                     <span class="radio-sub">20 to 30 minutes</span>
+                  </span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="format" value="workshop" required />
+                  <span class="radio-inner">
+                    <span class="radio-name">Workshop</span>
+                    <span class="radio-sub">60 to 90 minutes</span>
                   </span>
                 </label>
               </div>
