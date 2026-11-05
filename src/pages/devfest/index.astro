@@ -291,7 +291,8 @@ const strip = [
     border-radius: 50%;
     overflow: hidden;
     background: var(--surface-2);
-    border: clamp(2px, 0.4vw, 3px) solid var(--track-color);
+    /* A thin, half-strength ring: the track still shows, the face leads. */
+    border: 1.5px solid color-mix(in srgb, var(--track-color) 55%, transparent);
     font-weight: 700;
     color: var(--fg);
     text-decoration: none;
