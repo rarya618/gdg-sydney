@@ -21,8 +21,26 @@ function classifyEvent(event: BevyPastEvent): { label: string; accent: string } 
 
 // The 5 most recent first; each "See more" loads the next 5 by following Bevy's
 // links.next, until there are none left.
+const PAGE_SIZE = 5;
 const FIRST_PAGE =
-  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=5&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url&page=1';
+  `https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=${PAGE_SIZE}&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url&page=1`;
+
+// Varied title widths so the placeholder rows look like a real list, not a barcode.
+const SKELETON_TITLE_WIDTHS = ['62%', '48%', '71%', '55%', '40%'];
+
+function SkeletonRows() {
+  return (
+    <>
+      {SKELETON_TITLE_WIDTHS.slice(0, PAGE_SIZE).map(width => (
+        <div className="past-item past-item--skeleton" aria-hidden="true" key={width}>
+          <span className="skeleton skeleton-tag" />
+          <span className="skeleton skeleton-title" style={{ width }} />
+          <span className="skeleton skeleton-date" />
+        </div>
+      ))}
+    </>
+  );
+}
 
 interface BevyPage {
   results?: BevyPastEvent[];
@@ -31,6 +49,7 @@ interface BevyPage {
 
 export default function PastEvents() {
   const [pastEvents, setPastEvents] = useState<BevyPastEvent[]>([]);
+  const [initialLoaded, setInitialLoaded] = useState(false);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadMoreFailed, setLoadMoreFailed] = useState(false);
@@ -46,6 +65,9 @@ export default function PastEvents() {
       })
       .catch(() => {
         if (!cancelled) setPastEvents([]);
+      })
+      .finally(() => {
+        if (!cancelled) setInitialLoaded(true);
       });
     return () => {
       cancelled = true;
@@ -75,7 +97,7 @@ export default function PastEvents() {
     <section className="section section-past" id="past-events" aria-labelledby="past-heading">
       <div className="container">
         <h2 className="section-title" id="past-heading">Past events</h2>
-        <div className="past-list">
+        <div className="past-list" aria-busy={!initialLoaded || loadingMore}>
           {pastEvents.map(event => {
             const { label, accent } = classifyEvent(event);
             return (
@@ -86,17 +108,19 @@ export default function PastEvents() {
               </a>
             );
           })}
+          {(!initialLoaded || loadingMore) && <SkeletonRows />}
         </div>
-        {nextPage && (
+        {(!initialLoaded || loadingMore) && (
+          <p className="sr-only" role="status">Loading past events…</p>
+        )}
+        {nextPage && !loadingMore && (
           <div className="past-more">
             <button
               type="button"
               className="btn btn-ghost btn-lg"
               onClick={loadMore}
-              disabled={loadingMore}
-              aria-busy={loadingMore}
             >
-              {loadingMore ? 'Loading…' : 'See more'}
+              See more
             </button>
             {loadMoreFailed && (
               <p className="past-more-error" role="alert">

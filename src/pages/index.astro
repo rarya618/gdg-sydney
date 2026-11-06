@@ -777,8 +777,35 @@ import Partners from '../components/Partners';
     gap: 0.75rem 1.25rem;
     margin-top: 2rem;
   }
-  .past-more .btn:disabled { cursor: progress; opacity: 0.7; transform: none; }
   .past-more-error { font-size: 0.9rem; color: var(--red-text); }
+
+  /* Placeholder rows while Bevy loads: same grid and height as a real row, with a soft
+     shimmer. With reduced motion the global rule stops the shimmer and the bars sit still. */
+  .past-item--skeleton { pointer-events: none; }
+  .past-item--skeleton:hover { background: none; }
+
+  .skeleton {
+    display: block;
+    border-radius: 6px;
+    background: linear-gradient(
+      90deg,
+      var(--surface) 0%,
+      rgba(255, 255, 255, 0.09) 50%,
+      var(--surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  }
+  /* Heights match the real tag, title and date text, so rows don't jump when they arrive. */
+  .skeleton-tag   { width: 72px;  height: 0.78rem; }
+  /* The margin makes up the title's 1.4 line height. */
+  .skeleton-title { height: 1.15rem; margin-block: 0.23rem; max-width: 100%; }
+  .skeleton-date  { width: 150px; height: 0.8rem; }
+
+  @keyframes skeleton-shimmer {
+    from { background-position: 100% 0; }
+    to   { background-position: -100% 0; }
+  }
 
   /* Phones: the three columns squeezed the title into a narrow strip, so the tag and date
      share the top line and the title gets the full width underneath. */
@@ -795,6 +822,9 @@ import Partners from '../components/Partners';
     .past-tag { grid-area: tag; }
     .past-date { grid-area: date; }
     .past-title { grid-area: title; font-size: 1.05rem; }
+    .skeleton-tag   { grid-area: tag; }
+    .skeleton-date  { grid-area: date; width: 120px; }
+    .skeleton-title { grid-area: title; height: 1.05rem; margin-block: 0.21rem; }
   }
 
   /* ─── Partners ─────────────────────────────────────────────────────── */
