@@ -3,11 +3,16 @@ import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { EVENT, speakers, speakerPhoto, TRACKS } from '../../lib/devfest2026';
 // Hero photo is the original devfest.gdgsydney.com hero, kept for its resolution.
-// The strip is from DevFest 2026.
+// The carousel is from DevFest 2026.
 import heroPhoto from '../../assets/devfest/photos/hero.jpg';
-import workshopTalkPhoto from '../../assets/devfest/2026/photos/workshop-talk.jpg';
+import workshopRoomPhoto from '../../assets/devfest/2026/photos/workshop-room.jpg';
 import selfiePhoto from '../../assets/devfest/2026/photos/selfie.jpg';
+import speakerStagePhoto from '../../assets/devfest/2026/photos/speaker-stage.jpg';
+import chattingPhoto from '../../assets/devfest/2026/photos/chatting.jpg';
 import foyerGroupPhoto from '../../assets/devfest/2026/photos/foyer-group.jpg';
+import workshopTalkPhoto from '../../assets/devfest/2026/photos/workshop-talk.jpg';
+import foyerCrowdPhoto from '../../assets/devfest/2026/photos/foyer-crowd.jpg';
+import teamPhoto from '../../assets/devfest/2026/photos/team.jpg';
 import { DEVFEST_FAQ, faqStructuredData } from '../../lib/devfestFaq';
 
 const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
@@ -20,10 +25,15 @@ const lineup = [...speakers]
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
-const strip = [
-  { src: workshopTalkPhoto, alt: 'A speaker leading a session in a full workshop room at DevFest Sydney 2026' },
-  { src: selfiePhoto, alt: 'Volunteers taking a selfie at the end of DevFest Sydney 2026' },
-  { src: foyerGroupPhoto, alt: 'Four attendees posing together in the foyer at DevFest Sydney 2026' },
+const carousel = [
+  { src: workshopRoomPhoto, alt: 'A speaker presenting to a full workshop room' },
+  { src: selfiePhoto, alt: 'Volunteers taking a selfie at the end of the day' },
+  { src: speakerStagePhoto, alt: 'A speaker on the main stage' },
+  { src: chattingPhoto, alt: 'Attendees chatting over coffee between sessions' },
+  { src: foyerGroupPhoto, alt: 'Four attendees posing together in the foyer' },
+  { src: workshopTalkPhoto, alt: 'A speaker leading a session in a workshop room' },
+  { src: foyerCrowdPhoto, alt: 'Attendees moving through the foyer between talks' },
+  { src: teamPhoto, alt: 'The volunteers and organisers on stage' },
 ];
 ---
 
@@ -95,11 +105,48 @@ const strip = [
     </div>
   </section>
 
-  <section class="strip" aria-label="Photos from DevFest Sydney 2026">
-    {strip.map((photo) => (
-      <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="33vw" class="strip-photo" />
-    ))}
+  <!-- No autoplay: it scrolls by swipe, trackpad, arrow keys or the buttons. -->
+  <section class="carousel" aria-roledescription="carousel" aria-label="Photos from DevFest Sydney 2026" data-carousel>
+    <ul class="carousel-track" role="list" tabindex="0" aria-label="Photos, scroll sideways for more" data-carousel-track>
+      {carousel.map((photo, i) => (
+        <li class="carousel-slide" aria-roledescription="slide" aria-label={`${i + 1} of ${carousel.length}`}>
+          <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="(min-width: 700px) 38vw, 85vw" loading="lazy" />
+        </li>
+      ))}
+    </ul>
+    <button type="button" class="carousel-btn carousel-btn-prev" aria-label="Previous photos" data-carousel-prev disabled>
+      <svg viewBox="0 0 20 20" fill="currentColor" width="22" height="22" aria-hidden="true">
+        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 0 1-.02 1.06L8.832 10l3.938 3.71a.75.75 0 1 1-1.04 1.08l-4.5-4.25a.75.75 0 0 1 0-1.08l4.5-4.25a.75.75 0 0 1 1.06.02Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <button type="button" class="carousel-btn carousel-btn-next" aria-label="Next photos" data-carousel-next>
+      <svg viewBox="0 0 20 20" fill="currentColor" width="22" height="22" aria-hidden="true">
+        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 0 1 .02-1.06L11.168 10 7.23 6.29a.75.75 0 1 1 1.04-1.08l4.5 4.25a.75.75 0 0 1 0 1.08l-4.5 4.25a.75.75 0 0 1-1.06-.02Z" clip-rule="evenodd" />
+      </svg>
+    </button>
   </section>
+
+  <script>
+    // Buttons step one slide at a time and switch off at either end.
+    document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((carousel) => {
+      const track = carousel.querySelector<HTMLElement>('[data-carousel-track]')!;
+      const prev = carousel.querySelector<HTMLButtonElement>('[data-carousel-prev]')!;
+      const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]')!;
+      const step = () => (track.firstElementChild as HTMLElement).offsetWidth;
+      const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      const update = () => {
+        prev.disabled = track.scrollLeft <= 1;
+        next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+      };
+
+      prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior }));
+      next.addEventListener('click', () => track.scrollBy({ left: step(), behavior }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
+  </script>
 
   <!-- ═══════════════════════════ GET INVOLVED ══════════════════════════ -->
   <section class="section involved" aria-labelledby="involved-heading">
@@ -229,15 +276,34 @@ const strip = [
     .hero-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 10%, rgba(20, 20, 20, 0.55) 80%, rgba(20, 20, 20, 0.75) 100%); }
   }
 
-  /* ─── Photo strip ───────────────────────────────────────────────────── */
-  .strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+  /* ─── Photo carousel: full-bleed, the next photo peeks in ─────────── */
+  .carousel {
+    position: relative;
     background: var(--ink);
   }
 
-  .strip-photo {
+  .carousel-track {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-track:focus-visible { outline: 3px solid var(--blue-text); outline-offset: -3px; }
+
+  .carousel-slide {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: 700px) {
+    .carousel-slide { flex-basis: 38%; }
+  }
+
+  .carousel-slide img {
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
@@ -245,8 +311,31 @@ const strip = [
     display: block;
   }
 
-  @media (max-width: 699px) {
-    .strip-photo { aspect-ratio: 1; }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1f1f1f;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: opacity 0.2s ease, background 0.15s ease;
+  }
+  .carousel-btn:hover { background: white; }
+  .carousel-btn:focus-visible { outline: 3px solid var(--blue-text); outline-offset: 3px; }
+  .carousel-btn:disabled { opacity: 0; pointer-events: none; }
+  .carousel-btn-prev { left: clamp(0.75rem, 2vw, 1.5rem); }
+  .carousel-btn-next { right: clamp(0.75rem, 2vw, 1.5rem); }
+
+  /* Touch screens swipe; the buttons would only cover the photos. */
+  @media (hover: none) {
+    .carousel-btn { display: none; }
   }
 
   /* ─── 2026 recap ────────────────────────────────────────────────────── */
