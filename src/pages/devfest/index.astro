@@ -192,7 +192,7 @@ const carousel = [
       </div>
       <div class="faq-list">
         {DEVFEST_FAQ.map((item) => (
-          <details class="faq-item">
+          <details class="faq-item" data-faq>
             <summary>{item.question}</summary>
             <p set:html={item.answer} />
           </details>
@@ -200,6 +200,50 @@ const carousel = [
       </div>
     </div>
   </section>
+
+  <script>
+    // Animate each answer open and closed. The rows stay native <details>, so keyboard,
+    // screen readers and find-in-page all still work; this only adds the motion.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    document.querySelectorAll<HTMLDetailsElement>('[data-faq]').forEach((details) => {
+      const summary = details.querySelector('summary')!;
+      let animation: Animation | null = null;
+
+      const run = (from: number, to: number, onDone: () => void) => {
+        animation?.cancel();
+        details.style.overflow = 'hidden';
+        const current = details.animate({ height: [`${from}px`, `${to}px`] }, { duration: 260, easing: 'cubic-bezier(0.2, 0, 0, 1)' });
+        animation = current;
+        current.onfinish = () => {
+          onDone();
+          if (animation === current) animation = null;
+          details.style.overflow = '';
+        };
+      };
+
+      summary.addEventListener('click', (event) => {
+        if (reduceMotion.matches) return;
+        event.preventDefault();
+        const from = details.offsetHeight;
+        // Mid-animation, a click reverses it; otherwise it toggles.
+        const closing = animation ? details.dataset.state === 'opening' : details.open;
+
+        // Closing: shrink to the question, then close.
+        if (closing) {
+          details.dataset.state = 'closing';
+          run(from, summary.offsetHeight, () => { details.open = false; });
+          return;
+        }
+
+        // Opening: open first so the answer can be measured.
+        details.dataset.state = 'opening';
+        details.open = true;
+        const to = summary.offsetHeight + (details.querySelector('p')?.offsetHeight ?? 0);
+        run(from, to, () => {});
+      });
+    });
+  </script>
 </SiteLayout>
 
 <style>
@@ -478,7 +522,8 @@ const carousel = [
     flex-shrink: 0;
     transition: transform 0.2s ease;
   }
-  .faq-item[open] summary::after { transform: rotate(45deg); }
+  /* The icon turns back as soon as closing starts, not when the answer has gone. */
+  .faq-item[open]:not([data-state='closing']) summary::after { transform: rotate(45deg); }
 
 
   .faq-item p {
