@@ -770,6 +770,16 @@ import Partners from '../components/Partners';
     white-space: nowrap;
   }
 
+  .past-more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 2rem;
+  }
+  .past-more .btn:disabled { cursor: progress; opacity: 0.7; transform: none; }
+  .past-more-error { font-size: 0.9rem; color: var(--red-text); }
+
   /* Phones: the three columns squeezed the title into a narrow strip, so the tag and date
      share the top line and the title gets the full width underneath. */
   @media (max-width: 640px) {
