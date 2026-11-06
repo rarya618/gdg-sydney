@@ -457,7 +457,9 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
   .nav-link {
     font-size: 1rem;
     font-weight: 500;
-    color: var(--muted);
+    /* --text, not --muted: the links are the main way around the site, so they read at
+       near-heading contrast (11.4:1) and step up to --fg on hover or the current page. */
+    color: var(--text);
     text-decoration: none;
     transition: color 0.15s ease;
   }
