@@ -57,7 +57,15 @@ export default function UpcomingEvents() {
       <div className="container">
         <h2 className="section-title" id="events-heading">Upcoming events</h2>
         <div aria-live="polite">
-          {!loaded && <p className="events-status">Checking for upcoming meetups…</p>}
+          {!loaded && (
+            <div className="events-loader" role="status">
+              <span className="events-loader-dot events-loader-dot--blue" aria-hidden="true" />
+              <span className="events-loader-dot events-loader-dot--red" aria-hidden="true" />
+              <span className="events-loader-dot events-loader-dot--yellow" aria-hidden="true" />
+              <span className="events-loader-dot events-loader-dot--green" aria-hidden="true" />
+              <span className="sr-only">Checking for upcoming meetups…</span>
+            </div>
+          )}
           {loaded && events.length === 0 && (
             <div className="events-empty">
               <p className="events-empty-title">No meetups are scheduled right now.</p>

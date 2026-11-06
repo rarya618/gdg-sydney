@@ -390,8 +390,30 @@ import Partners from '../components/Partners';
     background: var(--bg);
   }
 
-  /* Shown while Bevy loads, and when nothing is scheduled. */
-  .events-status { font-size: 0.95rem; color: var(--muted); }
+  /* Shown while Bevy loads: the four brand dots pulse in turn. With reduced motion the
+     global rule stops the animation and they simply sit still. */
+  .events-loader {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding-block: 1.5rem;
+  }
+
+  .events-loader-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: events-loader-pulse 1.2s ease-in-out infinite;
+  }
+  .events-loader-dot--blue   { background: var(--blue); }
+  .events-loader-dot--red    { background: var(--red);    animation-delay: 0.15s; }
+  .events-loader-dot--yellow { background: var(--yellow); animation-delay: 0.3s; }
+  .events-loader-dot--green  { background: var(--green);  animation-delay: 0.45s; }
+
+  @keyframes events-loader-pulse {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+    30%           { transform: translateY(-6px); opacity: 1; }
+  }
 
   .events-empty {
     max-width: 640px;
