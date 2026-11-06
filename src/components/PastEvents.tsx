@@ -19,10 +19,10 @@ function classifyEvent(event: BevyPastEvent): { label: string; accent: string } 
   return { label: 'Talk', accent: 'blue' };
 }
 
-// The 4 most recent first; each "See more" loads the next 4 by following Bevy's
+// The 5 most recent first; each "See more" loads the next 5 by following Bevy's
 // links.next, until there are none left.
 const FIRST_PAGE =
-  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=4&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url&page=1';
+  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=5&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url&page=1';
 
 interface BevyPage {
   results?: BevyPastEvent[];
