@@ -511,6 +511,10 @@ const carousel = [
     color: var(--fg);
     cursor: pointer;
     list-style: none;
+    /* No text selection on quick clicks and no tap flash on phones. Keyboard focus keeps its ring. */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
   .faq-item summary::-webkit-details-marker { display: none; }
 
