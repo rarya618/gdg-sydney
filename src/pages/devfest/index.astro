@@ -175,8 +175,8 @@ const strip = [
     height: 100%;
     object-fit: cover;
     object-position: center 45%;
-    /* Darkened overall, as on the original site: the window light on the right is bright. */
-    filter: saturate(0.8) brightness(0.62);
+    /* Darkened so the type reads first (see --hero-photo-filter). */
+    filter: var(--hero-photo-filter);
   }
 
   /* Heavy on the left and bottom where the type sits, clear on the right so the crowd shows. */

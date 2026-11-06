@@ -400,7 +400,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
     border-bottom: 1px solid var(--border);
   }
 
-  /* Background photo, darkened like the DevFest hero so the type reads first. */
+  /* Background photo, darkened so the type reads first (see --hero-photo-filter). */
   .speak-masthead-photo {
     position: absolute;
     inset: 0;
@@ -408,7 +408,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
     height: 100%;
     object-fit: cover;
     object-position: center 30%;
-    filter: saturate(0.8) brightness(0.6);
+    filter: var(--hero-photo-filter);
   }
 
   /* Heavier at the top (behind the transparent header), the left and the bottom where

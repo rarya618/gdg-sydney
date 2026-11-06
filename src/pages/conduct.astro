@@ -247,9 +247,8 @@ import heroPhoto from '../assets/coc/hero.jpg';
   }
   .coc-masthead .container { position: relative; width: 100%; }
 
-  /* Background photo, darkened so the type reads first. This shot is bright and flat (white
-     ceiling and pillars), so plain dimming turned it grey: contrast comes first to keep
-     depth, colour is left in, and the crop sits low to show the people, not the ceiling. */
+  /* Background photo, darkened so the type reads first (see --hero-photo-filter). The crop
+     sits low to show the people rather than the white ceiling. */
   .coc-masthead-photo {
     position: absolute;
     inset: 0;
@@ -257,7 +256,7 @@ import heroPhoto from '../assets/coc/hero.jpg';
     height: 100%;
     object-fit: cover;
     object-position: center 65%;
-    filter: contrast(1.25) saturate(1.1) brightness(0.68);
+    filter: var(--hero-photo-filter);
   }
 
   .coc-masthead-scrim {

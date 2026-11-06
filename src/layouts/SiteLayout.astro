@@ -283,6 +283,9 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     --header-h: 92px;
     /* Every page hero uses this height, so they match across the site. */
     --hero-h: min(75svh, 740px);
+    /* Page hero photos sit behind white type. Contrast comes before the dimming and colour
+       is kept, so bright, flat event photos keep their depth instead of going grey. */
+    --hero-photo-filter: contrast(1.25) saturate(1.1) brightness(0.68);
     --radius-card: 16px;
   }
 
