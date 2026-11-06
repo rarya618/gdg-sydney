@@ -215,8 +215,8 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   }
 
   .talk-with { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
-  .talk-with a { color: var(--blue-text); font-weight: 700; text-decoration: none; }
-  .talk-with a:hover { text-decoration: underline; }
+  .talk-with a { color: var(--blue-text); font-weight: 700; text-decoration: none; transition: color 0.15s ease; }
+  .talk-with a:hover { color: var(--fg); }
 
   .prose { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
 

@@ -553,7 +553,8 @@ const wall = [
   }
 
   .speaker-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; color: var(--fg); }
-  .speaker-card:hover .speaker-name { text-decoration: underline; text-underline-offset: 3px; }
+  .speaker-name { transition: color 0.15s ease; }
+  .speaker-card:hover .speaker-name { color: var(--blue-text); }
 
   .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
 

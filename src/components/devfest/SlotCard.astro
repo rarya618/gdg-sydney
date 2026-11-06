@@ -97,7 +97,8 @@ const tint = slot.track ? TRACKS[slot.track].color : undefined;
     text-decoration: none;
     overflow-wrap: anywhere;
   }
-  a.slot-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a.slot-title { transition: color 0.15s ease; }
+  a.slot-title:hover { color: var(--blue-text); }
   .slot--plenary .slot-title { font-size: 1.15rem; color: var(--fg); }
   .slot--break .slot-title { font-weight: 500; color: var(--muted); font-size: 0.95rem; }
 
