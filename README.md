@@ -91,7 +91,7 @@ The endpoint only accepts requests from gdgsydney.com and localhost:4321. The fo
 See [BRANDING.md](./BRANDING.md) for the full brand guide: typefaces, colours, the tagline (**Learn. Build. Connect.**) and implementation notes. The essentials:
 
 - The site is **dark only**. Colours are CSS variables defined once in `src/layouts/SiteLayout.astro`. Change the palette there, not in individual pages.
-- Fonts are self-hosted Google Sans and Google Sans Mono in weights 400, 500 and 700 only.
+- Fonts are self-hosted Google Sans and Google Sans Code (open-licensed, variable WOFF2 from Google Fonts), used in weights 400, 500 and 700 only.
 - Header height (`--header-h`) and the shared hero height (`--hero-h`) are also set in the layout. The homepage hero is deliberately taller.
 - Page heroes are marked with `data-hero`; the header stays transparent over them and fills in as you scroll.
 - Copy is plain and friendly. Avoid em dashes and claims we can't back up.

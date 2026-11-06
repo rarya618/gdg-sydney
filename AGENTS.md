@@ -40,7 +40,7 @@ This is an [Astro 7](https://astro.build) project with React and Tailwind CSS 4.
 
 See [BRANDING.md](./BRANDING.md) for the full brand guide. Key points:
 
-- Typefaces: **Google Sans** (headings bold, body regular) and **Google Sans Mono / Roboto Mono** for code-style accents (`font-mono`)
+- Typefaces: **Google Sans** (headings bold, body regular) and **Google Sans Code** for code-style accents (`var(--mono)`); both self-hosted as WOFF2 in `public/fonts/`
 - Core colors: Blue `#4285F4`, Green `#34A853`, Yellow `#f9ab00`, Red `#EA4335` — available as Tailwind utilities (`text-google-blue`, `bg-google-red`, etc.)
 - The yellow is `#f9ab00` (Yellow 600), **not** `#FBBC05`
 - Name: **GDG Sydney** (not abbreviated on first use: Google Developer Group Sydney)

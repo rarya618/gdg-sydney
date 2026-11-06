@@ -40,8 +40,8 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <!-- The two Google Sans weights every page uses first. -->
-  <link rel="preload" href="/fonts/GoogleSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
-  <link rel="preload" href="/fonts/GoogleSans-Bold.ttf" as="font" type="font/ttf" crossorigin />
+  <!-- One variable file serves every Google Sans weight on the page. -->
+  <link rel="preload" href="/fonts/google-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#1e1e1e" />
@@ -277,8 +277,8 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     --green-text:  #81c995;
     --yellow-text: #fdd663;
 
-    --sans: 'Google Sans', 'Google Sans Text', system-ui, -apple-system, sans-serif;
-    --mono: 'Google Sans Mono', 'Roboto Mono', monospace;
+    --sans: 'Google Sans', system-ui, -apple-system, sans-serif;
+    --mono: 'Google Sans Code', 'Roboto Mono', monospace;
 
     --header-h: 92px;
     /* Every page hero uses this height, so they match across the site. */
