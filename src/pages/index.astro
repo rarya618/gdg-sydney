@@ -707,10 +707,11 @@ import Partners from '../components/Partners';
 
   .past-item {
     display: grid;
-    grid-template-columns: 90px 1fr auto;
+    /* Wide enough for the longest tag ("Conference") at its size. */
+    grid-template-columns: 112px 1fr auto;
     align-items: center;
-    gap: 1.25rem;
-    padding-block: 1.1rem;
+    gap: 1.5rem;
+    padding-block: 1.25rem;
     border-top: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
@@ -728,8 +729,9 @@ import Partners from '../components/Partners';
     background: var(--surface);
   }
 
+  /* Tag and date match the Upcoming events cards (.event-tag, .event-date). */
   .past-tag {
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -754,7 +756,8 @@ import Partners from '../components/Partners';
   .past-tag--red::before { background: var(--red); }
 
   .past-title {
-    font-size: 0.95rem;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
     font-weight: 700;
     color: var(--fg);
     line-height: 1.4;
@@ -762,7 +765,7 @@ import Partners from '../components/Partners';
 
   .past-date {
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.8rem;
     color: var(--muted);
     white-space: nowrap;
   }
@@ -781,7 +784,7 @@ import Partners from '../components/Partners';
     }
     .past-tag { grid-area: tag; }
     .past-date { grid-area: date; }
-    .past-title { grid-area: title; font-size: 1rem; }
+    .past-title { grid-area: title; font-size: 1.05rem; }
   }
 
   /* ─── Partners ─────────────────────────────────────────────────────── */
