@@ -761,15 +761,19 @@ import Partners from '../components/Partners';
   }
 
   /* ─── Partners ─────────────────────────────────────────────────────── */
+  /* Matches the Community and CTA sections on either side rather than the full
+     .section padding, since this is one short row. No border-top: the background
+     change from the Community section already marks the edge, and a border there
+     doubled up with the line under the last community link. */
   .section-partners {
-    border-top: 1px solid var(--border);
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
   }
 
+  /* Equal-width tiles that fill the row, so the grid stays even at any width. */
   .partners-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
-    align-items: center;
   }
 
   .partner-card {
@@ -780,7 +784,7 @@ import Partners from '../components/Partners';
     background: var(--fg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1.25rem 1.75rem;
+    padding: 1.25rem 1.5rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     height: 120px;
   }
@@ -791,18 +795,37 @@ import Partners from '../components/Partners';
   }
 
   /* A fixed box (matching the width/height attributes) so tiles never shift as Bevy's
-     logos load; object-fit keeps each logo's own proportions inside it. */
+     logos load; object-fit keeps each logo's own proportions inside it. Partners.tsx
+     adds vertical padding to wide logos so every logo covers a similar area. */
   .partner-logo {
+    --logo-height: 80px;
     width: 200px;
-    height: 80px;
+    height: var(--logo-height);
+    padding-block: calc(var(--logo-height) * var(--logo-inset, 0));
     max-width: 100%;
     object-fit: contain;
     opacity: 0.85;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, padding 0.2s ease;
   }
 
   .partner-card:hover .partner-logo {
     opacity: 1;
+  }
+
+  @media (max-width: 560px) {
+    .partners-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .partner-card {
+      height: 96px;
+      padding: 1rem;
+    }
+
+    .partner-logo {
+      --logo-height: 64px;
+    }
   }
 
   /* ─── Team ─────────────────────────────────────────────────────────── */
