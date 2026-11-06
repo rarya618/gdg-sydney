@@ -121,7 +121,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     </div>
   </header>
   <!-- Phones only: the page links, which don't fit in the header bar. Kept outside the
-       header so the header's blur (backdrop-filter) can never affect its fixed position. -->
+       header so it stays positioned against the viewport, not the header. -->
   <nav class="mobile-nav" id="mobile-nav" aria-label="Site pages">
     <a href="/#events" class="mobile-nav-link">Events</a>
     <a href="/speak" class="mobile-nav-link" aria-current={current === 'speak' ? 'page' : undefined}>Speak</a>
@@ -318,14 +318,12 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     inset-inline: 0;
     top: 0;
     height: var(--header-h);
-    background: rgba(30, 30, 30, 0.85);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: var(--bg);
     border-bottom: 1px solid var(--border);
     z-index: 100;
     display: flex;
     align-items: center;
-    transition: background-color 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
   }
 
   /* Over the top of the page hero the header is see-through; it gains its background once
@@ -334,11 +332,10 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
   .header.is-at-top {
     background: transparent;
     border-bottom-color: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 
-  /* An open mobile menu always gets the solid header, so the two read as one panel. */
+  /* An open mobile menu always gets the solid header (even over the hero), so the two
+     read as one panel. */
   .header.menu-open {
     background: var(--bg);
     border-bottom-color: var(--border);
