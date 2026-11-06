@@ -28,6 +28,9 @@ function classifyEvent(event: BevyEvent): { label: string; accent: string } {
   return { label: 'Talk', accent: 'blue' };
 }
 
+// Bevy usually has one or two upcoming events, so two placeholder cards while it loads.
+const SKELETON_CARDS = ['first', 'second'];
+
 export default function UpcomingEvents() {
   const [events, setEvents] = useState<BevyEvent[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -58,13 +61,27 @@ export default function UpcomingEvents() {
         <h2 className="section-title" id="events-heading">Upcoming events</h2>
         <div aria-live="polite">
           {!loaded && (
-            <div className="events-loader" role="status">
-              <span className="events-loader-dot events-loader-dot--blue" aria-hidden="true" />
-              <span className="events-loader-dot events-loader-dot--red" aria-hidden="true" />
-              <span className="events-loader-dot events-loader-dot--yellow" aria-hidden="true" />
-              <span className="events-loader-dot events-loader-dot--green" aria-hidden="true" />
-              <span className="sr-only">Checking for upcoming meetups…</span>
-            </div>
+            <>
+              <p className="sr-only" role="status">Checking for upcoming meetups…</p>
+              <div className="events-grid" aria-hidden="true">
+                {SKELETON_CARDS.map(key => (
+                  <div className="event-card event-card--skeleton" key={key}>
+                    <div className="event-card-accent" />
+                    <div className="event-card-body">
+                      <div className="event-card-top">
+                        <span className="skeleton skeleton-event-tag" />
+                        <span className="skeleton skeleton-event-date" />
+                      </div>
+                      <span className="skeleton skeleton-event-title" />
+                      <span className="skeleton skeleton-event-line" />
+                      <span className="skeleton skeleton-event-line" />
+                      <span className="skeleton skeleton-event-line skeleton-event-line--short" />
+                      <span className="skeleton skeleton-event-rsvp" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
           {loaded && events.length === 0 && (
             <div className="events-empty">
