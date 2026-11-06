@@ -64,7 +64,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
         <aside class="speak-info" aria-label="Why speak at GDG Sydney">
 
           <div class="info-block">
-            <p class="info-label">Why speak?</p>
+            <h2 class="info-label">Why speak?</h2>
             <ul class="info-list" role="list">
               <li class="info-item">
                 <span class="info-dot" style="background: var(--blue)"></span>
@@ -86,7 +86,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
           </div>
 
           <div class="info-block">
-            <p class="info-label">Talk formats</p>
+            <h2 class="info-label">Talk formats</h2>
             <div class="format-cards">
               <div class="format-card">
                 <span class="format-tag" style="--tag-color: var(--blue-text)">Standard</span>
@@ -102,7 +102,7 @@ import heroPhoto from '../assets/speak/hero.jpg';
           </div>
 
           <div class="info-block">
-            <p class="info-label">Questions?</p>
+            <h2 class="info-label">Questions?</h2>
             <a href="mailto:hello@gdgsydney.com" class="info-email">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15" aria-hidden="true">
                 <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" stroke-linecap="round" stroke-linejoin="round"/>
@@ -540,11 +540,11 @@ import heroPhoto from '../assets/speak/hero.jpg';
 
   .info-label {
     font-family: var(--sans);
-    font-size: 0.62rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--fg);
   }
 
   .info-list {
@@ -711,19 +711,23 @@ import heroPhoto from '../assets/speak/hero.jpg';
 
   .radio-group {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0.75rem;
     margin-top: 0.1rem;
+  }
+
+  @media (min-width: 420px) {
+    .radio-group { grid-template-columns: 1fr 1fr; }
   }
 
   .radio-card {
     display: flex;
     align-items: flex-start;
-    gap: 0.625rem;
+    gap: 0.75rem;
     background: var(--surface);
     border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    padding: 1.125rem 1.25rem;
     cursor: pointer;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
@@ -735,12 +739,12 @@ import heroPhoto from '../assets/speak/hero.jpg';
   .radio-card input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border: 1.5px solid var(--border);
     border-radius: 50%;
     flex-shrink: 0;
-    margin-top: 0.15rem;
+    margin-top: 0.2rem;
     transition: border-color 0.15s ease, background 0.15s ease;
     cursor: pointer;
     position: relative;
@@ -766,18 +770,18 @@ import heroPhoto from '../assets/speak/hero.jpg';
   .radio-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.25rem;
   }
 
   .radio-name {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--fg);
   }
 
   .radio-sub {
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     color: var(--muted);
   }
 
