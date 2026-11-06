@@ -8,6 +8,13 @@
       "**/node_modules/**"
     ],
     "cleanUrls": true,
-    "trailingSlash": false
+    "trailingSlash": false,
+    "redirects": [
+      {
+        "source": "/code-of-conduct",
+        "destination": "/conduct",
+        "type": 301
+      }
+    ]
   }
 }

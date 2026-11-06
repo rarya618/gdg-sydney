@@ -40,7 +40,7 @@ If a page looks unstyled after a large CSS change, restart the dev server. It oc
 |---|---|
 | `/` | Homepage: hero, upcoming and past events, about, team, partners |
 | `/speak` | Talk and workshop proposal form for meetups |
-| `/code-of-conduct` | Event Code of Conduct and anti-harassment policy |
+| `/conduct` | Event Code of Conduct and anti-harassment policy |
 | `/privacy` | Privacy policy: talk proposals, Google Analytics, other services |
 | `/devfest` | DevFest Sydney hub: what it is, 2026 recap, how to get involved, FAQ |
 | `/devfest/2026` | DevFest Sydney 2026 archive: rooms, schedule, speakers, partners, venue |

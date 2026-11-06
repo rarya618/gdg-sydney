@@ -42,7 +42,7 @@ export const DEVFEST_FAQ: { question: string; answer: string }[] = [
   },
   {
     question: 'Is there a Code of Conduct?',
-    answer: `Yes. DevFest Sydney follows the <a href="/code-of-conduct">GDG Sydney Code of Conduct</a> and is committed to a harassment-free experience for everyone, regardless of background or experience level.`,
+    answer: `Yes. DevFest Sydney follows the <a href="/conduct">GDG Sydney Code of Conduct</a> and is committed to a harassment-free experience for everyone, regardless of background or experience level.`,
   },
 ];
 
