@@ -390,10 +390,10 @@ import Partners from '../components/Partners';
     background: var(--bg);
   }
 
-  /* Shown while Bevy loads: the four brand dots pulse in turn. They grow and fade in place
-     rather than bouncing, so the row stays on one line, and they start where the event
-     cards or empty state will, directly under the heading. With reduced motion the global
-     rule stops the animation and they simply sit still. */
+  /* Shown while Bevy loads: the four brand dots rise in a wave. The loader starts where the
+     event cards or empty state will, directly under the heading, so nothing jumps when
+     they arrive. With reduced motion the global rule stops the animation and the dots sit
+     still in a line. */
   .events-loader {
     display: flex;
     gap: 8px;
@@ -413,8 +413,8 @@ import Partners from '../components/Partners';
   .events-loader-dot--green  { background: var(--green);  animation-delay: 0.45s; }
 
   @keyframes events-loader-pulse {
-    0%, 60%, 100% { transform: scale(0.75); opacity: 0.45; }
-    30%           { transform: scale(1); opacity: 1; }
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+    30%           { transform: translateY(-6px); opacity: 1; }
   }
 
   .events-empty {
