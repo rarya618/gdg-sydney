@@ -437,7 +437,8 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
   }
 
   .logo { display: flex; align-items: center; text-decoration: none; }
-  .logo-img { height: 60px; width: auto; display: block; flex-shrink: 0; }
+  /* gdg-logo-dark.png is trimmed to the artwork, so these heights are the logo itself. */
+  .logo-img { height: 33px; width: auto; display: block; flex-shrink: 0; }
 
   /* Fallback until public/gdg-logo-dark.png exists: the light-background logo on a light
      chip, since the brand guide doesn't allow recolouring it. See src/lib/logo.ts. */
@@ -474,7 +475,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     .header-nav .nav-link,
     .header-nav .btn { display: none; }
     .nav-toggle { display: inline-flex; }
-    .logo-img { height: 48px; }
+    .logo-img { height: 26px; }
   }
 
   /* ─── Buttons ───────────────────────────────────────────────────────── */
