@@ -38,7 +38,11 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- The GDG bracket logo: .ico for browser tabs, a padded white tile for iOS home screens. -->
+  <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+  <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <!-- The two Google Sans weights every page uses first. -->
   <!-- One variable file serves every Google Sans weight on the page. -->
   <link rel="preload" href="/fonts/google-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
