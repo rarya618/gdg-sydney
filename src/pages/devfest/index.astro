@@ -2,11 +2,12 @@
 import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { EVENT, speakers, speakerPhoto, TRACKS } from '../../lib/devfest2026';
-// Hero photo is the original devfest.gdgsydney.com hero; the strip is from the same shoots.
+// Hero photo is the original devfest.gdgsydney.com hero, kept for its resolution.
+// The strip is from DevFest 2026.
 import heroPhoto from '../../assets/devfest/photos/hero.jpg';
-import talkPhoto from '../../assets/devfest/photos/talk.jpg';
-import groupPhoto from '../../assets/devfest/photos/group.jpg';
-import auditoriumPhoto from '../../assets/devfest/photos/auditorium.jpg';
+import workshopTalkPhoto from '../../assets/devfest/2026/photos/workshop-talk.jpg';
+import selfiePhoto from '../../assets/devfest/2026/photos/selfie.jpg';
+import foyerGroupPhoto from '../../assets/devfest/2026/photos/foyer-group.jpg';
 import { DEVFEST_FAQ, faqStructuredData } from '../../lib/devfestFaq';
 
 const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
@@ -19,11 +20,10 @@ const lineup = [...speakers]
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
-// Photos are from a past DevFest Sydney, so they're captioned generally, not as 2026.
 const strip = [
-  { src: talkPhoto, alt: 'A speaker presenting on stage at DevFest Sydney' },
-  { src: groupPhoto, alt: 'The DevFest Sydney group photo in a packed auditorium' },
-  { src: auditoriumPhoto, alt: 'A speaker presenting to the audience in a tiered auditorium' },
+  { src: workshopTalkPhoto, alt: 'A speaker leading a session in a full workshop room at DevFest Sydney 2026' },
+  { src: selfiePhoto, alt: 'Volunteers taking a selfie at the end of DevFest Sydney 2026' },
+  { src: foyerGroupPhoto, alt: 'Four attendees posing together in the foyer at DevFest Sydney 2026' },
 ];
 ---
 
@@ -69,8 +69,8 @@ const strip = [
           2026 was<br />Build, Secure, Scale.
         </h2>
         <p>
-          {speakers.length} speakers across four rooms at {EVENT.venue}, on {EVENT.dateLabel.replace('Saturday, ', 'Saturday ')}.
-          The full schedule, every talk and the partners who made it possible are in the archive.
+          280+ people and {speakers.length} speakers across four rooms at {EVENT.venue}, on {EVENT.dateLabel.replace('Saturday, ', 'Saturday ')}.
+          That's double last year's crowd. The full schedule, every talk and the partners who made it possible are in the archive.
         </p>
         <a href="/devfest/2026" class="btn btn-dark btn-lg">Open the 2026 archive</a>
       </div>
@@ -95,7 +95,7 @@ const strip = [
     </div>
   </section>
 
-  <section class="strip" aria-label="Photos from DevFest Sydney">
+  <section class="strip" aria-label="Photos from DevFest Sydney 2026">
     {strip.map((photo) => (
       <Image src={photo.src} alt={photo.alt} widths={[480, 800, 1100]} sizes="33vw" class="strip-photo" />
     ))}

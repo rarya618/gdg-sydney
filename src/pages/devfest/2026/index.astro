@@ -8,6 +8,7 @@ import {
   ROOMS,
   TRACKS,
   sponsors,
+  speakers,
   speakersByTrack,
   schedule,
   spansAllRooms,
@@ -18,6 +19,11 @@ import {
   initials,
   type SponsorTier,
 } from '../../../lib/devfest2026';
+import teamPhoto from '../../../assets/devfest/2026/photos/team.jpg';
+import foyerPhoto from '../../../assets/devfest/2026/photos/foyer.jpg';
+import workshopPhoto from '../../../assets/devfest/2026/photos/workshop.jpg';
+import speakerPhotoOnStage from '../../../assets/devfest/2026/photos/speaker.jpg';
+import podcastPhoto from '../../../assets/devfest/2026/photos/podcast.jpg';
 
 // The schedule is a time grid: 5-minute rows, so a slot's height is its length.
 const STEP_MINUTES = 5;
@@ -37,6 +43,23 @@ const timeline = [...schedule]
     short: minutes(slot.endTime) - minutes(slot.startTime) < 20 && !spansAllRooms(slot),
   }));
 const timeLabels = [...new Set(schedule.map((slot) => slot.startTime))].map((iso) => ({ iso, row: gridRow(iso) }));
+
+// From the closing slides. Last year's DevFest sold 150 tickets.
+const recapStats = [
+  { value: '280+', label: 'attendees, double last year' },
+  { value: String(speakers.length), label: 'speakers' },
+  { value: '4', label: 'tracks' },
+  { value: '6', label: 'projects in the Builder Showcase' },
+];
+
+// The first photo leads the grid at double size.
+const recapPhotos = [
+  { src: teamPhoto, alt: 'The DevFest Sydney 2026 volunteers and organisers on stage' },
+  { src: foyerPhoto, alt: 'Attendees filling the foyer between sessions' },
+  { src: workshopPhoto, alt: 'A full workshop room, attendees working on laptops' },
+  { src: speakerPhotoOnStage, alt: 'A speaker on the main stage', position: 'center 15%' },
+  { src: podcastPhoto, alt: 'A speaker recording an interview in the podcast booth' },
+];
 
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(EVENT.address)}`;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
@@ -82,6 +105,7 @@ const wall = [
       <p class="page-facts">Saturday 10 October 2026, {EVENT.venue}</p>
       <p class="page-note">This event has finished. Thank you to everyone who spoke, sponsored, volunteered and came along.</p>
       <nav class="jump-nav" aria-label="On this page">
+        <a href="#recap">Recap</a>
         <a href="#schedule">Schedule</a>
         <a href="#speakers">Speakers</a>
         <a href="#partners">Partners</a>
@@ -89,6 +113,34 @@ const wall = [
       </nav>
     </div>
   </section>
+  <!-- ══════════════════════════════ RECAP ═══════════════════════════════ -->
+  <section class="section recap" id="recap" aria-labelledby="recap-heading">
+    <div class="container">
+      <h2 class="section-title" id="recap-heading">How the day went</h2>
+      <dl class="recap-stats">
+        {recapStats.map((stat) => (
+          <div class="recap-stat">
+            <dt>{stat.label}</dt>
+            <dd>{stat.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <ul class="recap-photos" role="list" aria-label="Photos from DevFest Sydney 2026">
+        {recapPhotos.map((photo, i) => (
+          <li class:list={['recap-photo', { 'recap-photo-lead': i === 0 }]}>
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              widths={i === 0 ? [700, 1100, 1440] : [400, 700]}
+              sizes={i === 0 ? '(min-width: 800px) 50vw, 100vw' : '(min-width: 800px) 25vw, 50vw'}
+              style={photo.position ? `object-position: ${photo.position}` : undefined}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <section class="rooms" aria-label="The four rooms and their tracks">
     <div class="container">
       <RoomBar />
@@ -283,7 +335,68 @@ const wall = [
   }
   .jump-nav a:hover { background: var(--fg); color: var(--on-accent); }
 
+  /* ─── Recap: numbers, then a photo grid led by the team photo ──────── */
+  .recap-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  @media (min-width: 800px) {
+    .recap-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  /* Number above its label, while the label stays first for screen readers. */
+  .recap-stat { display: flex; flex-direction: column-reverse; gap: 0.35rem; }
+
+  .recap-stat dd {
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    color: var(--fg);
+  }
+
+  .recap-stat dt {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--text-soft);
+  }
+
+  .recap-photos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 800px) {
+    .recap-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .recap-photo {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+
+  .recap-photo-lead { grid-column: span 2; }
+
+  @media (min-width: 800px) {
+    .recap-photo-lead { grid-row: span 2; aspect-ratio: auto; }
+  }
+
+  .recap-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   /* ─── Rooms: within the page margins like everything else ──────────── */
+  .recap + .rooms { border-top: 1px solid var(--border); }
   .rooms { padding-top: clamp(2.5rem, 5vw, 3.5rem); }
 
   /* ─── Schedule: a time grid ───────────────────────────────────────────
