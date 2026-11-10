@@ -1,0 +1,317 @@
+---
+// Starter guides: official tutorials picked by GDG Sydney, for trying something new at your
+// own pace. First made for the Builder's Space at DevFest 2026 (where /guides was the short
+// link printed in the room), and kept here year-round. The cards and search are the
+// StarterGuidesBrowser island; its styles are the sg-* rules below.
+import { Image } from 'astro:assets';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import StarterGuidesBrowser from '../components/StarterGuidesBrowser';
+import {
+  STARTER_GUIDES,
+  STARTER_GUIDES_LAST_CHECKED,
+  formatStarterGuidesCheckedDate,
+} from '../data/starterGuides';
+// A full workshop room at DevFest Sydney 2026, attendees on laptops.
+import heroPhoto from '../assets/devfest/2026/photos/workshop.jpg';
+---
+
+<SiteLayout
+  title="Starter Guides | GDG Sydney"
+  ogTitle="Starter Guides from GDG Sydney"
+  description={`${STARTER_GUIDES.length} short, self-paced guides for trying something new with Gemini, Firebase, Flutter, Google Cloud and more, picked by GDG Sydney. Most need nothing installed.`}
+>
+  <section class="guides-masthead" aria-labelledby="guides-heading" data-hero>
+    <Image
+      src={heroPhoto}
+      alt=""
+      widths={[800, 1400, 2000]}
+      sizes="100vw"
+      class="guides-masthead-photo"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="guides-masthead-scrim" aria-hidden="true"></div>
+    <div class="container">
+      <h1 class="guides-heading" id="guides-heading">Starter Guides</h1>
+      <p class="guides-lede">
+        Handpicked guides for trying something new. Pick one, open your laptop and work through
+        it at your own pace.
+      </p>
+      <p class="guides-checked">All links checked {formatStarterGuidesCheckedDate(STARTER_GUIDES_LAST_CHECKED)}</p>
+    </div>
+  </section>
+
+  <section class="section guides-body" aria-label="Starter guides">
+    <div class="container">
+      <StarterGuidesBrowser client:load />
+      <p class="guides-footnote">
+        These link to each vendor's own guide, so they stay current. Spotted a broken link, or
+        know a guide that belongs here? Email <a href="mailto:hello@gdgsydney.com">hello@gdgsydney.com</a>.
+      </p>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  /* ─── Masthead ──────────────────────────────────────────────────────── */
+  .guides-masthead {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    color: white;
+    min-height: min(56svh, 560px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: calc(var(--header-h) + 1.5rem);
+    padding-bottom: 2.5rem;
+  }
+  .guides-masthead .container { position: relative; width: 100%; }
+
+  .guides-masthead-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    filter: var(--hero-photo-filter);
+  }
+
+  .guides-masthead-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(20, 20, 20, 0.7) 0, rgba(20, 20, 20, 0) 180px),
+      linear-gradient(90deg, rgba(20, 20, 20, 0.94) 0%, rgba(20, 20, 20, 0.75) 45%, rgba(20, 20, 20, 0.25) 80%),
+      linear-gradient(0deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0) 55%);
+  }
+  @media (max-width: 700px) {
+    .guides-masthead-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 15%, rgba(20, 20, 20, 0.65) 80%, rgba(20, 20, 20, 0.75) 100%); }
+  }
+
+  .guides-heading {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    margin-bottom: 1.25rem;
+  }
+
+  .guides-lede {
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    line-height: 1.5;
+    max-width: 34em;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .guides-checked {
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .guides-body { border-top: none; }
+
+  .guides-footnote {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+  .guides-footnote a { color: var(--blue-text); }
+
+  /* ─── The browser island (StarterGuidesBrowser.tsx) ─────────────────── */
+  :global(.sg-browser) { scroll-margin-top: calc(var(--header-h) + 1.5rem); }
+  @media (min-width: 1024px) {
+    :global(.sg-browser) { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 3rem; }
+  }
+
+  :global(.sg-sidebar) { margin-bottom: 2.5rem; }
+  @media (min-width: 1024px) {
+    :global(.sg-sidebar) { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; margin-bottom: 0; }
+  }
+
+  :global(.sg-search) { position: relative; }
+  :global(.sg-search-icon) {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+  }
+  :global(.sg-search-input) {
+    width: 100%;
+    height: 48px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: transparent;
+    padding: 0 1.25rem 0 3rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--fg);
+  }
+  :global(.sg-search-input::placeholder) { color: rgba(255, 255, 255, 0.5); }
+  :global(.sg-search-input:focus) { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.4); }
+
+  :global(.sg-groups) { margin-top: 1.5rem; }
+  :global(.sg-groups-label) { margin-bottom: 0.75rem; font-family: var(--mono); font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
+  :global(.sg-group-list) { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  @media (min-width: 1024px) {
+    :global(.sg-group-list) { flex-direction: column; gap: 0.25rem; }
+  }
+
+  :global(.sg-group) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    font: inherit;
+    font-size: 0.875rem;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  @media (min-width: 1024px) {
+    :global(.sg-group) { border-radius: 8px; border-color: transparent; padding: 0.5rem 0.75rem; }
+  }
+  :global(.sg-group:hover) { background: rgba(255, 255, 255, 0.05); color: var(--fg); }
+  :global(.sg-group:focus-visible) { outline: 2px solid var(--blue); outline-offset: 2px; }
+  :global(.sg-group--selected) { border-color: rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.1); font-weight: 700; color: var(--fg); }
+  @media (min-width: 1024px) {
+    :global(.sg-group--selected) { border-color: transparent; }
+  }
+
+  :global(.sg-group-dot) { width: 8px; height: 8px; flex: none; border-radius: 50%; }
+  :global(.sg-group-dot--all) { border: 1px solid rgba(255, 255, 255, 0.55); }
+  :global(.sg-group-name) { flex: 1; }
+  :global(.sg-group-count) { font-family: var(--mono); font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
+
+  :global(.sg-result-summary) { margin-top: 1.5rem; font-family: var(--mono); font-size: 0.85rem; color: rgba(255, 255, 255, 0.55); }
+
+  :global(.sg-sections) { display: flex; flex-direction: column; gap: 4rem; }
+  :global(.sg-group-heading) { margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
+
+  :global(.sg-grid) { list-style: none; display: grid; gap: 1.5rem; }
+  @media (min-width: 640px) {
+    :global(.sg-grid) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  :global(.sg-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 2.25rem 1.5rem 1.5rem;
+    border-radius: 10px;
+    border-top: 4px solid var(--group-color);
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  :global(.sg-card:hover) { background: color-mix(in srgb, var(--surface) 88%, white); }
+  :global(.sg-card:focus-visible) { outline: 2px solid var(--blue); outline-offset: 2px; }
+  :global(.sg-card-logo) { height: 32px; width: auto; align-self: flex-start; object-fit: contain; margin-bottom: 0.75rem; }
+  :global(.sg-card-title) { font-size: 1.25rem; font-weight: 700; color: var(--fg); }
+  :global(.sg-card-summary) { flex: 1; font-size: 1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.75); }
+
+  :global(.sg-tags) { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  :global(.sg-tag) {
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  :global(.sg-tag--warning) { color: var(--yellow); border-color: color-mix(in srgb, var(--yellow) 60%, transparent); }
+
+  :global(.sg-card-cta) { margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.875rem; font-weight: 700; color: var(--fg); }
+  :global(.sg-arrow) { flex: none; transition: transform 0.15s ease; }
+  :global(.sg-card:hover .sg-arrow),
+  :global(.sg-step:hover .sg-arrow) { transform: translate(2px, -2px); }
+
+  :global(.sg-beginner) {
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.025);
+  }
+  :global(.sg-beginner-title) { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
+  :global(.sg-beginner-text) { margin-top: 0.5rem; font-size: 1rem; line-height: 1.6; color: rgba(255, 255, 255, 0.7); }
+  :global(.sg-steps) { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  :global(.sg-step) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--group-color);
+    background: var(--surface);
+    color: var(--fg);
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  :global(.sg-step:hover) { background: color-mix(in srgb, var(--surface) 88%, white); }
+  :global(.sg-step:focus-visible) { outline: 2px solid var(--blue); outline-offset: 2px; }
+  :global(.sg-step-number) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+  :global(.sg-step-text) { flex: 1; }
+  :global(.sg-step-title) { display: block; font-weight: 700; }
+  :global(.sg-step-why) { display: block; font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); }
+  :global(.sg-step-time) { display: none; font-family: var(--mono); font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
+  @media (min-width: 640px) {
+    :global(.sg-step-time) { display: inline; }
+  }
+
+  :global(.sg-empty) {
+    padding: 3rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.025);
+    text-align: center;
+  }
+  :global(.sg-empty-title) { margin-bottom: 0.75rem; font-size: 1.1rem; font-weight: 700; color: rgba(255, 255, 255, 0.7); }
+  :global(.sg-empty-text) { font-size: 0.875rem; line-height: 1.6; color: rgba(255, 255, 255, 0.55); }
+  :global(.sg-empty-button) {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  :global(.sg-empty-button:hover) { color: var(--fg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.sg-card),
+    :global(.sg-step),
+    :global(.sg-group),
+    :global(.sg-arrow) { transition: none; }
+  }
+</style>

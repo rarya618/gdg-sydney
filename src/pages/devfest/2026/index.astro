@@ -78,6 +78,7 @@ const pageSections = [
   { id: 'schedule', label: 'Schedule' },
   { id: 'speakers', label: 'Speakers' },
   { id: 'showcase', label: 'Showcase', fullLabel: 'Builder Showcase' },
+  { id: 'builders-space', label: 'Build space', fullLabel: "Builder's Space" },
   { id: 'partners', label: 'Partners' },
   { id: 'crew', label: 'Crew', fullLabel: 'Organisers and volunteers' },
   { id: 'venue', label: 'Venue' },
@@ -273,6 +274,29 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ BUILDER'S SPACE ═══════════════════════════ -->
+  <section class="section" id="builders-space" aria-labelledby="builders-space-heading">
+    <div class="container builders-space">
+      <div>
+        <h2 class="section-title" id="builders-space-heading">Builder's Space</h2>
+        <p class="section-intro">
+          A room set aside for building, open all day. People brought their own projects, teamed
+          up with someone they'd met in the coffee queue, got their demos working before the
+          Builder Showcase, or opened a starter guide to try something new straight after a talk.
+        </p>
+      </div>
+      <a href="/guides" class="builders-space-card">
+        <span class="builders-space-card-label">Still open to everyone</span>
+        <span class="builders-space-card-title">Starter Guides</span>
+        <span class="builders-space-card-text">
+          The guides from the room, kept up to date: short, self-paced tutorials for Gemini,
+          Firebase, Flutter, Google Cloud and more.
+        </span>
+        <span class="builders-space-card-cta">Browse the guides →</span>
+      </a>
     </div>
   </section>
 
@@ -742,6 +766,31 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   }
   .showcase-link::after { content: ' ↗'; }
   .showcase-link:hover { text-decoration: underline; }
+
+  /* ─── Builder's Space ───────────────────────────────────────────────── */
+  .builders-space { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 900px) {
+    .builders-space { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 4rem; }
+  }
+  .builders-space .section-intro { margin-bottom: 0; }
+
+  .builders-space-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--green);
+    border-radius: 16px;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .builders-space-card:hover { background: var(--surface); }
+  .builders-space-card-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green-text); }
+  .builders-space-card-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
+  .builders-space-card-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-soft); }
+  .builders-space-card-cta { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--fg); }
 
   /* ─── Organisers and volunteers: the speaker cards, in a neutral grey ── */
   .crew { --track-color: var(--muted); }
