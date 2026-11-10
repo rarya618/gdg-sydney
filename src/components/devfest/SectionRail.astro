@@ -63,7 +63,6 @@ const { sections } = Astro.props;
     frame = 0;
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-    fill?.style.setProperty('transform', `scaleY(${progress})`);
     bar?.style.setProperty('transform', `scaleX(${progress})`);
 
     // Shown once the masthead (and its jump links) has scrolled out of view.
@@ -71,11 +70,29 @@ const { sections } = Astro.props;
     rail?.classList.toggle('is-visible', pastHero);
     toggle?.classList.toggle('is-visible', pastHero);
 
-    // The current section is the last one whose top has passed a line 35% down the screen.
-    // At the very bottom, the last section wins even if it's too short to reach that line.
+    // A section is reached when its top passes a line 35% down the screen, or, for the short
+    // sections at the end that can never get that far, when the page can't scroll any further.
+    // Worked out as the scroll position at which each one is reached.
     const line = window.innerHeight * 0.35;
-    let current = sections.findLastIndex((section) => section.getBoundingClientRect().top <= line);
-    if (progress >= 0.995) current = sections.length - 1;
+    const reachedAt = sections.map((section) =>
+      Math.min(section.getBoundingClientRect().top + window.scrollY - line, scrollable)
+    );
+    const current = reachedAt.findLastIndex((position) => window.scrollY >= position - 1);
+
+    // The dots are evenly spaced but the sections aren't, so the line fills dot to dot: it
+    // touches a section's dot as that section is reached, and moves on towards the next dot
+    // as you read through it.
+    let filled = 0;
+    if (current >= 0 && sections.length > 1) {
+      const next = reachedAt[current + 1];
+      const through =
+        next === undefined || next <= reachedAt[current]
+          ? 0
+          : (window.scrollY - reachedAt[current]) / (next - reachedAt[current]);
+      filled = Math.min(1, (current + Math.min(1, Math.max(0, through))) / (sections.length - 1));
+    }
+    fill?.style.setProperty('transform', `scaleY(${filled})`);
+
     const currentId = sections[current]?.id;
     for (const link of [...links, ...sheetLinks]) {
       const id = link.dataset.railLink ?? link.dataset.sheetLink;
