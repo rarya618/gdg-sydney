@@ -145,15 +145,5 @@ const href = slot.sessionSlug
       text-overflow: ellipsis;
       display: block;
     }
-
-    /* Main-stage slots without a talk (welcome, showcase) and breaks sit on one line; a
-       keynote with a speaker stacks like a session. */
-    .slot--plenary:not(.slot--talk),
-    .slot--break {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: baseline;
-      column-gap: 1.25rem;
-    }
   }
 </style>
