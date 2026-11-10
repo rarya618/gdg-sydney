@@ -71,6 +71,14 @@ export interface Organiser {
   photoUrl: string | null;
 }
 
+// Volunteers on the day who had confirmed and agreed to be listed on the devfest-sydney
+// app's public crew page (the same gate), with the area they were rostered to.
+export interface Volunteer {
+  name: string;
+  area: string;
+  photoUrl: string | null;
+}
+
 export const EVENT = {
   name: 'DevFest Sydney 2026',
   theme: 'Build, Secure, Scale.',
@@ -85,6 +93,7 @@ export const schedule = data.schedule as Slot[];
 export const sponsors = data.sponsors as Sponsor[];
 export const showcase = data.showcase as ShowcaseProject[];
 export const organisers = data.organisers as Organiser[];
+export const volunteers = data.volunteers as Volunteer[];
 export const venuePartner = data.venuePartner as { name: string; website: string; logoUrl: string };
 
 export const speakersBySlug = new Map(speakers.map((speaker) => [speaker.slug, speaker]));

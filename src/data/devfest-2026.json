@@ -879,5 +879,92 @@
     "name": "Torrens University Australia",
     "website": "https://www.torrens.edu.au",
     "logoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/site-assets/torrens-logo.png"
-  }
+  },
+  "volunteers": [
+    {
+      "name": "Akash Bhatnagar",
+      "area": "MC",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/LIAm8z3zylZfwE22YLj2/a69adfef-6135-434b-bc55-610af41f311c.png"
+    },
+    {
+      "name": "Ana Paula Aranda Ferreira",
+      "area": "Registration",
+      "photoUrl": null
+    },
+    {
+      "name": "Angel Dela Cruz",
+      "area": "Videography",
+      "photoUrl": null
+    },
+    {
+      "name": "Esra Rizvi",
+      "area": "Merch table",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/yWZxKfBWisXqe28pZwu1/f94717c5-f042-41e1-aee8-12afea9183c8.png"
+    },
+    {
+      "name": "Grishma Amatya",
+      "area": "Speaker support",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/PxVHbfEbSqr7oEEdWi2Q/bf6c198d-1f38-4f4c-963f-5c22d97fc5a7.png"
+    },
+    {
+      "name": "Hamna Imran",
+      "area": "Volunteer",
+      "photoUrl": null
+    },
+    {
+      "name": "Leah Kim",
+      "area": "Volunteer",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/L8M8ddRvqxnmx9ZFBgZd/40ad2a0e-9260-4e84-a244-7ccfba06a846.png"
+    },
+    {
+      "name": "Lindice Lopes Leonardi",
+      "area": "Registration",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/asNEwPNEx6WWSopQOY9f/1b21e9fa-2cc8-4996-95b4-3ed5986d1abf.png"
+    },
+    {
+      "name": "Louis Deleuil",
+      "area": "Volunteer",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/p6ez5ncqDrnwt1L8pzbb/e4c19f31-d73f-4a39-9bac-f694a4abe7d5.png"
+    },
+    {
+      "name": "Lujin Manandhar",
+      "area": "Volunteer",
+      "photoUrl": null
+    },
+    {
+      "name": "Mishel Tyurkova",
+      "area": "MC",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/hMl6gIE6JNOZIt0FbPDZ/712b0610-20e5-4456-a3f0-aaeaab40bdcc.png"
+    },
+    {
+      "name": "Raiha Mariam",
+      "area": "Volunteer",
+      "photoUrl": null
+    },
+    {
+      "name": "Reihaneh Rahmati",
+      "area": "Volunteer",
+      "photoUrl": null
+    },
+    {
+      "name": "Rishi Singhal",
+      "area": "Volunteer",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/rQ07kVzsxIQ8rrEa2C7n/39434043-24a1-402f-9433-a319064696d3.png"
+    },
+    {
+      "name": "Siya Bagade",
+      "area": "Social media",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/ejuXfGRRME8bGnQt3tqK/44692c95-5bac-4d00-9257-2eaf5b70dbbb.png"
+    },
+    {
+      "name": "Swapnil Chhatre",
+      "area": "Photography",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/TrFoxw605Pa9y8mHa6wB/f61ecf15-a0f5-4a18-bad6-47f4e11ca5d8.png"
+    },
+    {
+      "name": "Vandanaa Sugumaran",
+      "area": "MC",
+      "photoUrl": "https://storage.googleapis.com/devfest-sydney-2026.firebasestorage.app/crew-photos/CdHgV1ja7vBP9xM52HQF/c1a19fc8-8119-4a6d-a7ce-cbc6228bf198.png"
+    }
+  ]
 }

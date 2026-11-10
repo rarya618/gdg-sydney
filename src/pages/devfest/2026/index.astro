@@ -11,6 +11,7 @@ import {
   sponsors,
   showcase,
   organisers,
+  volunteers,
   organiserPhoto,
   speakers,
   speakersByTrack,
@@ -77,7 +78,7 @@ const pageSections = [
   { id: 'speakers', label: 'Speakers' },
   { id: 'showcase', label: 'Showcase', fullLabel: 'Builder Showcase' },
   { id: 'partners', label: 'Partners' },
-  { id: 'organisers', label: 'Organisers' },
+  { id: 'crew', label: 'Crew', fullLabel: 'Organisers and volunteers' },
   { id: 'venue', label: 'Venue' },
 ];
 
@@ -299,12 +300,16 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     </div>
   </section>
 
-  <!-- ════════════════════════════ ORGANISERS ════════════════════════════ -->
-  <section class="section" id="organisers" aria-labelledby="organisers-heading">
+  <!-- ════════════════════════════ CREW ══════════════════════════════════ -->
+  <section class="section crew" id="crew" aria-labelledby="crew-heading">
     <div class="container">
-      <h2 class="section-title" id="organisers-heading">Organisers</h2>
-      <p class="section-intro">DevFest Sydney 2026 was run by volunteers from GDG Sydney.</p>
-      <ul class="speaker-grid organiser-grid" role="list">
+      <h2 class="section-title" id="crew-heading">Organisers and volunteers</h2>
+      <p class="section-intro">
+        {`DevFest Sydney 2026 was run entirely by volunteers: the GDG Sydney organisers, and ${volunteers.length} more who joined them on the day.`}
+      </p>
+      <div class="speaker-group">
+      <h3 class="group-title">Organisers</h3>
+      <ul class="speaker-grid" role="list">
         {organisers.map((organiser) => {
           const photo = organiserPhoto(organiser.slug);
           const face = photo ? (
@@ -337,6 +342,26 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
           );
         })}
       </ul>
+      </div>
+
+      <div class="speaker-group">
+        <h3 class="group-title">Volunteers</h3>
+        <ul class="speaker-grid" role="list">
+          {volunteers.map((volunteer) => (
+            <li>
+              <div class="speaker-card">
+                {volunteer.photoUrl ? (
+                  <Image src={volunteer.photoUrl} alt="" width={240} height={240} class="speaker-photo" />
+                ) : (
+                  <span class="speaker-photo speaker-initials" aria-hidden="true">{initials(volunteer.name)}</span>
+                )}
+                <span class="speaker-name">{volunteer.name}</span>
+                <span class="speaker-tagline">{volunteer.area}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -712,8 +737,8 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   .showcase-link::after { content: ' ↗'; }
   .showcase-link:hover { text-decoration: underline; }
 
-  /* ─── Organisers: the speaker cards, with a neutral ring ───────────── */
-  .organiser-grid { --track-color: var(--muted); }
+  /* ─── Organisers and volunteers: the speaker cards, in a neutral grey ── */
+  .crew { --track-color: var(--muted); }
   div.speaker-card:hover .speaker-name { color: var(--fg); }
 
   /* ─── Partners: one wall, card size follows tier ───────────────────── */
