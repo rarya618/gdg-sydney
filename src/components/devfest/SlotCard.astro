@@ -15,9 +15,11 @@ interface Props {
   slot: Slot;
   // Under 20 minutes: too short on the time grid for a full card, so it's a one-line strip.
   short?: boolean;
+  // A full-width slot too short to stack its time over its title: it shows the title only.
+  inline?: boolean;
 }
 
-const { slot, short = false } = Astro.props;
+const { slot, short = false, inline = false } = Astro.props;
 const full = spansAllRooms(slot);
 
 // A slot only needs a label when the room and colour don't already say it: a session from
@@ -45,7 +47,7 @@ const href = slot.sessionSlug
 ---
 
 <div
-  class:list={['slot', `slot--${slot.kind}`, { 'slot--short': short, 'slot--talk': names.length > 0 }]}
+  class:list={['slot', `slot--${slot.kind}`, { 'slot--short': short, 'slot--inline': inline, 'slot--talk': names.length > 0 }]}
   style={tint ? `--tint: ${tint}` : undefined}
   title={short ? [title, names.join(' and ')].filter(Boolean).join(', ') : undefined}
 >
@@ -138,6 +140,11 @@ const href = slot.sessionSlug
     .slot--short .slot-note,
     .slot--short .slot-speakers,
     .slot--short .slot-time { display: none; }
+    /* A full-width slot too short to stack: title only, centred. Its time is already in the
+       grid's time column beside it. */
+    .slot--inline { justify-content: center; }
+    .slot--inline .slot-time { display: none; }
+
     .slot--short .slot-title {
       font-size: 0.85rem;
       -webkit-line-clamp: 1;

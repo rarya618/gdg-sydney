@@ -46,6 +46,9 @@ const timeline = [...schedule]
     slot,
     style: `grid-row: ${gridRow(slot.startTime)} / ${gridRow(slot.endTime)}; grid-column: ${spansAllRooms(slot) ? '2 / -1' : roomOrder(slot) + 2};`,
     short: minutes(slot.endTime) - minutes(slot.startTime) < 20 && !spansAllRooms(slot),
+    // A full-width slot under 20 minutes (the 15-minute welcome) is too short to stack its
+    // time over its title, so it shows the title alone.
+    inline: minutes(slot.endTime) - minutes(slot.startTime) < 20 && spansAllRooms(slot),
   }));
 const timeLabels = [...new Set(schedule.map((slot) => slot.startTime))].map((iso) => ({ iso, row: gridRow(iso) }));
 
@@ -197,7 +200,7 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
         ))}
         {timeline.map((item) => (
           <li class="timeline-slot" style={item.style}>
-            <SlotCard slot={item.slot} short={item.short} />
+            <SlotCard slot={item.slot} short={item.short} inline={item.inline} />
           </li>
         ))}
       </ol>
