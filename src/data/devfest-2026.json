@@ -775,5 +775,48 @@
       "website": "https://www.vivanti.com",
       "description": "Vivanti is a technology consultancy helping organisations turn data and technology into meaningful business outcomes. With 20+ years of experience across data, analytics, cloud, AI, architecture, integration and digital transformation, we bring together experienced people and practical expertise to solve complex challenges."
     }
+  ],
+  "showcase": [
+    {
+      "project": "aiOS",
+      "presenters": [
+        "Neeraj Rajeev Shetkar"
+      ],
+      "pitch": "A privacy-first agent that runs entirely on Apple Silicon, working across native macOS apps without the cloud.",
+      "url": "https://www.getaios.tech"
+    },
+    {
+      "project": "Logit Social",
+      "presenters": [
+        "Tejas Cherukara"
+      ],
+      "pitch": "Logit Social brings journaling, goals and community together to help you spend time on what matters, not just get more done.",
+      "url": "https://logit.social/"
+    },
+    {
+      "project": "Pervio Local",
+      "presenters": [
+        "Xian Xu"
+      ],
+      "pitch": "Pervio Local turns fragmented local information and unmet community needs into real-world connections, using shared, AI-powered community intelligence.",
+      "url": "https://pervio.club/"
+    },
+    {
+      "project": "Resuleet",
+      "presenters": [
+        "Stefan Caliaro"
+      ],
+      "pitch": "Resuleet uses AI to find and rate jobs, tailor applications, automate submissions and manage follow-ups, so you can apply smarter, faster.",
+      "url": "https://resuleet.com"
+    },
+    {
+      "project": "SignSense",
+      "presenters": [
+        "Anjalika Raina",
+        "Vishakha Mathur"
+      ],
+      "pitch": "A browser-based Auslan learning platform built on computer vision models that tracks, evaluates and grades Auslan signs in real time.",
+      "url": null
+    }
   ]
 }

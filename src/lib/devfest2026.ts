@@ -47,6 +47,15 @@ export interface Sponsor {
   description: string | null;
 }
 
+// The Builder Showcase projects demoed on stage (one confirmed entrant didn't show, so isn't listed). Taken from the entry form
+// (project, presenters, one-line pitch, a link they gave), lightly edited; no emails.
+export interface ShowcaseProject {
+  project: string;
+  presenters: string[];
+  pitch: string;
+  url: string | null;
+}
+
 export const EVENT = {
   name: 'DevFest Sydney 2026',
   theme: 'Build, Secure, Scale.',
@@ -59,6 +68,7 @@ export const EVENT = {
 export const speakers = data.speakers as Speaker[];
 export const schedule = data.schedule as Slot[];
 export const sponsors = data.sponsors as Sponsor[];
+export const showcase = data.showcase as ShowcaseProject[];
 
 export const speakersBySlug = new Map(speakers.map((speaker) => [speaker.slug, speaker]));
 

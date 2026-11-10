@@ -8,6 +8,7 @@ import {
   ROOMS,
   TRACKS,
   sponsors,
+  showcase,
   speakers,
   speakersByTrack,
   schedule,
@@ -50,7 +51,7 @@ const recapStats = [
   { value: '280+', label: 'attendees, double last year' },
   { value: String(speakers.length), label: 'speakers' },
   { value: '4', label: 'tracks' },
-  { value: '6', label: 'projects in the Builder Showcase' },
+  { value: String(showcase.length), label: 'projects in the Builder Showcase' },
 ];
 
 // The first photo leads the grid at double size.
@@ -61,6 +62,9 @@ const recapPhotos = [
   { src: speakerPhotoOnStage, alt: 'A speaker on the main stage', position: 'center 15%' },
   { src: podcastPhoto, alt: 'A speaker recording an interview in the podcast booth' },
 ];
+
+const showcaseSlot = schedule.find((slot) => slot.title === 'Builder Showcase');
+const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(EVENT.address)}`;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
@@ -208,6 +212,38 @@ const wall = [
           </ul>
         </div>
       ))}
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ BUILDER SHOWCASE ══════════════════════════ -->
+  <section class="section" id="showcase" aria-labelledby="showcase-heading">
+    <div class="container">
+      <h2 class="section-title" id="showcase-heading">Builder Showcase</h2>
+      <p class="showcase-intro">
+        {showcase.length} projects from the community took the main stage
+        {showcaseSlot ? ` at ${formatTime(showcaseSlot.startTime)}` : ''}, with five minutes each:
+        four minutes of demo and one of questions.
+      </p>
+      <ul class="showcase-grid" role="list">
+        {showcase.map((entry) => (
+          <li class="showcase-card">
+            <h3 class="showcase-project">{entry.project}</h3>
+            <p class="showcase-presenters">{entry.presenters.join(' and ')}</p>
+            <p class="showcase-pitch">{entry.pitch}</p>
+            {entry.url && (
+              <a
+                href={entry.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="showcase-link"
+                aria-label={`${entry.project}: ${hostOf(entry.url)} (opens in a new tab)`}
+              >
+                {hostOf(entry.url)}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -557,6 +593,50 @@ const wall = [
   .speaker-card:hover .speaker-name { color: var(--blue-text); }
 
   .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
+
+  /* ─── Builder Showcase ──────────────────────────────────────────────── */
+  .showcase-intro {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-soft);
+    max-width: 60ch;
+    margin-bottom: 2rem;
+  }
+
+  .showcase-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 1rem;
+  }
+
+  /* Yellow is the showcase's colour, as on the schedule and the old DevFest site. */
+  .showcase-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+    padding: clamp(1.25rem, 2.5vw, 1.6rem);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--yellow);
+    border-radius: 16px;
+  }
+
+  .showcase-project { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
+  .showcase-presenters { font-size: 0.875rem; font-weight: 700; color: var(--muted); }
+  .showcase-pitch { font-size: 0.92rem; line-height: 1.6; color: var(--text-soft); margin-top: 0.35rem; }
+
+  .showcase-link {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--yellow-text);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .showcase-link::after { content: ' ↗'; }
+  .showcase-link:hover { text-decoration: underline; }
 
   /* ─── Partners: one wall, card size follows tier ───────────────────── */
   .wall {
