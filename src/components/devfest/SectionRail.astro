@@ -49,6 +49,7 @@ const { sections } = Astro.props;
   const fill = document.querySelector<HTMLElement>('[data-rail-fill]');
   const bar = document.querySelector<HTMLElement>('[data-rail-bar]');
   const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const footer = document.querySelector<HTMLElement>('footer');
   const toggle = document.querySelector<HTMLElement>('[data-sheet-toggle]');
   const sheet = document.querySelector<HTMLElement>('#section-sheet');
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-rail-link]')];
@@ -69,6 +70,15 @@ const { sections } = Astro.props;
     const pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
     rail?.classList.toggle('is-visible', pastHero);
     toggle?.classList.toggle('is-visible', pastHero);
+
+    // Centred on screen until the footer comes up to meet it; from there it rides up with the
+    // page, staying just above the footer instead of sitting over it.
+    if (rail && footer) {
+      const FOOTER_GAP = 32;
+      const railBottom = (window.innerHeight + rail.offsetHeight) / 2;
+      const lift = Math.max(0, railBottom + FOOTER_GAP - footer.getBoundingClientRect().top);
+      rail.style.setProperty('--rail-lift', `${lift}px`);
+    }
 
     // A section is reached when its top passes a line 35% down the screen, or, for the short
     // sections at the end that can never get that far, when the page can't scroll any further.
@@ -117,7 +127,9 @@ const { sections } = Astro.props;
   /* ─── Wide screens: the rail in the right margin ─────────────────────── */
   .rail {
     position: fixed;
-    top: 50%;
+    /* Lifted by the script as the footer comes up, so it never sits over it; top rather than
+       transform, since transform is animated and would lag behind the scroll. */
+    top: calc(50% - var(--rail-lift, 0px));
     right: clamp(1rem, 2vw, 2rem);
     z-index: 50;
     transform: translate(12px, -50%);
