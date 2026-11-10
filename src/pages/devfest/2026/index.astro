@@ -663,6 +663,8 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     line-height: 1.7;
     color: var(--text-soft);
     max-width: 60ch;
+    /* Pulled up under its heading: the title's 1.5rem gap is meant for content, not a subtitle. */
+    margin-top: -0.85rem;
     margin-bottom: 2rem;
   }
 
