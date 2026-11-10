@@ -10,6 +10,8 @@ import {
   TRACKS,
   sponsors,
   showcase,
+  organisers,
+  organiserPhoto,
   speakers,
   speakersByTrack,
   schedule,
@@ -72,6 +74,7 @@ const pageSections = [
   { id: 'speakers', label: 'Speakers' },
   { id: 'showcase', label: 'Showcase', fullLabel: 'Builder Showcase' },
   { id: 'partners', label: 'Partners' },
+  { id: 'organisers', label: 'Organisers' },
   { id: 'venue', label: 'Venue' },
 ];
 
@@ -104,6 +107,7 @@ const wall = [
       .map((s) => ({ id: s.id, name: s.name, website: s.website, role: TIER_LAYOUT[tier].label, size: TIER_LAYOUT[tier].size, description: s.description }))
   ),
 ];
+const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo: await partnerLogo(partner.id) })));
 
 ---
 
@@ -231,7 +235,7 @@ const wall = [
   <section class="section" id="showcase" aria-labelledby="showcase-heading">
     <div class="container">
       <h2 class="section-title" id="showcase-heading">Builder Showcase</h2>
-      <p class="showcase-intro">
+      <p class="section-intro">
         {showcase.length} projects from the community took the main stage
         {showcaseSlot ? ` at ${formatTime(showcaseSlot.startTime)}` : ''}, with five minutes each:
         four minutes of demo and one of questions.
@@ -265,18 +269,64 @@ const wall = [
       <h2 class="section-title" id="partners-heading">Partners</h2>
 
       <ul class="wall" role="list">
-        {wall.map((partner) => {
-          const logo = partnerLogo(partner.id);
+        {wallLogos.map(({ partner, logo }) => {
           const stacked = logo.width / logo.height < 2.5;
           return (
             <li class:list={['wall-card', `wall-card--${partner.size}`]}>
               <a href={partner.website} target="_blank" rel="noopener noreferrer" class="wall-link">
                 <span class="wall-role">{partner.role}</span>
                 <span class="wall-logo-box">
-                  <Image src={logo} alt={partner.name} class:list={['wall-logo', { 'wall-logo--stacked': stacked }]} height={96} />
+                  <Image
+                    src={logo.src}
+                    alt={partner.name}
+                    class:list={['wall-logo', { 'wall-logo--stacked': stacked }]}
+                    height={96}
+                    width={Math.round((96 * logo.width) / logo.height)}
+                  />
                 </span>
                 {partner.description && partner.size !== 'small' && <p class="wall-text">{partner.description}</p>}
               </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ ORGANISERS ════════════════════════════ -->
+  <section class="section" id="organisers" aria-labelledby="organisers-heading">
+    <div class="container">
+      <h2 class="section-title" id="organisers-heading">Organisers</h2>
+      <p class="section-intro">DevFest Sydney 2026 was run by volunteers from GDG Sydney.</p>
+      <ul class="speaker-grid organiser-grid" role="list">
+        {organisers.map((organiser) => {
+          const photo = organiserPhoto(organiser.slug);
+          const face = photo ? (
+            <Image src={photo} alt="" width={240} height={240} class="speaker-photo" />
+          ) : (
+            <span class="speaker-photo speaker-initials" aria-hidden="true">{initials(organiser.name)}</span>
+          );
+          return (
+            <li>
+              {organiser.linkedinUrl ? (
+                <a
+                  href={organiser.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="speaker-card"
+                  aria-label={`${organiser.name}, ${organiser.role}, on LinkedIn (opens in a new tab)`}
+                >
+                  {face}
+                  <span class="speaker-name">{organiser.name}</span>
+                  <span class="speaker-tagline">{organiser.role}</span>
+                </a>
+              ) : (
+                <div class="speaker-card">
+                  {face}
+                  <span class="speaker-name">{organiser.name}</span>
+                  <span class="speaker-tagline">{organiser.role}</span>
+                </div>
+              )}
             </li>
           );
         })}
@@ -608,7 +658,7 @@ const wall = [
   .speaker-tagline { font-size: 0.82rem; line-height: 1.5; color: var(--muted); }
 
   /* ─── Builder Showcase ──────────────────────────────────────────────── */
-  .showcase-intro {
+  .section-intro {
     font-size: 1rem;
     line-height: 1.7;
     color: var(--text-soft);
@@ -650,6 +700,10 @@ const wall = [
   }
   .showcase-link::after { content: ' ↗'; }
   .showcase-link:hover { text-decoration: underline; }
+
+  /* ─── Organisers: the speaker cards, with a neutral ring ───────────── */
+  .organiser-grid { --track-color: var(--muted); }
+  div.speaker-card:hover .speaker-name { color: var(--fg); }
 
   /* ─── Partners: one wall, card size follows tier ───────────────────── */
   .wall {

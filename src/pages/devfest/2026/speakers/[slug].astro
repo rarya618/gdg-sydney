@@ -34,6 +34,19 @@ const links = [
   { label: 'Website', url: speaker.websiteUrl },
 ].filter((link) => link.url);
 
+// Four more speakers to browse to: the same track first, then everyone else. Both lists
+// start just after this speaker and wrap round, so each page shows a different set.
+const MORE_SPEAKER_COUNT = 4;
+const position = speakers.findIndex((other) => other.slug === speaker.slug);
+const partnerSlugs = new Set(speaker.sessionPartners.map((partner) => partner.slug));
+const others = [...speakers.slice(position + 1), ...speakers.slice(0, position)].filter(
+  (other) => !partnerSlugs.has(other.slug)
+);
+const moreSpeakers = [
+  ...others.filter((other) => other.track === speaker.track),
+  ...others.filter((other) => other.track !== speaker.track),
+].slice(0, MORE_SPEAKER_COUNT);
+
 const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitle}".`;
 ---
 
@@ -108,9 +121,90 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
       </div>
     </div>
   </article>
+
+  {moreSpeakers.length > 0 && (
+    <section class="more" aria-labelledby="more-heading">
+      <div class="container">
+        <div class="more-head">
+          <h2 class="more-title" id="more-heading">More speakers</h2>
+          <a href="/devfest/2026#speakers" class="more-all">All {speakers.length} speakers</a>
+        </div>
+        <ul class="more-grid" role="list">
+          {moreSpeakers.map((other) => {
+            const otherPhoto = speakerPhoto(other.slug);
+            return (
+              <li style={`--track-color: ${TRACKS[other.track].color}`}>
+                <a href={`/devfest/2026/speakers/${other.slug}`} class="more-card">
+                  {otherPhoto ? (
+                    <Image src={otherPhoto} alt="" width={160} height={160} class="more-photo" />
+                  ) : (
+                    <span class="more-photo more-initials" aria-hidden="true">{initials(other.name)}</span>
+                  )}
+                  <span class="more-name">{other.name}</span>
+                  <span class="more-talk">{other.talkTitle}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  )}
 </SiteLayout>
 
 <style>
+  /* ─── More speakers ─────────────────────────────────────────────────── */
+  .more { padding-bottom: clamp(4rem, 8vw, 6rem); }
+
+  .more-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .more-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
+  .more-all { font-size: 0.9rem; color: var(--blue-text); text-decoration: none; }
+  .more-all:hover { text-decoration: underline; }
+
+  .more-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.25rem;
+  }
+  @media (min-width: 800px) {
+    .more-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .more-card { display: flex; flex-direction: column; gap: 0.3rem; color: inherit; text-decoration: none; }
+
+  .more-photo {
+    width: min(100%, 140px);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1.5px solid color-mix(in srgb, var(--track-color) 55%, transparent);
+    margin-bottom: 0.5rem;
+  }
+  .more-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+
+  .more-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.015em; color: var(--fg); transition: color 0.15s ease; }
+  .more-card:hover .more-name { color: var(--blue-text); }
+  .more-talk { font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+
   .speaker-page {
     padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 4rem));
     padding-bottom: clamp(4rem, 8vw, 6rem);

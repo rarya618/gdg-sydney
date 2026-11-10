@@ -1,9 +1,13 @@
-import type { ImageMetadata } from 'astro';
+import { inferRemoteSize } from 'astro:assets';
 import data from '../data/devfest-2026.json';
 
 // DevFest Sydney 2026 is over, so its lineup is a frozen snapshot exported once from the
 // devfest-sydney app's public projections (confirmed speakers only, no emails). Future
 // editions are meant to read that app's public API instead; see PM.md in devfest-sydney.
+// Photos and logos are not copied into this repo: the data holds their Firebase Storage
+// URLs, and Astro downloads and optimises them at build time (image.domains in
+// astro.config.mjs). A file removed from Storage fails the next build rather than shipping
+// a broken image.
 
 export type Track = 'keynote' | 'spotlight' | 'developer' | 'builder' | 'workshop' | 'showcase';
 export type TalkFormat = 'talk' | 'lightning-talk' | 'workshop';
@@ -22,7 +26,7 @@ export interface Speaker {
   linkedinUrl: string;
   githubUrl: string;
   websiteUrl: string;
-  hasPhoto: boolean;
+  photoUrl: string | null;
   sessionPartners: { name: string; slug: string }[];
 }
 
@@ -45,6 +49,7 @@ export interface Sponsor {
   tier: SponsorTier;
   website: string;
   description: string | null;
+  logoUrl: string;
 }
 
 // The Builder Showcase projects demoed on stage (one confirmed entrant didn't show, so isn't listed). Taken from the entry form
@@ -54,6 +59,16 @@ export interface ShowcaseProject {
   presenters: string[];
   pitch: string;
   url: string | null;
+}
+
+// The organisers opted in to the public crew page on the devfest-sydney app when the
+// snapshot was taken, with a photo where they had uploaded one.
+export interface Organiser {
+  slug: string;
+  name: string;
+  role: string;
+  linkedinUrl: string;
+  photoUrl: string | null;
 }
 
 export const EVENT = {
@@ -69,6 +84,8 @@ export const speakers = data.speakers as Speaker[];
 export const schedule = data.schedule as Slot[];
 export const sponsors = data.sponsors as Sponsor[];
 export const showcase = data.showcase as ShowcaseProject[];
+export const organisers = data.organisers as Organiser[];
+export const venuePartner = data.venuePartner as { name: string; website: string; logoUrl: string };
 
 export const speakersBySlug = new Map(speakers.map((speaker) => [speaker.slug, speaker]));
 
@@ -140,21 +157,21 @@ export function speakersByTrack(): { track: Track; speakers: Speaker[] }[] {
   );
 }
 
-const speakerPhotos = import.meta.glob<{ default: ImageMetadata }>('../assets/devfest/2026/speakers/*.webp', {
-  eager: true,
-});
-const partnerLogos = import.meta.glob<{ default: ImageMetadata }>('../assets/devfest/2026/partners/*.png', {
-  eager: true,
-});
-
-export function speakerPhoto(slug: string): ImageMetadata | undefined {
-  return speakerPhotos[`../assets/devfest/2026/speakers/${slug}.webp`]?.default;
+export function speakerPhoto(slug: string): string | undefined {
+  return speakersBySlug.get(slug)?.photoUrl ?? undefined;
 }
 
-export function partnerLogo(id: string): ImageMetadata {
-  const logo = partnerLogos[`../assets/devfest/2026/partners/${id}.png`]?.default;
-  if (!logo) throw new Error(`Missing DevFest 2026 partner logo: ${id}`);
-  return logo;
+export function organiserPhoto(slug: string): string | undefined {
+  return organisers.find((organiser) => organiser.slug === slug)?.photoUrl ?? undefined;
+}
+
+// A partner's logo with its size, which the wall needs to tell stacked logos from wide ones.
+// 'torrens' is the venue partner; every other id is a sponsor.
+export async function partnerLogo(id: string): Promise<{ src: string; width: number; height: number }> {
+  const src = id === 'torrens' ? venuePartner.logoUrl : sponsors.find((sponsor) => sponsor.id === id)?.logoUrl;
+  if (!src) throw new Error(`Missing DevFest 2026 partner logo: ${id}`);
+  const { width, height } = await inferRemoteSize(src);
+  return { src, width, height };
 }
 
 export function initials(name: string): string {

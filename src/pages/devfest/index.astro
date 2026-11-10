@@ -21,7 +21,7 @@ const ogImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 
 // and 21 faces make an exact 3 x 7 grid.
 const lineup = [...speakers]
   .sort((a, b) => Number(b.track === 'keynote') - Number(a.track === 'keynote'))
-  .filter((speaker) => speaker.hasPhoto);
+  .filter((speaker) => speaker.photoUrl);
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
 
