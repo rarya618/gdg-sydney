@@ -1,0 +1,172 @@
+---
+// Quick access once the masthead's jump links have scrolled away, and how far down the page
+// you are. Wide screens get a rail in the right-hand margin: a line that fills as you scroll,
+// with a dot and short label per section, the current one lit. Narrower screens have no room
+// in the margin, so they get only the progress, as a thin bar under the header.
+interface Props {
+  sections: { id: string; label: string }[];
+}
+
+const { sections } = Astro.props;
+---
+
+<nav class="rail" aria-label="Sections on this page" data-section-rail>
+  <span class="rail-track" aria-hidden="true"><span class="rail-fill" data-rail-fill></span></span>
+  <ol class="rail-list">
+    {sections.map((section) => (
+      <li>
+        <a href={`#${section.id}`} class="rail-link" data-rail-link={section.id}>
+          <span class="rail-label">{section.label}</span>
+          <span class="rail-dot" aria-hidden="true"></span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+<div class="rail-bar" aria-hidden="true"><span class="rail-bar-fill" data-rail-bar></span></div>
+
+<script>
+  const rail = document.querySelector<HTMLElement>('[data-section-rail]');
+  const fill = document.querySelector<HTMLElement>('[data-rail-fill]');
+  const bar = document.querySelector<HTMLElement>('[data-rail-bar]');
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-rail-link]')];
+  const sections = links
+    .map((link) => document.getElementById(link.dataset.railLink ?? ''))
+    .filter((section): section is HTMLElement => section !== null);
+
+  let frame = 0;
+
+  function update() {
+    frame = 0;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    fill?.style.setProperty('transform', `scaleY(${progress})`);
+    bar?.style.setProperty('transform', `scaleX(${progress})`);
+
+    // Shown once the masthead (and its jump links) has scrolled out of view.
+    const pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
+    rail?.classList.toggle('is-visible', pastHero);
+
+    // The current section is the last one whose top has passed a line 35% down the screen.
+    // At the very bottom, the last section wins even if it's too short to reach that line.
+    const line = window.innerHeight * 0.35;
+    let current = sections.findLastIndex((section) => section.getBoundingClientRect().top <= line);
+    if (progress >= 0.995) current = sections.length - 1;
+    links.forEach((link, index) => {
+      if (index === current) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  update();
+</script>
+
+<style>
+  /* ─── Wide screens: the rail in the right margin ─────────────────────── */
+  .rail {
+    position: fixed;
+    top: 50%;
+    right: clamp(1rem, 2vw, 2rem);
+    z-index: 50;
+    transform: translate(12px, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+    display: none;
+  }
+  .rail.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, -50%);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
+  }
+
+  /* The line runs from the first dot's centre to the last's. */
+  .rail-track {
+    position: absolute;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    right: 5px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rail-fill {
+    display: block;
+    height: 100%;
+    background: var(--fg);
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .rail-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .rail-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 0.2rem 0;
+    text-decoration: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    transition: color 0.15s ease;
+  }
+  .rail-link:hover,
+  .rail-link:focus-visible,
+  .rail-link[aria-current='true'] { color: var(--fg); }
+  .rail-link:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 4px; border-radius: 4px; }
+
+  .rail-dot {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    flex: none;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: var(--bg);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .rail-link:hover .rail-dot { border-color: var(--fg); }
+  .rail-link[aria-current='true'] .rail-dot { background: var(--fg); border-color: var(--fg); transform: scale(1.25); }
+
+  /* ─── Narrower screens: progress only, under the header ──────────────── */
+  .rail-bar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 101;
+    pointer-events: none;
+  }
+  .rail-bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* 1160px content plus room for the labels in the margin. */
+  @media (min-width: 1400px) {
+    .rail { display: block; }
+    .rail-bar { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail,
+    .rail.is-visible,
+    .rail-link,
+    .rail-dot { transition: none; }
+  }
+</style>

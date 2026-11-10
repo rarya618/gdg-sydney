@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import SiteLayout from '../../../layouts/SiteLayout.astro';
 import RoomBar from '../../../components/devfest/RoomBar.astro';
 import SlotCard from '../../../components/devfest/SlotCard.astro';
+import SectionRail from '../../../components/devfest/SectionRail.astro';
 import {
   EVENT,
   ROOMS,
@@ -63,6 +64,17 @@ const recapPhotos = [
   { src: podcastPhoto, alt: 'A speaker recording an interview in the podcast booth' },
 ];
 
+// The page's sections, for the jump links in the masthead and the rail once they've scrolled
+// away. The rail's labels are short, to fit the page margin.
+const pageSections = [
+  { id: 'recap', label: 'Recap' },
+  { id: 'schedule', label: 'Schedule' },
+  { id: 'speakers', label: 'Speakers' },
+  { id: 'showcase', label: 'Showcase', fullLabel: 'Builder Showcase' },
+  { id: 'partners', label: 'Partners' },
+  { id: 'venue', label: 'Venue' },
+];
+
 const showcaseSlot = schedule.find((slot) => slot.title === 'Builder Showcase');
 const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
@@ -120,15 +132,14 @@ const wall = [
       <p class="page-facts">Saturday 10 October 2026, {EVENT.venue}</p>
       <p class="page-note">This event has finished. Thank you to everyone who spoke, sponsored, volunteered and came along.</p>
       <nav class="jump-nav" aria-label="On this page">
-        <a href="#recap">Recap</a>
-        <a href="#schedule">Schedule</a>
-        <a href="#speakers">Speakers</a>
-        <a href="#showcase">Builder Showcase</a>
-        <a href="#partners">Partners</a>
-        <a href="#venue">Venue</a>
+        {pageSections.map((section) => (
+          <a href={`#${section.id}`}>{section.fullLabel ?? section.label}</a>
+        ))}
       </nav>
     </div>
   </section>
+  <SectionRail sections={pageSections} />
+
   <!-- ══════════════════════════════ RECAP ═══════════════════════════════ -->
   <section class="section recap" id="recap" aria-labelledby="recap-heading">
     <div class="container">
