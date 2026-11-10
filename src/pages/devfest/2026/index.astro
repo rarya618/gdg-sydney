@@ -585,9 +585,10 @@ const wall = [
     height: auto;
     aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 14px;
+    /* Circles with a track-colour ring, matching the faces on /devfest. */
+    border-radius: 50%;
     background: var(--surface-2);
-    border-bottom: 5px solid var(--track-color);
+    border: 3px solid var(--track-color);
     margin-bottom: 0.5rem;
   }
 
