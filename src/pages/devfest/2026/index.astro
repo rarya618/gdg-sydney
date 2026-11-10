@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../../layouts/SiteLayout.astro';
 import RoomBar from '../../../components/devfest/RoomBar.astro';
 import SlotCard from '../../../components/devfest/SlotCard.astro';
@@ -22,6 +22,7 @@ import {
   speakerPhoto,
   partnerLogo,
   initials,
+  eventStructuredData,
   type SponsorTier,
 } from '../../../lib/devfest2026';
 import heroPhoto from '../../../assets/devfest/2026/photos/foyer-overhead.jpg';
@@ -85,6 +86,10 @@ const pageSections = [
 const showcaseSlot = schedule.find((slot) => slot.title === 'Builder Showcase');
 const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
+// The event's image for search: the foyer from above, at the size Google asks for.
+const eventImage = await getImage({ src: heroPhoto, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const eventJsonLd = eventStructuredData(new URL(eventImage.src, Astro.site).href);
+
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(EVENT.address)}`;
 const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(EVENT.address)}&output=embed`;
 const groups = speakersByTrack();
@@ -121,6 +126,7 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   description={`DevFest Sydney 2026: ${EVENT.theme} ${EVENT.subtitle}. The schedule, speakers, Builder Showcase and partners from ${EVENT.dateLabel} at ${EVENT.venue}.`}
   current="devfest"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(eventJsonLd)} />
   <!-- ═════════════════════════════ MASTHEAD ═════════════════════════════ -->
   <section class="masthead" aria-labelledby="page-heading" data-hero>
     <Image

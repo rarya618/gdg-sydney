@@ -11,6 +11,7 @@ import {
   formatTime,
   speakerPhoto,
   initials,
+  speakerStructuredData,
   type Speaker,
 } from '../../../../lib/devfest2026';
 
@@ -58,6 +59,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   ogImageAlt={photo ? `Photo of ${speaker.name}` : undefined}
   current="devfest"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(speakerStructuredData(speaker))} />
   <article class="speaker-page" style={`--track-color: ${track.color}`}>
     <div class="container">
       <a href="/devfest/2026#speakers" class="back-link">← All DevFest 2026 speakers</a>

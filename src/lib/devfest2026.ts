@@ -196,3 +196,82 @@ export const STATS = {
   sessions: schedule.filter((slot) => slot.speakers.length > 0).length,
   tracks: 4,
 };
+
+// ─── Structured data (schema.org JSON-LD) ──────────────────────────────────
+// Describes DevFest Sydney 2026 to search engines: the archive page carries the full Event
+// with its speakers, and each speaker page a Person who performed in it.
+
+const SITE = 'https://gdgsydney.com';
+const ARCHIVE_URL = `${SITE}/devfest/2026`;
+
+// The day runs from the first slot's start (registration) to the last one's end.
+const eventStart = schedule.reduce((first, slot) => (slot.startTime < first ? slot.startTime : first), schedule[0].startTime);
+const eventEnd = schedule.reduce((last, slot) => (slot.endTime > last ? slot.endTime : last), schedule[0].endTime);
+
+// Written as Sydney time with its offset (+11:00, AEDT on 10 October), as in Google's
+// examples, rather than the stored UTC, which reads as the 9th.
+const SYDNEY_OFFSET_HOURS = 11;
+function sydneyTime(iso: string): string {
+  const local = new Date(Date.parse(iso) + SYDNEY_OFFSET_HOURS * 3_600_000).toISOString().slice(0, 19);
+  return `${local}+${String(SYDNEY_OFFSET_HOURS).padStart(2, '0')}:00`;
+}
+
+const speakerPageUrl = (slug: string) => `${ARCHIVE_URL}/speakers/${slug}`;
+
+const eventPlace = {
+  '@type': 'Place',
+  name: EVENT.venue,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Shop 1/37 Foveaux St',
+    addressLocality: 'Surry Hills',
+    addressRegion: 'NSW',
+    postalCode: '2010',
+    addressCountry: 'AU',
+  },
+};
+
+const organizer = { '@type': 'Organization', name: 'GDG Sydney', url: SITE };
+
+// The slim Event a speaker page points at; the archive page holds the full one.
+function eventReference() {
+  return {
+    '@type': 'Event',
+    name: EVENT.name,
+    url: ARCHIVE_URL,
+    startDate: sydneyTime(eventStart),
+    endDate: sydneyTime(eventEnd),
+    location: eventPlace,
+  };
+}
+
+export function eventStructuredData(imageUrl: string) {
+  return {
+    '@context': 'https://schema.org',
+    ...eventReference(),
+    description: `${EVENT.theme} ${EVENT.subtitle}. A full-day, four-track developer conference run by GDG Sydney.`,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    image: [imageUrl],
+    organizer,
+    performer: speakers.map((speaker) => ({
+      '@type': 'Person',
+      name: speaker.name,
+      url: speakerPageUrl(speaker.slug),
+    })),
+  };
+}
+
+export function speakerStructuredData(speaker: Speaker) {
+  const sameAs = [speaker.linkedinUrl, speaker.githubUrl, speaker.websiteUrl].filter(Boolean);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: speaker.name,
+    url: speakerPageUrl(speaker.slug),
+    ...(speaker.tagline ? { jobTitle: speaker.tagline } : {}),
+    ...(speaker.photoUrl ? { image: speaker.photoUrl } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+    performerIn: eventReference(),
+  };
+}
