@@ -1,10 +1,13 @@
 ---
 // Quick access once the masthead's jump links have scrolled away, and how far down the page
-// you are. Wide screens get a rail in the right-hand margin: a line that fills as you scroll,
-// with a dot and short label per section, the current one lit. Narrower screens have no room
-// in the margin, so they get only the progress, as a thin bar under the header.
+// you are. From 768px there's at least 38px of margin, enough for a rail on the right: a
+// line that fills as you scroll, with a dot per section, the current one lit. Labels show
+// beside the dots from 1360px, where the margin fits them; below that a dot's label appears
+// on hover or focus. Phones have about 20px of margin and no hover to name a dot, so they
+// get the progress as a thin bar under the header, and a "Sections" button in the corner
+// that opens the same list as a sheet with full-size, named links.
 interface Props {
-  sections: { id: string; label: string }[];
+  sections: { id: string; label: string; fullLabel?: string }[];
 }
 
 const { sections } = Astro.props;
@@ -25,12 +28,31 @@ const { sections } = Astro.props;
 </nav>
 <div class="rail-bar" aria-hidden="true"><span class="rail-bar-fill" data-rail-bar></span></div>
 
+<button type="button" class="sheet-toggle" popovertarget="section-sheet" data-sheet-toggle>
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+    <path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+  Sections
+</button>
+<nav id="section-sheet" class="sheet" popover aria-label="Jump to a section">
+  <ol class="sheet-list">
+    {sections.map((section) => (
+      <li>
+        <a href={`#${section.id}`} class="sheet-link" data-sheet-link={section.id}>{section.fullLabel ?? section.label}</a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
 <script>
   const rail = document.querySelector<HTMLElement>('[data-section-rail]');
   const fill = document.querySelector<HTMLElement>('[data-rail-fill]');
   const bar = document.querySelector<HTMLElement>('[data-rail-bar]');
   const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const toggle = document.querySelector<HTMLElement>('[data-sheet-toggle]');
+  const sheet = document.querySelector<HTMLElement>('#section-sheet');
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-rail-link]')];
+  const sheetLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-sheet-link]')];
   const sections = links
     .map((link) => document.getElementById(link.dataset.railLink ?? ''))
     .filter((section): section is HTMLElement => section !== null);
@@ -47,21 +69,27 @@ const { sections } = Astro.props;
     // Shown once the masthead (and its jump links) has scrolled out of view.
     const pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
     rail?.classList.toggle('is-visible', pastHero);
+    toggle?.classList.toggle('is-visible', pastHero);
 
     // The current section is the last one whose top has passed a line 35% down the screen.
     // At the very bottom, the last section wins even if it's too short to reach that line.
     const line = window.innerHeight * 0.35;
     let current = sections.findLastIndex((section) => section.getBoundingClientRect().top <= line);
     if (progress >= 0.995) current = sections.length - 1;
-    links.forEach((link, index) => {
-      if (index === current) link.setAttribute('aria-current', 'true');
+    const currentId = sections[current]?.id;
+    for (const link of [...links, ...sheetLinks]) {
+      const id = link.dataset.railLink ?? link.dataset.sheetLink;
+      if (id === currentId) link.setAttribute('aria-current', 'true');
       else link.removeAttribute('aria-current');
-    });
+    }
   }
 
   function schedule() {
     if (!frame) frame = requestAnimationFrame(update);
   }
+
+  // Picking a section closes the sheet; the link itself does the scrolling.
+  sheetLinks.forEach((link) => link.addEventListener('click', () => sheet?.hidePopover?.()));
 
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', schedule);
@@ -91,8 +119,8 @@ const { sections } = Astro.props;
   /* The line runs from the first dot's centre to the last's. */
   .rail-track {
     position: absolute;
-    top: 0.6rem;
-    bottom: 0.6rem;
+    top: 16px; /* half a link's height: from the first dot's centre */
+    bottom: 16px;
     right: 5px;
     width: 2px;
     background: rgba(255, 255, 255, 0.14);
@@ -107,14 +135,15 @@ const { sections } = Astro.props;
     transform-origin: top;
   }
 
-  .rail-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+  .rail-list { list-style: none; display: flex; flex-direction: column; }
 
   .rail-link {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 0.75rem;
-    padding: 0.2rem 0;
+    /* Tall enough to tap on a tablet (32px), though the dot itself is small. */
+    min-height: 32px;
     text-decoration: none;
     color: var(--muted);
     font-family: var(--mono);
@@ -137,6 +166,20 @@ const { sections } = Astro.props;
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   }
   .rail-link:hover .rail-dot { border-color: var(--fg); }
+
+  /* 768 to 1359px: dots only. The label stays in the page for screen readers and pops out
+     as a pill on hover or focus, over the content if it has to. */
+  .rail-label {
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: var(--surface);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .rail-link:hover .rail-label,
+  .rail-link:focus-visible .rail-label { opacity: 1; transform: none; }
   .rail-link[aria-current='true'] .rail-dot { background: var(--fg); border-color: var(--fg); transform: scale(1.25); }
 
   /* ─── Narrower screens: progress only, under the header ──────────────── */
@@ -157,16 +200,97 @@ const { sections } = Astro.props;
     transform-origin: left;
   }
 
-  /* 1160px content plus room for the labels in the margin. */
-  @media (min-width: 1400px) {
+  /* ─── Phones: a Sections button and the sheet it opens ───────────────── */
+  .sheet-toggle {
+    position: fixed;
+    right: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: var(--surface);
+    color: var(--fg);
+    font: 700 0.9rem var(--sans);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .sheet-toggle.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
+  }
+  .sheet-toggle:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 3px; }
+
+  /* A popover, so the browser handles closing on Escape and on a tap outside. */
+  .sheet {
+    position: fixed;
+    inset: auto 1rem calc(1rem + 44px + 0.6rem + env(safe-area-inset-bottom, 0px)) auto;
+    margin: 0;
+    width: min(16rem, calc(100vw - 2rem));
+    padding: 0.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--fg);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+  .sheet::backdrop { background: rgba(0, 0, 0, 0.35); }
+
+  .sheet-list { list-style: none; }
+
+  .sheet-link {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    border-radius: 10px;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  .sheet-link::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+  }
+  .sheet-link:hover,
+  .sheet-link:focus-visible { background: rgba(255, 255, 255, 0.06); color: var(--fg); }
+  .sheet-link[aria-current='true'] { color: var(--fg); font-weight: 700; }
+  .sheet-link[aria-current='true']::before { background: var(--fg); border-color: var(--fg); }
+
+  @media (min-width: 768px) {
     .rail { display: block; }
-    .rail-bar { display: none; }
+    .rail-bar,
+    .sheet-toggle,
+    .sheet { display: none; }
+  }
+
+  /* Enough margin for the labels to sit beside the dots all the time, as plain text. */
+  @media (min-width: 1360px) {
+    .rail-label { opacity: 1; transform: none; background: none; padding-inline: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .rail,
     .rail.is-visible,
     .rail-link,
-    .rail-dot { transition: none; }
+    .rail-label,
+    .rail-dot,
+    .sheet-toggle,
+    .sheet-toggle.is-visible { transition: none; }
   }
 </style>
