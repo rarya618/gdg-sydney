@@ -142,6 +142,9 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
       </nav>
     </div>
   </section>
+  <!-- Everything below the masthead. The rail sticks inside it, so it stops where the page
+       content ends rather than running over the footer. -->
+  <div class="archive-body">
   <SectionRail sections={pageSections} />
 
   <!-- ══════════════════════════════ RECAP ═══════════════════════════════ -->
@@ -372,9 +375,12 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
       </div>
     </div>
   </section>
+  </div>
 </SiteLayout>
 
 <style>
+  .archive-body { position: relative; }
+
 
   /* ─── Masthead ──────────────────────────────────────────────────────── */
   .masthead {

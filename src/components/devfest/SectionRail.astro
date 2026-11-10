@@ -13,7 +13,10 @@ interface Props {
 const { sections } = Astro.props;
 ---
 
-<nav class="rail" aria-label="Sections on this page" data-section-rail>
+<!-- The rail sticks inside a column as tall as the page body (the parent must be
+     position: relative), so the browser moves it, not a script, and it stops at the body's end. -->
+<div class="rail-column">
+<nav class="rail" aria-label="Sections on this page" data-section-rail style={`--rail-count: ${sections.length}`}>
   <span class="rail-track" aria-hidden="true"><span class="rail-fill" data-rail-fill></span></span>
   <ol class="rail-list">
     {sections.map((section) => (
@@ -26,6 +29,7 @@ const { sections } = Astro.props;
     ))}
   </ol>
 </nav>
+</div>
 <div class="rail-bar" aria-hidden="true"><span class="rail-bar-fill" data-rail-bar></span></div>
 
 <button type="button" class="sheet-toggle" popovertarget="section-sheet" data-sheet-toggle>
@@ -49,7 +53,6 @@ const { sections } = Astro.props;
   const fill = document.querySelector<HTMLElement>('[data-rail-fill]');
   const bar = document.querySelector<HTMLElement>('[data-rail-bar]');
   const hero = document.querySelector<HTMLElement>('[data-hero]');
-  const footer = document.querySelector<HTMLElement>('footer');
   const toggle = document.querySelector<HTMLElement>('[data-sheet-toggle]');
   const sheet = document.querySelector<HTMLElement>('#section-sheet');
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-rail-link]')];
@@ -70,15 +73,6 @@ const { sections } = Astro.props;
     const pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
     rail?.classList.toggle('is-visible', pastHero);
     toggle?.classList.toggle('is-visible', pastHero);
-
-    // Centred on screen until the footer comes up to meet it; from there it rides up with the
-    // page, staying just above the footer instead of sitting over it.
-    if (rail && footer) {
-      const FOOTER_GAP = 32;
-      const railBottom = (window.innerHeight + rail.offsetHeight) / 2;
-      const lift = Math.max(0, railBottom + FOOTER_GAP - footer.getBoundingClientRect().top);
-      rail.style.setProperty('--rail-lift', `${lift}px`);
-    }
 
     // A section is reached when its top passes a line 35% down the screen, or, for the short
     // sections at the end that can never get that far, when the page can't scroll any further.
@@ -125,23 +119,30 @@ const { sections } = Astro.props;
 
 <style>
   /* ─── Wide screens: the rail in the right margin ─────────────────────── */
-  .rail {
-    position: fixed;
-    /* Lifted by the script as the footer comes up, so it never sits over it; top rather than
-       transform, since transform is animated and would lag behind the scroll. */
-    top: calc(50% - var(--rail-lift, 0px));
+  .rail-column {
+    position: absolute;
+    top: 0;
+    bottom: 2rem; /* keeps the rail this far above the footer at the very end */
     right: clamp(1rem, 2vw, 2rem);
     z-index: 50;
-    transform: translate(12px, -50%);
+    display: none;
+    pointer-events: none;
+  }
+
+  /* Each link is 32px tall, so this centres the rail on screen while it's stuck. */
+  .rail {
+    position: sticky;
+    top: calc(50vh - var(--rail-count) * 16px);
+    pointer-events: auto;
+    transform: translateX(12px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
-    display: none;
   }
   .rail.is-visible {
     opacity: 1;
     visibility: visible;
-    transform: translate(0, -50%);
+    transform: none;
     transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s;
   }
 
@@ -302,7 +303,7 @@ const { sections } = Astro.props;
   .sheet-link[aria-current='true']::before { background: var(--fg); border-color: var(--fg); }
 
   @media (min-width: 768px) {
-    .rail { display: block; }
+    .rail-column { display: block; }
     .rail-bar,
     .sheet-toggle,
     .sheet { display: none; }
