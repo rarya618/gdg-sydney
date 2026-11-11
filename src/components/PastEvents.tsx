@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { classifyEvent } from '../lib/classifyEvent';
 
 interface BevyPastEvent {
   title: string;
@@ -10,13 +11,6 @@ interface BevyPastEvent {
 function formatEventDate(iso: string) {
   const d = new Date(iso);
   return d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Australia/Sydney' });
-}
-
-function classifyEvent(event: BevyPastEvent): { label: string; accent: string } {
-  if (/devfest/i.test(event.title)) return { label: 'Conference', accent: 'red' };
-  if (/meetup/i.test(event.title)) return { label: 'Meetup', accent: 'yellow' };
-  if (/workshop/i.test(event.title)) return { label: 'Workshop', accent: 'green' };
-  return { label: 'Talk', accent: 'blue' };
 }
 
 // The 5 most recent first; each "See more" loads the next 5 by following Bevy's
@@ -99,7 +93,7 @@ export default function PastEvents() {
         <h2 className="section-title" id="past-heading">Past events</h2>
         <div className="past-list" aria-busy={!initialLoaded || loadingMore}>
           {pastEvents.map(event => {
-            const { label, accent } = classifyEvent(event);
+            const { label, accent } = classifyEvent(event.title);
             return (
               <a href={event.url} target="_blank" rel="noopener noreferrer" className="past-item" key={event.url}>
                 <span className={`past-tag past-tag--${accent}`}>{label}</span>

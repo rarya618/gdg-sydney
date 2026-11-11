@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { classifyEvent } from '../lib/classifyEvent';
 
 const BEVY_API =
   'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Live&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=start_date&fields=title,start_date,event_type_title,url,description_short&page=1';
@@ -19,13 +20,6 @@ function formatEventDate(iso: string) {
 function formatEventTime(iso: string) {
   const d = new Date(iso);
   return d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Australia/Sydney' });
-}
-
-function classifyEvent(event: BevyEvent): { label: string; accent: string } {
-  if (/devfest/i.test(event.title)) return { label: 'Conference', accent: 'red' };
-  if (/meetup/i.test(event.title)) return { label: 'Meetup', accent: 'yellow' };
-  if (/workshop/i.test(event.title)) return { label: 'Workshop', accent: 'green' };
-  return { label: 'Talk', accent: 'blue' };
 }
 
 // Bevy usually has one or two upcoming events, so two placeholder cards while it loads.
@@ -107,7 +101,7 @@ export default function UpcomingEvents() {
         {events.length > 0 && (
         <div className="events-grid">
           {events.map(event => {
-            const { label, accent } = classifyEvent(event);
+            const { label, accent } = classifyEvent(event.title);
             return (
               <div className={`event-card event-card--${accent}`} key={event.url}>
                 <div className="event-card-accent" aria-hidden="true"></div>
