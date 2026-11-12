@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { classifyEvent } from '../lib/classifyEvent';
 
 const BEVY_API =
-  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Live&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=start_date&fields=title,start_date,event_type_title,url,description_short&page=1';
+  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Live&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=start_date&fields=title,start_date,event_type_title,url,description_short,custom_tickets_url&page=1';
 
 interface BevyEvent {
   title: string;
@@ -10,6 +10,20 @@ interface BevyEvent {
   event_type_title: string;
   url: string;
   description_short: string;
+  custom_tickets_url: string | null;
+}
+
+// Events ticketed elsewhere (e.g. Luma) carry the ticket link in custom_tickets_url; everything
+// else RSVPs on Bevy. Bevy tags the ticket link utm_source=bevy, so retag it to tell site clicks apart.
+function rsvpUrl(event: BevyEvent) {
+  if (!event.custom_tickets_url) return event.url;
+  try {
+    const url = new URL(event.custom_tickets_url);
+    url.searchParams.set('utm_source', 'gdgsydney.com');
+    return url.toString();
+  } catch {
+    return event.url;
+  }
 }
 
 function formatEventDate(iso: string) {
@@ -117,7 +131,7 @@ export default function UpcomingEvents() {
                   {event.description_short && (
                     <p className="event-desc">{event.description_short}</p>
                   )}
-                  <a href={event.url} target="_blank" rel="noopener noreferrer" className="event-rsvp">
+                  <a href={rsvpUrl(event)} target="_blank" rel="noopener noreferrer" className="event-rsvp">
                     RSVP
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" width="13" height="13" aria-hidden="true">
                       <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" strokeLinecap="round" strokeLinejoin="round" />
