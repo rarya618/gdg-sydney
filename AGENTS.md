@@ -36,6 +36,8 @@ This is an [Astro 7](https://astro.build) project with React and Tailwind CSS 4.
 
 **Static assets:** Files in `public/` are served at the root path.
 
+**For AI agents:** `src/pages/llms.txt.ts` builds `/llms.txt`. When you add or rename a page, add its line there. The proposal rate limits it quotes must match `src/lib/meetupProposalLimits.ts` in the devfest-sydney repo. `/speak` registers a WebMCP `submit_talk_proposal` tool that shares the form's submit code, so a change to the form's fields means updating the tool's schema and the `llms.txt` field list too. See the README's "For AI agents" section.
+
 ## Branding
 
 See [BRANDING.md](./BRANDING.md) for the full brand guide. Key points:
