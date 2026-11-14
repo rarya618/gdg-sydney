@@ -16,7 +16,12 @@ const BEVY_UPCOMING =
 const BEVY_PAST =
   'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url';
 
-const stripHtml = (html: string) => html.replace(/<[^>]+>/g, '');
+// The same endpoint the /speak form posts to (see .env.example). Its rate limits live in the
+// devfest-sydney app, src/lib/meetupProposalLimits.ts; keep the numbers below in step.
+const PROPOSAL_URL =
+  import.meta.env.PUBLIC_MEETUP_PROPOSAL_URL || 'https://app.gdgsydney.com/api/submit-meetup-proposal';
+
+const stripHtml =(html: string) => html.replace(/<[^>]+>/g, '');
 
 export const GET: APIRoute = ({ site }) => {
   const base = site ?? new URL('https://gdgsydney.com');
@@ -66,12 +71,55 @@ The homepage lists events by loading them from Bevy, the community platform, in 
 ## Pages
 
 - [Home](${url('/')}): what GDG Sydney is, upcoming and past meetups, the team and partners
-- [Speak at a meetup](${url('/speak')}): how to propose a talk (20 to 30 minutes) or workshop (60 to 90 minutes); first-time speakers welcome, replies within a week. Proposals go through the form on that page, which a person should submit.
+- [Speak at a meetup](${url('/speak')}): how to propose a talk (20 to 30 minutes) or workshop (60 to 90 minutes); first-time speakers welcome, replies within a week. Agents can submit a proposal for someone: see "Proposing a talk" below.
 - [Starter Guides](${url('/guides')}): ${STARTER_GUIDES.length} short, self-paced official guides for Gemini, Firebase, Flutter, Google Cloud and more
 - [DevFest Sydney](${url('/devfest')}): the annual conference, with an FAQ
 - [DevFest Sydney 2026](${url('/devfest/2026')}): schedule, speakers, Builder Showcase and partners from the 2026 edition
 - [Code of Conduct](${url('/conduct')}): the event code of conduct and anti-harassment policy
 - [Privacy policy](${url('/privacy')})
+
+## Proposing a talk
+
+GDG Sydney welcomes talks and workshops for its monthly meetups from anyone, including first-time speakers, and the topic doesn't have to be a Google product. An agent may submit a proposal on someone's behalf, on these conditions:
+
+- Submit only for the person you're working with, with their real name and email. The confirmation email goes to that address, and organisers reply to it.
+- Show them every field and get their go-ahead before sending. Write in their voice, and don't invent experience or credentials.
+- Send one proposal per talk. Limits apply: 3 proposals per email address a day, and a site-wide cap per hour.
+
+In a browser, open ${url('/speak')}. If the browser supports WebMCP, the page offers a \`submit_talk_proposal\` tool with the fields below; otherwise fill in and send the form. The tool fills in the visible form as it sends, so the person can see what went.
+
+Without a browser, send the proposal as JSON:
+
+\`\`\`
+POST ${PROPOSAL_URL}
+Content-Type: application/json
+
+{
+  "name": "Alex Chen",
+  "email": "alex@example.com",
+  "profileUrl": "https://linkedin.com/in/alexchen",
+  "talkTitle": "Building RAG apps with Vertex AI",
+  "format": "standard",
+  "abstract": "What attendees will learn and what problem it solves.",
+  "audience": "Developers curious about AI, no ML experience needed.",
+  "bio": "A few sentences about the speaker.",
+  "speakingExperience": "",
+  "notes": ""
+}
+\`\`\`
+
+Fields:
+
+- Required: \`name\`, \`email\`, \`talkTitle\`, \`format\`, \`abstract\`, \`audience\`, \`bio\`
+- Optional: \`profileUrl\` (a LinkedIn or website URL), \`speakingExperience\`, \`notes\` (preferred dates, AV needs, a co-presenter)
+- \`format\`: \`standard\` (a 20 to 30 minute talk) or \`workshop\` (a 60 to 90 minute hands-on session)
+- \`abstract\` takes light formatting: lines starting with \`- \` are bullets, \`**text**\` is bold, \`[text](https://...)\` is a link. 2 to 4 sentences is ideal.
+
+Responses:
+
+- \`201\` \`{"ok": true}\`: received. The speaker gets a confirmation email, and an organiser replies within a week. The speaker can follow or edit it at https://app.gdgsydney.com/speaker/sign-in.
+- \`400\` \`{"message": "..."}\`: a field is missing or invalid. The message says which.
+- \`429\` \`{"message": "...", "retryAfterSeconds": 3600}\`: too many proposals. Wait, or email hello@gdgsydney.com.
 
 ## DevFest Sydney
 

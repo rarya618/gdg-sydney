@@ -123,6 +123,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
           <p class="form-portal-note">
             Already proposed, or spoken for us before? <a href={PORTAL_SIGN_IN_URL} class="form-note-link">Sign in to the speaker portal</a> to follow and change your proposals and keep your speaker profile up to date.
           </p>
+          <p class="form-portal-note">
+            Drafting with an AI assistant? It can send your proposal for you by following our <a href="/llms.txt" class="form-note-link">instructions for agents</a>. Check what it writes before it goes.
+          </p>
 
           <form
             class="speak-form"
@@ -355,10 +358,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       btn.innerHTML = buttonContent;
     };
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-
+    // Sends whatever is in the form, for both the submit button and the agent tool below.
+    // Resolves to null on success, or the message shown to the person on failure.
+    const sendProposal = async (): Promise<string | null> => {
       btn.disabled = true;
       btn.textContent = 'Sending…';
       errorEl.hidden = true;
@@ -387,15 +389,124 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
         });
         if (!response.ok) {
           const body = await response.json().catch(() => null);
-          showError(body?.message ?? 'Something went wrong.');
-          return;
+          const message = body?.message ?? 'Something went wrong.';
+          showError(message);
+          return message;
         }
         form.hidden = true;
         successEl.hidden = false;
+        return null;
       } catch {
-        showError("We couldn't reach the server.");
+        const message = "We couldn't reach the server.";
+        showError(message);
+        return message;
       }
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      await sendProposal();
     });
+
+    // WebMCP (navigator.modelContext): lets an AI agent in the person's browser submit a
+    // proposal as a structured tool call instead of clicking through the form. An early
+    // web standard, so this does nothing where the browser doesn't offer it. The tool fills
+    // in the visible form before sending, so the person sees exactly what went, and the
+    // page then shows the usual success or error message. Agents without a browser use the
+    // same endpoint directly; both are described in /llms.txt.
+    type ProposalInput = {
+      name: string;
+      email: string;
+      profileUrl?: string;
+      talkTitle: string;
+      format: 'standard' | 'workshop';
+      abstract: string;
+      audience: string;
+      bio: string;
+      speakingExperience?: string;
+      notes?: string;
+    };
+    type ModelContext = {
+      registerTool: (tool: {
+        name: string;
+        description: string;
+        inputSchema: object;
+        execute: (input: ProposalInput) => Promise<{ content: { type: 'text'; text: string }[] }>;
+      }) => unknown;
+    };
+    const modelContext = (navigator as Navigator & { modelContext?: ModelContext }).modelContext;
+
+    if (modelContext && typeof modelContext.registerTool === 'function') {
+      const setField = (name: string, value: string | undefined) => {
+        const input = form.elements.namedItem(name);
+        if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) input.value = value ?? '';
+      };
+      const reply = (text: string) => ({ content: [{ type: 'text' as const, text }] });
+
+      try {
+        modelContext.registerTool({
+          name: 'submit_talk_proposal',
+          description:
+            'Submit a talk or workshop proposal for a GDG Sydney monthly meetup on behalf of the person using this browser. ' +
+            'Only call this after the person has read and approved every field, and use their own name and email: the ' +
+            'confirmation email goes to that address, and organisers reply to it within a week. Write in their voice. ' +
+            'Abstract formatting: lines starting with "- " are bullets, **text** is bold, [text](https://...) is a link.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              name: { type: 'string', description: "The speaker's full name.", maxLength: 200 },
+              email: { type: 'string', format: 'email', description: "The speaker's email address." },
+              profileUrl: { type: 'string', description: 'Optional LinkedIn or personal website URL.' },
+              talkTitle: { type: 'string', description: 'The talk title.' },
+              format: {
+                type: 'string',
+                enum: ['standard', 'workshop'],
+                description: 'standard: a 20 to 30 minute talk. workshop: a 60 to 90 minute hands-on session.',
+              },
+              abstract: { type: 'string', description: 'What attendees will learn and what problem it solves. 2 to 4 sentences is ideal.' },
+              audience: { type: 'string', description: 'Who will get the most out of it, and what experience they need.' },
+              bio: { type: 'string', description: 'A few sentences about the speaker and their background.' },
+              speakingExperience: { type: 'string', description: 'Optional. Past talks; first-time speakers are welcome.' },
+              notes: { type: 'string', description: 'Optional. Preferred dates, AV needs, a co-presenter.' },
+            },
+            required: ['name', 'email', 'talkTitle', 'format', 'abstract', 'audience', 'bio'],
+          },
+          execute: async (input) => {
+            if (form.hidden) return reply('A proposal was already sent from this page. Reload it to send another.');
+            setField('name', input.name);
+            setField('email', input.email);
+            setField('profile', input.profileUrl);
+            setField('title', input.talkTitle);
+            setField('abstract', input.abstract);
+            setField('audience', input.audience);
+            setField('bio', input.bio);
+            setField('experience', input.speakingExperience);
+            setField('notes', input.notes);
+            const formatRadio = form.querySelector<HTMLInputElement>(`input[name="format"][value="${input.format}"]`);
+            if (formatRadio) formatRadio.checked = true;
+
+            if (!form.checkValidity()) {
+              form.reportValidity();
+              const invalid = Array.from(form.elements).find(
+                (element): element is HTMLInputElement | HTMLTextAreaElement =>
+                  (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) && !element.validity.valid
+              );
+              return reply(`Not sent: the ${invalid?.name ?? 'form'} field is missing or invalid. ${invalid?.validationMessage ?? ''}`.trim());
+            }
+            const error = await sendProposal();
+            return reply(
+              error
+                ? `Not sent: ${error}`
+                : "Sent. A confirmation email is on its way to the speaker's address, and organisers reply within a week. " +
+                    'They can follow or edit the proposal at https://app.gdgsydney.com/speaker/sign-in.'
+            );
+          },
+        });
+      } catch {
+        // A browser with a different version of the API: leave the form as it is.
+      }
+    }
   </script>
 </SiteLayout>
 
@@ -658,6 +769,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     color: var(--text-soft);
     margin-bottom: 2rem;
   }
+  /* The portal note and the agent note read as one block above the form. */
+  .form-portal-note:has(+ .form-portal-note) { margin-bottom: 0.5rem; }
 
   .speak-form {
     display: flex;
