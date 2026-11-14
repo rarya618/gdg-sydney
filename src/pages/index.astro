@@ -5,6 +5,28 @@ import AboutStats from '../components/AboutStats';
 import PastEvents from '../components/PastEvents';
 import Team from '../components/Team';
 import Partners from '../components/Partners';
+
+// Tells search engines and AI agents who GDG Sydney is, since most of this page's detail
+// (events, team, partners) loads from Bevy in the browser. See also /llms.txt.
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'GDG Sydney',
+  alternateName: 'Google Developer Group Sydney',
+  url: new URL('/', Astro.site).href,
+  logo: new URL('/logo.png', Astro.site).href,
+  description:
+    'A volunteer-run community of developers and builders in Sydney, running free monthly meetups on AI, Google Cloud and app development since 2013, and the annual DevFest Sydney conference.',
+  foundingDate: '2013',
+  email: 'hello@gdgsydney.com',
+  areaServed: { '@type': 'City', name: 'Sydney' },
+  sameAs: [
+    'https://gdg.community.dev/gdg-sydney/',
+    'https://www.meetup.com/gdgcloudsydney/',
+    'https://www.linkedin.com/company/gdg-sydney/',
+    'https://www.instagram.com/gdgsydney',
+  ],
+};
 ---
 
 <SiteLayout
@@ -17,6 +39,7 @@ import Partners from '../components/Partners';
   <!-- Events, team and partners load from Bevy; its images come from Cloudinary. -->
   <link rel="preconnect" href="https://gdg.community.dev" slot="head" />
   <link rel="preconnect" href="https://res.cloudinary.com" slot="head" />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(organizationJsonLd)} />
 
   <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
   <section class="hero" id="home" aria-labelledby="hero-heading" data-hero>
