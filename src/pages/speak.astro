@@ -3,6 +3,10 @@ import { Image } from 'astro:assets';
 import SiteLayout from '../layouts/SiteLayout.astro';
 // A speaker presenting at a past DevFest Sydney.
 import heroPhoto from '../assets/speak/hero.jpg';
+
+// The speaker portal in the GDG Sydney back office (app.gdgsydney.com): proposals, edits and
+// the speaker profile, signed in by an emailed link. Its sign-in page, never a sign-in link.
+const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 ---
 
 <SiteLayout
@@ -116,6 +120,9 @@ import heroPhoto from '../assets/speak/hero.jpg';
         <!-- Right: form -->
         <section class="speak-form-wrap" aria-labelledby="form-heading">
           <h2 class="form-heading" id="form-heading">Submit a talk proposal</h2>
+          <p class="form-portal-note">
+            Already proposed, or spoken for us before? <a href={PORTAL_SIGN_IN_URL} class="form-note-link">Sign in to the speaker portal</a> to follow and change your proposals and keep your speaker profile up to date.
+          </p>
 
           <form
             class="speak-form"
@@ -309,6 +316,9 @@ import heroPhoto from '../assets/speak/hero.jpg';
             </div>
             <h3 class="success-title">Proposal received</h3>
             <p class="success-body">Thanks for putting your hand up. We'll be in touch within a week.</p>
+            <p class="success-body">
+              Follow it, or make changes until we've decided, in the <a href={PORTAL_SIGN_IN_URL} class="form-note-link">speaker portal</a>. Sign in with the email you used.
+            </p>
           </div>
 
           <div class="form-error" id="form-error" hidden aria-live="polite">
@@ -633,6 +643,16 @@ import heroPhoto from '../assets/speak/hero.jpg';
     color: var(--fg);
     margin-bottom: 2rem;
     line-height: 1.15;
+  }
+
+  /* Sits between the heading and the form, so the heading's gap moves below it. */
+  .form-heading:has(+ .form-portal-note) { margin-bottom: 0.75rem; }
+
+  .form-portal-note {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+    margin-bottom: 2rem;
   }
 
   .speak-form {
