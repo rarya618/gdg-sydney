@@ -219,9 +219,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <label for="abstract" class="field-label">
                 Talk abstract <span class="required" aria-hidden="true">*</span>
               </label>
-              <p class="field-hint">What will attendees learn? What problem does it solve?</p>
+              <p class="field-hint" id="abstract-hint">
+                What will attendees learn? What problem does it solve?
+                Formatting: start a line with - for a bullet point, wrap words in **two asterisks** for bold, and write links as [text](https://…).
+              </p>
               <textarea
                 id="abstract"
+                aria-describedby="abstract-hint"
                 name="abstract"
                 class="field-input field-textarea"
                 placeholder="A short description of your talk. 2 to 4 sentences is ideal."
