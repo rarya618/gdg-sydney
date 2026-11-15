@@ -1,0 +1,46 @@
+---
+// The row under each of the speak form's text boxes:
+//   "Formatting": a tooltip with the formatting the back office renders (its MarkdownText
+//     component, in the devfest-sydney repo). It shows on hover where there is one, and a click
+//     or tap pins it open. The textarea's aria-describedby points at the bubble, so screen
+//     readers hear it on the box without opening it.
+//   "Copy a prompt…": copies a prompt asking the speaker's own AI tool to put the box's text
+//     into that formatting.
+// speak.astro's script does the toggling and builds the prompt. The speaker portal's
+// FormattingHelp.tsx (devfest-sydney) offers the same prompt, so keep the two worded alike.
+interface Props {
+  /** The id of the textarea this row sits under. */
+  for: string;
+  /** What the box holds, as the prompt names it: "talk abstract", "speaker bio". */
+  label: string;
+}
+
+const { for: fieldId, label } = Astro.props;
+const bubbleId = `${fieldId}-format`;
+---
+
+<div class="format-help">
+  <div class="format-tip">
+    <button type="button" class="format-tip-trigger" aria-expanded="false" aria-controls={bubbleId}>
+      <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+      </svg>
+      Formatting
+    </button>
+    <div class="format-tip-bubble" id={bubbleId}>
+      <p class="format-tip-title">Formatting you can use</p>
+      <ul class="format-tip-list" role="list">
+        <li><code>- item</code> at the start of a line for a bullet point</li>
+        <li><code>**words**</code> for <strong>bold</strong></li>
+        <li><code>[text](https://…)</code> for a link</li>
+      </ul>
+    </div>
+  </div>
+  <button type="button" class="format-copy" data-copy-prompt={fieldId} data-label={label}>
+    <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
+      <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
+      <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
+    </svg>
+    <span class="format-copy-text" aria-live="polite">Copy a prompt to format this with your AI tool</span>
+  </button>
+</div>

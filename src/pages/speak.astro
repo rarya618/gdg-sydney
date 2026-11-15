@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import FormatPromptButton from '../components/FormatPromptButton.astro';
+import FormattingHelp from '../components/FormattingHelp.astro';
 // A speaker presenting at a past DevFest Sydney.
 import heroPhoto from '../assets/speak/hero.jpg';
 
@@ -228,23 +228,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </p>
               <textarea
                 id="abstract"
-                aria-describedby="abstract-hint format-guide"
+                aria-describedby="abstract-hint abstract-format"
                 name="abstract"
                 class="field-input field-textarea"
                 placeholder="A short description of your talk. 2 to 4 sentences is ideal."
                 rows="6"
                 required
               ></textarea>
-              <!-- The one formatting guide: it covers this box and every text box below it. -->
-              <div class="format-guide" id="format-guide">
-                <p class="format-guide-title">Formatting works here and in every text box below:</p>
-                <ul class="format-guide-list" role="list">
-                  <li><code>- item</code> for a bullet point</li>
-                  <li><code>**words**</code> for <strong>bold</strong></li>
-                  <li><code>[text](https://…)</code> for a link</li>
-                </ul>
-              </div>
-              <FormatPromptButton for="abstract" label="talk abstract" />
+              <FormattingHelp for="abstract" label="talk abstract" />
             </div>
 
             <!-- Target audience -->
@@ -255,14 +246,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="audience-hint">Who will get the most out of this talk? What level of experience should they have?</p>
               <textarea
                 id="audience"
-                aria-describedby="audience-hint format-guide"
+                aria-describedby="audience-hint audience-format"
                 name="audience"
                 class="field-input field-textarea"
                 placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
                 rows="3"
                 required
               ></textarea>
-              <FormatPromptButton for="audience" label="target audience" />
+              <FormattingHelp for="audience" label="target audience" />
             </div>
 
             <!-- Bio -->
@@ -273,14 +264,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="bio-hint">A few sentences about you and your background.</p>
               <textarea
                 id="bio"
-                aria-describedby="bio-hint format-guide"
+                aria-describedby="bio-hint bio-format"
                 name="bio"
                 class="field-input field-textarea"
                 placeholder="I'm a software engineer at … with experience in …"
                 rows="3"
                 required
               ></textarea>
-              <FormatPromptButton for="bio" label="speaker bio" />
+              <FormattingHelp for="bio" label="speaker bio" />
             </div>
 
             <!-- Experience -->
@@ -291,13 +282,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="experience"
-                aria-describedby="format-guide"
+                aria-describedby="experience-format"
                 name="experience"
                 class="field-input field-textarea"
                 placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
                 rows="3"
               ></textarea>
-              <FormatPromptButton for="experience" label="speaking experience" />
+              <FormattingHelp for="experience" label="speaking experience" />
             </div>
 
             <!-- Anything else -->
@@ -308,13 +299,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="notes"
-                aria-describedby="format-guide"
+                aria-describedby="notes-format"
                 name="notes"
                 class="field-input field-textarea"
                 placeholder="Preferred dates, AV requirements, co-presenter, etc."
                 rows="3"
               ></textarea>
-              <FormatPromptButton for="notes" label="notes" />
+              <FormattingHelp for="notes" label="notes" />
             </div>
 
             <div class="form-footer">
@@ -471,6 +462,30 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
         window.clearTimeout(resetTimer);
         resetTimer = window.setTimeout(() => { textEl.textContent = idleText; }, 4000);
       });
+    });
+
+    // The "Formatting" tooltips: a click or tap pins one open (hover alone opens it where
+    // there is hover, in CSS). Escape, or a click anywhere else, closes it.
+    const tipTriggers = Array.from(document.querySelectorAll<HTMLButtonElement>('.format-tip-trigger'));
+    const closeTips = (except?: HTMLButtonElement) => {
+      tipTriggers.forEach((trigger) => { if (trigger !== except) trigger.setAttribute('aria-expanded', 'false'); });
+    };
+    tipTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+        closeTips(trigger);
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+    document.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element) || !event.target.closest('.format-tip')) closeTips();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const open = tipTriggers.find((trigger) => trigger.getAttribute('aria-expanded') === 'true');
+      if (!open) return;
+      closeTips();
+      if (open.closest('.format-tip')?.contains(document.activeElement)) open.focus();
     });
 
     // WebMCP (navigator.modelContext): lets an AI agent in the person's browser submit a
@@ -880,37 +895,115 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
   .required { color: var(--red-text); }
 
-  /* The formatting guide under the abstract box, shared by every text box below it. */
-  .format-guide {
+  /* The row under each text box: the formatting tooltip, then the copy-prompt button. */
+  .format-help {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .format-tip { position: relative; }
+
+  .format-tip-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--sans);
     font-size: 0.78rem;
     line-height: 1.5;
     color: var(--muted);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+  .format-tip-trigger:hover,
+  .format-tip-trigger[aria-expanded="true"] { color: var(--text-soft); }
+  .format-tip-trigger:focus-visible {
+    outline: 2px solid var(--blue-text);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 
-  .format-guide-title { margin-bottom: 0.3rem; }
+  /* Below the trigger, over the next field's label rather than this box's own text. Hover
+     opens it where hover exists; a click or tap sets aria-expanded and pins it (see the script). */
+  .format-tip-bubble {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 20;
+    width: max-content;
+    max-width: min(22rem, calc(100vw - 32px));
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+    background: var(--surface-2);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    padding: 0.7rem 0.875rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.12s ease, transform 0.12s ease, visibility 0s linear 0.12s;
+  }
+  /* Keeps the hover alive across the gap between trigger and bubble. */
+  .format-tip-bubble::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 10px;
+  }
 
-  .format-guide-list {
+  .format-tip:has(.format-tip-trigger[aria-expanded="true"]) .format-tip-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+  @media (hover: hover) {
+    .format-tip:hover .format-tip-bubble {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.12s ease, transform 0.12s ease;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .format-tip-bubble { transition: none; transform: none; }
+  }
+
+  .format-tip-title {
+    font-weight: 700;
+    color: var(--fg);
+    margin-bottom: 0.35rem;
+  }
+
+  .format-tip-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 1.25rem;
+    flex-direction: column;
+    gap: 0.3rem;
     list-style: none;
   }
 
-  .format-guide-list code {
+  .format-tip-list code {
     font-family: var(--mono);
     font-size: 0.95em;
-    color: var(--text-soft);
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--fg);
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 4px;
     padding: 0.05em 0.35em;
   }
 
-  .format-guide-list strong { color: var(--text-soft); }
+  .format-tip-list strong { color: var(--fg); }
 
-  /* The copy-prompt button under each text box. */
-
+  /* The copy-prompt button. */
   .format-copy {
-    align-self: flex-start;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
