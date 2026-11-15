@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import FormattingHint from '../components/FormattingHint.astro';
 // A speaker presenting at a past DevFest Sydney.
 import heroPhoto from '../assets/speak/hero.jpg';
 
@@ -224,17 +225,17 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <p class="field-hint" id="abstract-hint">
                 What will attendees learn? What problem does it solve?
-                Formatting: start a line with - for a bullet point, wrap words in **two asterisks** for bold, and write links as [text](https://…).
               </p>
               <textarea
                 id="abstract"
-                aria-describedby="abstract-hint"
+                aria-describedby="abstract-hint abstract-format"
                 name="abstract"
                 class="field-input field-textarea"
                 placeholder="A short description of your talk. 2 to 4 sentences is ideal."
                 rows="6"
                 required
               ></textarea>
+              <FormattingHint for="abstract" label="talk abstract" />
             </div>
 
             <!-- Target audience -->
@@ -242,15 +243,17 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <label for="audience" class="field-label">
                 Target audience <span class="required" aria-hidden="true">*</span>
               </label>
-              <p class="field-hint">Who will get the most out of this talk? What level of experience should they have?</p>
+              <p class="field-hint" id="audience-hint">Who will get the most out of this talk? What level of experience should they have?</p>
               <textarea
                 id="audience"
+                aria-describedby="audience-hint audience-format"
                 name="audience"
                 class="field-input field-textarea"
                 placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
                 rows="3"
                 required
               ></textarea>
+              <FormattingHint for="audience" label="target audience" />
             </div>
 
             <!-- Bio -->
@@ -258,15 +261,17 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <label for="bio" class="field-label">
                 Speaker bio <span class="required" aria-hidden="true">*</span>
               </label>
-              <p class="field-hint">A few sentences about you and your background.</p>
+              <p class="field-hint" id="bio-hint">A few sentences about you and your background.</p>
               <textarea
                 id="bio"
+                aria-describedby="bio-hint bio-format"
                 name="bio"
                 class="field-input field-textarea"
                 placeholder="I'm a software engineer at … with experience in …"
                 rows="3"
                 required
               ></textarea>
+              <FormattingHint for="bio" label="speaker bio" />
             </div>
 
             <!-- Experience -->
@@ -277,11 +282,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="experience"
+                aria-describedby="experience-format"
                 name="experience"
                 class="field-input field-textarea"
                 placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
                 rows="3"
               ></textarea>
+              <FormattingHint for="experience" label="speaking experience" />
             </div>
 
             <!-- Anything else -->
@@ -292,11 +299,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="notes"
+                aria-describedby="notes-format"
                 name="notes"
                 class="field-input field-textarea"
                 placeholder="Preferred dates, AV requirements, co-presenter, etc."
                 rows="3"
               ></textarea>
+              <FormattingHint for="notes" label="notes" />
             </div>
 
             <div class="form-footer">
@@ -409,6 +418,52 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       await sendProposal();
     });
 
+    // "Copy a prompt" under each text box: a prompt for the speaker's own AI tool that puts
+    // the box's text (or a placeholder, if it's empty) into the formatting the form supports.
+    const formattingPrompt = (label: string, text: string) =>
+      `Reformat my ${label} for a talk proposal form. The form supports only this formatting:\n` +
+      '- A line starting with "- " is a bullet point\n' +
+      '- **Two asterisks** around words make them bold\n' +
+      '- [text](https://example.com) is a link\n\n' +
+      'Keep my wording and meaning, and fix only the formatting. Use bullets where I list things. ' +
+      'Do not add headings, tables, emoji or any other Markdown. ' +
+      'Reply with only the reformatted text, ready to paste back into the form.\n\n' +
+      `My ${label}:\n${text || '[paste it here]'}`;
+
+    const copyText = async (text: string) => {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // Older browsers, or a page without clipboard permission.
+        const scratch = document.createElement('textarea');
+        scratch.value = text;
+        scratch.setAttribute('readonly', '');
+        scratch.style.position = 'fixed';
+        scratch.style.opacity = '0';
+        document.body.append(scratch);
+        scratch.select();
+        const copied = document.execCommand('copy');
+        scratch.remove();
+        return copied;
+      }
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-prompt]').forEach((button) => {
+      const textEl = button.querySelector('.format-copy-text') as HTMLElement;
+      const idleText = textEl.textContent ?? '';
+      let resetTimer: number | undefined;
+      button.addEventListener('click', async () => {
+        const box = document.getElementById(button.dataset.copyPrompt ?? '') as HTMLTextAreaElement | null;
+        const copied = await copyText(formattingPrompt(button.dataset.label ?? 'text', box?.value.trim() ?? ''));
+        textEl.textContent = copied
+          ? 'Copied. Paste it into your AI tool, then paste its answer back here.'
+          : "Couldn't copy. Your browser blocked the clipboard.";
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => { textEl.textContent = idleText; }, 4000);
+      });
+    });
+
     // WebMCP (navigator.modelContext): lets an AI agent in the person's browser submit a
     // proposal as a structured tool call instead of clicking through the form. An early
     // web standard, so this does nothing where the browser doesn't offer it. The tool fills
@@ -451,7 +506,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             'Submit a talk or workshop proposal for a GDG Sydney monthly meetup on behalf of the person using this browser. ' +
             'Only call this after the person has read and approved every field, and use their own name and email: the ' +
             'confirmation email goes to that address, and organisers reply to it within a week. Write in their voice. ' +
-            'Abstract formatting: lines starting with "- " are bullets, **text** is bold, [text](https://...) is a link.',
+            'Formatting in abstract, audience, bio, speakingExperience and notes: lines starting with "- " are bullets, ' +
+            '**text** is bold, [text](https://...) is a link.',
           inputSchema: {
             type: 'object',
             properties: {
@@ -814,6 +870,38 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .required { color: var(--red-text); }
+
+  /* Formatting line and copy-prompt button under each text box. */
+  .format-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  .format-hint .field-hint { margin-top: 0; }
+
+  .format-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--blue-text);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+  .format-copy:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .format-copy:focus-visible {
+    outline: 2px solid var(--blue-text);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .format-copy svg { flex-shrink: 0; }
 
   .field-input {
     font-family: var(--sans);

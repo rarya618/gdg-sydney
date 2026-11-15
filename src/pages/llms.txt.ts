@@ -113,7 +113,7 @@ Fields:
 - Required: \`name\`, \`email\`, \`talkTitle\`, \`format\`, \`abstract\`, \`audience\`, \`bio\`
 - Optional: \`profileUrl\` (a LinkedIn or website URL), \`speakingExperience\`, \`notes\` (preferred dates, AV needs, a co-presenter)
 - \`format\`: \`standard\` (a 20 to 30 minute talk) or \`workshop\` (a 60 to 90 minute hands-on session)
-- \`abstract\` takes light formatting: lines starting with \`- \` are bullets, \`**text**\` is bold, \`[text](https://...)\` is a link. 2 to 4 sentences is ideal.
+- \`abstract\`, \`audience\`, \`bio\`, \`speakingExperience\` and \`notes\` take light formatting: lines starting with \`- \` are bullets, \`**text**\` is bold, \`[text](https://...)\` is a link. 2 to 4 sentences is ideal for the abstract.
 
 Responses:
 
