@@ -1,13 +1,13 @@
 ---
 // The row under each of the speak form's text boxes:
-//   "Formatting": a tooltip with the formatting the back office renders (its MarkdownText
-//     component, in the devfest-sydney repo). It shows on hover where there is one, and a click
+//   "Formatting": a tooltip with the formatting src/lib/markdownText.ts understands. It shows on hover where there is one, and a click
 //     or tap pins it open. The textarea's aria-describedby points at the bubble, so screen
 //     readers hear it on the box without opening it.
 //   "Copy a prompt…": copies a prompt asking the speaker's own AI tool to put the box's text
 //     into that formatting.
-// speak.astro's script does the toggling and builds the prompt. The speaker portal's
-// FormattingHelp.tsx (devfest-sydney) offers the same prompt, so keep the two worded alike.
+// speak.astro's script does the toggling, and the prompt is in src/lib/formattingPrompt.ts. The
+// speaker portal's FormattingHelp.tsx (devfest-sydney) has the same tooltip, so keep the two
+// worded alike.
 interface Props {
   /** The id of the textarea this row sits under. */
   for: string;

@@ -1,14 +1,17 @@
-// Parses the small piece of Markdown that talk abstracts use, the same rules as the back
-// office's MarkdownText component (src/components/MarkdownText.tsx in the devfest-sydney repo):
-// keep the two in step.
+// Parses the small piece of Markdown that speakers can use in talk abstracts, bios and the other
+// proposal text boxes:
 //   paragraphs (a blank line between), with single line breaks kept
 //   headings ("# ", "## " or "### " at the start of a line), all set as one small heading;
 //   the space matters, so "#hashtag" stays as typed
 //   bullet lists ("- ", "* " or "• " at the start of a line) and numbered lists ("1. " or "1) ")
 //   **bold**, *italic* or _italic_, `code`, and [links](https://...) to http(s) addresses only
 // A list may start straight under its intro line, without a blank line, as people type them.
-// Anything else shows as typed. The result is plain data for MarkdownText.astro to render
-// through Astro expressions, never HTML, so nothing a speaker types can inject markup.
+// Anything else shows as typed. The result is plain data for a renderer to turn into elements,
+// never HTML, so nothing a speaker types can inject markup.
+//
+// This file is identical in the gdg-sydney repo (rendered by src/components/MarkdownText.astro)
+// and the devfest-sydney repo (rendered by src/components/MarkdownText.tsx): change both together.
+// src/lib/formatting.test.ts, also identical in both, checks them against the same cases.
 
 export type Inline =
   | { kind: 'text'; text: string }

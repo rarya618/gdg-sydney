@@ -348,6 +348,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   </div>
 
   <script>
+    import { formattingPrompt } from '../lib/formattingPrompt';
+
     // Proposals go to the back office's /api/submit-meetup-proposal (app.gdgsydney.com), which validates them,
     // saves them to Firestore (meetupProposals) and emails a confirmation, bcc'd to
     // hello@gdgsydney.com.
@@ -418,19 +420,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       await sendProposal();
     });
 
-    // "Copy a prompt" under each text box: a prompt for the speaker's own AI tool that puts
-    // the box's text (or a placeholder, if it's empty) into the formatting the form supports.
-    const formattingPrompt = (label: string, text: string) =>
-      `Reformat my ${label} for a talk proposal form. The form supports only this formatting:\n` +
-      '- A line starting with "## " is a heading\n' +
-      '- A line starting with "- " is a bullet point\n' +
-      '- **Two asterisks** around words make them bold\n' +
-      '- [text](https://example.com) is a link\n\n' +
-      'Keep my wording and meaning, and fix only the formatting. Use bullets where I list things, ' +
-      'and headings only to split a longer text into parts. ' +
-      'Do not add tables, emoji or any other Markdown. ' +
-      'Reply with only the reformatted text, ready to paste back into the form.\n\n' +
-      `My ${label}:\n${text || '[paste it here]'}`;
+    // "Copy a prompt" under each text box: the prompt is in src/lib/formattingPrompt.ts.
 
     const copyText = async (text: string) => {
       try {
