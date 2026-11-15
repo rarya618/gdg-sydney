@@ -1,6 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import SiteLayout from '../../../../layouts/SiteLayout.astro';
+import MarkdownText from '../../../../components/MarkdownText.astro';
 import {
   EVENT,
   TRACKS,
@@ -107,9 +108,8 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
               ))}
             </p>
           )}
-          <div class="prose">
-            {paragraphs(speaker.abstract).map((p) => <p>{p}</p>)}
-          </div>
+          {/* Abstracts take the formatting the speaker portal offers: headings, lists, bold, links. */}
+          <MarkdownText text={speaker.abstract} class="prose" />
         </section>
 
         {speaker.bio && (
@@ -325,4 +325,43 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   }
 
   .bio .prose p { font-size: 0.925rem; color: var(--muted); }
+
+  /* The abstract, rendered by MarkdownText, so its elements need :global() to be reached. */
+  .talk :global(.prose) { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; max-width: 68ch; }
+
+  .talk :global(.prose p),
+  .talk :global(.prose li) { font-size: 1rem; line-height: 1.8; color: var(--text-soft); }
+
+  .talk :global(.prose h3) {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    color: var(--fg);
+    margin-top: 0.5rem;
+  }
+  .talk :global(.prose h3:first-child) { margin-top: 0; }
+
+  .talk :global(.prose ul),
+  .talk :global(.prose ol) { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .talk :global(.prose ul) { list-style: disc; }
+  .talk :global(.prose ol) { list-style: decimal; }
+  .talk :global(.prose li::marker) { color: var(--track-color); }
+
+  .talk :global(.prose strong) { font-weight: 700; color: var(--fg); }
+  /* Google Sans has no italic face (BRANDING.md), so emphasis is set in the medium weight. */
+  .talk :global(.prose em) { font-style: normal; font-weight: 500; color: var(--fg); }
+  .talk :global(.prose code) {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    background: var(--surface);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+  }
+  .talk :global(.prose a) {
+    color: var(--blue-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .talk :global(.prose a:hover) { color: var(--fg); }
 </style>

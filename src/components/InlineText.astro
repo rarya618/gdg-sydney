@@ -1,0 +1,20 @@
+---
+// Renders a line of parsed inline formatting (see src/lib/markdownText.ts), calling itself for
+// nested formatting such as bold text inside a link.
+import type { Inline } from '../lib/markdownText';
+
+interface Props {
+  nodes: Inline[];
+}
+
+const { nodes } = Astro.props;
+---
+
+{nodes.map((node) =>
+  node.kind === 'text' ? node.text
+  : node.kind === 'code' ? <code>{node.text}</code>
+  // Speakers write these, so tell search engines the site doesn't vouch for them.
+  : node.kind === 'link' ? <a href={node.href} target="_blank" rel="noopener noreferrer nofollow ugc"><Astro.self nodes={node.children} /></a>
+  : node.kind === 'bold' ? <strong><Astro.self nodes={node.children} /></strong>
+  : <em><Astro.self nodes={node.children} /></em>
+)}

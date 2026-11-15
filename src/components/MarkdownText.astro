@@ -1,0 +1,27 @@
+---
+// Renders text a speaker formatted (headings, lists, bold, italics, code and links) as Astro
+// elements, never as HTML. The rules are in src/lib/markdownText.ts. Unstyled: the page styles
+// the elements under the class it passes, as the speaker page's .prose does.
+import { parseMarkdownText } from '../lib/markdownText';
+import InlineText from './InlineText.astro';
+
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className } = Astro.props;
+const blocks = parseMarkdownText(text);
+---
+
+<div class={className}>
+  {blocks.map((block) =>
+    // h3 whatever the speaker typed: it sits under the page's h2 for the talk.
+    block.kind === 'heading' ? <h3><InlineText nodes={block.content} /></h3>
+    : block.kind === 'paragraph' ? (
+      <p>{block.lines.map((line, index) => <>{index > 0 && <br />}<InlineText nodes={line} /></>)}</p>
+    )
+    : block.kind === 'bullets' ? <ul>{block.items.map((item) => <li><InlineText nodes={item} /></li>)}</ul>
+    : <ol>{block.items.map((item) => <li><InlineText nodes={item} /></li>)}</ol>
+  )}
+</div>
