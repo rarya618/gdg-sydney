@@ -1,7 +1,8 @@
 ---
 // The line under each of the speak form's text boxes: what formatting the back office renders
 // (its MarkdownText component, in the devfest-sydney repo), and a button that copies a prompt
-// asking the speaker's own AI tool to put that box's text into this formatting.
+// asking the speaker's own AI tool to put that box's text into this formatting. The speaker
+// portal's FormattingHelp.tsx (devfest-sydney) offers the same prompt, which speak.astro's script builds here: keep the two worded alike.
 interface Props {
   /** The id of the textarea this hint sits under. */
   for: string;
