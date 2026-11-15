@@ -779,17 +779,18 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     margin-top: 0.42em;
   }
 
+  /* The same gap as between an info block's heading and its content. */
   .format-cards {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.875rem;
   }
 
   .format-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1rem 1.125rem;
+    padding: 1.125rem 1.25rem; /* as the form's own format cards (.radio-card) */
   }
 
   /* The card's heading: the format's name, in its colour, like the form's own format cards.
@@ -801,20 +802,22 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     letter-spacing: -0.015em;
     line-height: 1.2;
     color: var(--tag-color);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
   }
 
+  /* Name and duration read as one header; the description sits clearly below it. */
   .format-duration {
     font-family: var(--mono);
     font-size: 0.78rem;
+    line-height: 1.4;
     color: var(--text-soft);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.75rem;
   }
 
   .format-desc {
-    font-size: 0.8rem;
+    font-size: 0.825rem;
     color: var(--muted);
-    line-height: 1.55;
+    line-height: 1.6;
   }
 
   .info-email {
