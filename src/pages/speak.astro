@@ -94,12 +94,12 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             <h2 class="info-label">Talk formats</h2>
             <div class="format-cards">
               <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--blue-text)">Standard</span>
+                <h3 class="format-name" style="--tag-color: var(--blue-text)">Standard</h3>
                 <p class="format-duration">20 to 30 min</p>
                 <p class="format-desc">A full talk with time for audience questions.</p>
               </div>
               <div class="format-card">
-                <span class="format-tag" style="--tag-color: var(--yellow-text)">Workshop</span>
+                <h3 class="format-name" style="--tag-color: var(--yellow-text)">Workshop</h3>
                 <p class="format-duration">60 to 90 min</p>
                 <p class="format-desc">A hands-on session where attendees build along with you.</p>
               </div>
@@ -792,23 +792,23 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     padding: 1rem 1.125rem;
   }
 
-  .format-tag {
-    display: inline-block;
+  /* The card's heading: the format's name, in its colour, like the form's own format cards.
+     A step below the sidebar's own headings, which it sits under. */
+  .format-name {
     font-family: var(--sans);
-    font-size: 0.62rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
     color: var(--tag-color);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.25rem;
   }
 
   .format-duration {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--fg);
-    letter-spacing: -0.02em;
-    margin-bottom: 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    margin-bottom: 0.4rem;
   }
 
   .format-desc {
