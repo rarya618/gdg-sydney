@@ -422,11 +422,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     // the box's text (or a placeholder, if it's empty) into the formatting the form supports.
     const formattingPrompt = (label: string, text: string) =>
       `Reformat my ${label} for a talk proposal form. The form supports only this formatting:\n` +
+      '- A line starting with "## " is a heading\n' +
       '- A line starting with "- " is a bullet point\n' +
       '- **Two asterisks** around words make them bold\n' +
       '- [text](https://example.com) is a link\n\n' +
-      'Keep my wording and meaning, and fix only the formatting. Use bullets where I list things. ' +
-      'Do not add headings, tables, emoji or any other Markdown. ' +
+      'Keep my wording and meaning, and fix only the formatting. Use bullets where I list things, ' +
+      'and headings only to split a longer text into parts. ' +
+      'Do not add tables, emoji or any other Markdown. ' +
       'Reply with only the reformatted text, ready to paste back into the form.\n\n' +
       `My ${label}:\n${text || '[paste it here]'}`;
 
@@ -530,7 +532,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             'Submit a talk or workshop proposal for a GDG Sydney monthly meetup on behalf of the person using this browser. ' +
             'Only call this after the person has read and approved every field, and use their own name and email: the ' +
             'confirmation email goes to that address, and organisers reply to it within a week. Write in their voice. ' +
-            'Formatting in abstract, audience, bio, speakingExperience and notes: lines starting with "- " are bullets, ' +
+            'Formatting in abstract, audience, bio, speakingExperience and notes: lines starting with "## " are headings, ' +
+            'lines starting with "- " are bullets, ' +
             '**text** is bold, [text](https://...) is a link.',
           inputSchema: {
             type: 'object',
