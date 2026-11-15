@@ -28,8 +28,6 @@ const ogImage = photo ? await getImage({ src: photo, width: 600, height: 600, fo
 const session = sessionForSpeaker(speaker.slug) ?? speaker.sessionPartners.map((p) => sessionForSpeaker(p.slug)).find(Boolean);
 const track = TRACKS[speaker.track];
 
-const paragraphs = (text: string) => text.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
-
 const links = [
   { label: 'LinkedIn', url: speaker.linkedinUrl },
   { label: 'GitHub', url: speaker.githubUrl },
@@ -108,16 +106,14 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
               ))}
             </p>
           )}
-          {/* Abstracts take the formatting the speaker portal offers: headings, lists, bold, links. */}
+          {/* Abstracts and bios take the formatting the speaker portal offers: headings, lists, bold, links. */}
           <MarkdownText text={speaker.abstract} class="prose" />
         </section>
 
         {speaker.bio && (
           <section class="bio" aria-labelledby="bio-heading">
             <p class="eyebrow" id="bio-heading">About {speaker.name.split(' ')[0]}</p>
-            <div class="prose">
-              {paragraphs(speaker.bio).map((p) => <p>{p}</p>)}
-            </div>
+            <MarkdownText text={speaker.bio} class="prose" />
           </section>
         )}
       </div>
@@ -314,25 +310,17 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
   .talk-with a { color: var(--blue-text); font-weight: 700; text-decoration: none; transition: color 0.15s ease; }
   .talk-with a:hover { color: var(--fg); }
 
-  .prose { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
-
-  .prose p {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--text-soft);
-    white-space: pre-line;
-    max-width: 68ch;
-  }
-
-  .bio .prose p { font-size: 0.925rem; color: var(--muted); }
-
-  /* The abstract, rendered by MarkdownText, so its elements need :global() to be reached. */
-  .talk :global(.prose) { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; max-width: 68ch; }
+  /* The abstract and bio, rendered by MarkdownText, so their elements need :global() to be reached. */
+  .speaker-body :global(.prose) { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem; max-width: 68ch; }
 
   .talk :global(.prose p),
   .talk :global(.prose li) { font-size: 1rem; line-height: 1.8; color: var(--text-soft); }
 
-  .talk :global(.prose h3) {
+  /* The bio reads a step quieter than the talk. */
+  .bio :global(.prose p),
+  .bio :global(.prose li) { font-size: 0.925rem; line-height: 1.8; color: var(--muted); }
+
+  .speaker-body :global(.prose h3) {
     font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: -0.015em;
@@ -340,28 +328,28 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     color: var(--fg);
     margin-top: 0.5rem;
   }
-  .talk :global(.prose h3:first-child) { margin-top: 0; }
+  .speaker-body :global(.prose h3:first-child) { margin-top: 0; }
 
-  .talk :global(.prose ul),
-  .talk :global(.prose ol) { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
-  .talk :global(.prose ul) { list-style: disc; }
-  .talk :global(.prose ol) { list-style: decimal; }
-  .talk :global(.prose li::marker) { color: var(--track-color); }
+  .speaker-body :global(.prose ul),
+  .speaker-body :global(.prose ol) { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .speaker-body :global(.prose ul) { list-style: disc; }
+  .speaker-body :global(.prose ol) { list-style: decimal; }
+  .speaker-body :global(.prose li::marker) { color: var(--track-color); }
 
-  .talk :global(.prose strong) { font-weight: 700; color: var(--fg); }
+  .speaker-body :global(.prose strong) { font-weight: 700; color: var(--fg); }
   /* Google Sans has no italic face (BRANDING.md), so emphasis is set in the medium weight. */
-  .talk :global(.prose em) { font-style: normal; font-weight: 500; color: var(--fg); }
-  .talk :global(.prose code) {
+  .speaker-body :global(.prose em) { font-style: normal; font-weight: 500; color: var(--fg); }
+  .speaker-body :global(.prose code) {
     font-family: var(--mono);
     font-size: 0.9em;
     background: var(--surface);
     border-radius: 4px;
     padding: 0.1em 0.35em;
   }
-  .talk :global(.prose a) {
+  .speaker-body :global(.prose a) {
     color: var(--blue-text);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .talk :global(.prose a:hover) { color: var(--fg); }
+  .speaker-body :global(.prose a:hover) { color: var(--fg); }
 </style>
