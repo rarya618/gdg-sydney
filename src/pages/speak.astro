@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import FormattingHint from '../components/FormattingHint.astro';
+import FormatPromptButton from '../components/FormatPromptButton.astro';
 // A speaker presenting at a past DevFest Sydney.
 import heroPhoto from '../assets/speak/hero.jpg';
 
@@ -228,14 +228,23 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </p>
               <textarea
                 id="abstract"
-                aria-describedby="abstract-hint abstract-format"
+                aria-describedby="abstract-hint format-guide"
                 name="abstract"
                 class="field-input field-textarea"
                 placeholder="A short description of your talk. 2 to 4 sentences is ideal."
                 rows="6"
                 required
               ></textarea>
-              <FormattingHint for="abstract" label="talk abstract" />
+              <!-- The one formatting guide: it covers this box and every text box below it. -->
+              <div class="format-guide" id="format-guide">
+                <p class="format-guide-title">Formatting works here and in every text box below:</p>
+                <ul class="format-guide-list" role="list">
+                  <li><code>- item</code> for a bullet point</li>
+                  <li><code>**words**</code> for <strong>bold</strong></li>
+                  <li><code>[text](https://…)</code> for a link</li>
+                </ul>
+              </div>
+              <FormatPromptButton for="abstract" label="talk abstract" />
             </div>
 
             <!-- Target audience -->
@@ -246,14 +255,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="audience-hint">Who will get the most out of this talk? What level of experience should they have?</p>
               <textarea
                 id="audience"
-                aria-describedby="audience-hint audience-format"
+                aria-describedby="audience-hint format-guide"
                 name="audience"
                 class="field-input field-textarea"
                 placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
                 rows="3"
                 required
               ></textarea>
-              <FormattingHint for="audience" label="target audience" />
+              <FormatPromptButton for="audience" label="target audience" />
             </div>
 
             <!-- Bio -->
@@ -264,14 +273,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="bio-hint">A few sentences about you and your background.</p>
               <textarea
                 id="bio"
-                aria-describedby="bio-hint bio-format"
+                aria-describedby="bio-hint format-guide"
                 name="bio"
                 class="field-input field-textarea"
                 placeholder="I'm a software engineer at … with experience in …"
                 rows="3"
                 required
               ></textarea>
-              <FormattingHint for="bio" label="speaker bio" />
+              <FormatPromptButton for="bio" label="speaker bio" />
             </div>
 
             <!-- Experience -->
@@ -282,13 +291,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="experience"
-                aria-describedby="experience-format"
+                aria-describedby="format-guide"
                 name="experience"
                 class="field-input field-textarea"
                 placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
                 rows="3"
               ></textarea>
-              <FormattingHint for="experience" label="speaking experience" />
+              <FormatPromptButton for="experience" label="speaking experience" />
             </div>
 
             <!-- Anything else -->
@@ -299,13 +308,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="notes"
-                aria-describedby="notes-format"
+                aria-describedby="format-guide"
                 name="notes"
                 class="field-input field-textarea"
                 placeholder="Preferred dates, AV requirements, co-presenter, etc."
                 rows="3"
               ></textarea>
-              <FormattingHint for="notes" label="notes" />
+              <FormatPromptButton for="notes" label="notes" />
             </div>
 
             <div class="form-footer">
@@ -871,16 +880,37 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
   .required { color: var(--red-text); }
 
-  /* Formatting line and copy-prompt button under each text box. */
-  .format-hint {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
+  /* The formatting guide under the abstract box, shared by every text box below it. */
+  .format-guide {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--muted);
   }
-  .format-hint .field-hint { margin-top: 0; }
+
+  .format-guide-title { margin-bottom: 0.3rem; }
+
+  .format-guide-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.25rem;
+    list-style: none;
+  }
+
+  .format-guide-list code {
+    font-family: var(--mono);
+    font-size: 0.95em;
+    color: var(--text-soft);
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+  }
+
+  .format-guide-list strong { color: var(--text-soft); }
+
+  /* The copy-prompt button under each text box. */
 
   .format-copy {
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;

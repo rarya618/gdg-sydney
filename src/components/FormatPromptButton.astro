@@ -1,0 +1,23 @@
+---
+// The button under each of the speak form's text boxes. It copies a prompt asking the speaker's
+// own AI tool to put that box's text into the formatting the back office renders (its
+// MarkdownText component, in the devfest-sydney repo). The formatting itself is explained once,
+// in the guide under the abstract box. speak.astro's script builds the prompt; the speaker
+// portal's FormattingHelp.tsx (devfest-sydney) offers the same one, so keep the two worded alike.
+interface Props {
+  /** The id of the textarea this button sits under. */
+  for: string;
+  /** What the box holds, as the prompt names it: "talk abstract", "speaker bio". */
+  label: string;
+}
+
+const { for: fieldId, label } = Astro.props;
+---
+
+<button type="button" class="format-copy" data-copy-prompt={fieldId} data-label={label}>
+  <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
+    <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
+    <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
+  </svg>
+  <span class="format-copy-text" aria-live="polite">Copy a prompt to format this with your AI tool</span>
+</button>
