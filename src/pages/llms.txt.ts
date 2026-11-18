@@ -12,7 +12,7 @@ import { STARTER_GUIDES, STARTER_GUIDE_GROUPS, starterGuideTimeLabel } from '../
 
 const COMMUNITY = 'https://gdg.community.dev/gdg-sydney/';
 const BEVY_UPCOMING =
-  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Live&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=start_date&fields=title,start_date,event_type_title,url,description_short,custom_tickets_url';
+  'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Live&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=start_date&fields=title,start_date,event_type_title,url,description_short,custom_tickets_url,venue_name,venue_city';
 const BEVY_PAST =
   'https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=10&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&order=-start_date&fields=title,start_date,event_type_title,url';
 
