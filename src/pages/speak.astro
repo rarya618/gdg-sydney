@@ -336,19 +336,19 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             <h2 class="info-label">Why speak?</h2>
             <ul class="info-list" role="list">
               <li class="info-item">
-                <span class="info-dot" style="background: var(--blue)"></span>
+                <span class="info-dot" aria-hidden="true"></span>
                 Talk to a room of developers who came to learn
               </li>
               <li class="info-item">
-                <span class="info-dot" style="background: var(--green)"></span>
+                <span class="info-dot" aria-hidden="true"></span>
                 Get known in Sydney's developer community
               </li>
               <li class="info-item">
-                <span class="info-dot" style="background: var(--yellow)"></span>
+                <span class="info-dot" aria-hidden="true"></span>
                 First-time speakers are welcome
               </li>
               <li class="info-item">
-                <span class="info-dot" style="background: var(--red)"></span>
+                <span class="info-dot" aria-hidden="true"></span>
                 Your topic doesn't have to be a Google product
               </li>
             </ul>
@@ -983,7 +983,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     color: var(--text-soft);
   }
 
+  /* One colour: the bullets are a list, not four categories. */
   .info-dot {
+    background: var(--blue);
     width: 6px;
     height: 6px;
     border-radius: 50%;
