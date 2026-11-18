@@ -46,22 +46,6 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             </svg>
           </a>
         </div>
-        <div class="speak-stats" aria-label="Community stats">
-          <div class="stat">
-            <span class="stat-value">2,400<span class="stat-plus">+</span></span>
-            <span class="stat-label">Members</span>
-          </div>
-          <div class="stat-divider" aria-hidden="true"></div>
-          <div class="stat">
-            <span class="stat-value">Monthly</span>
-            <span class="stat-label">Meetups</span>
-          </div>
-          <div class="stat-divider" aria-hidden="true"></div>
-          <div class="stat">
-            <span class="stat-value">All</span>
-            <span class="stat-label">Levels</span>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -928,47 +912,6 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     transition: border-color 0.15s ease, background 0.15s ease;
   }
   .speak-jump:hover { border-color: var(--fg); background: rgba(255, 255, 255, 0.06); }
-
-  .speak-stats {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex-shrink: 0;
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .stat-value {
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--fg);
-    line-height: 1;
-  }
-
-  .stat-plus {
-    color: var(--blue-text);
-  }
-
-  .stat-label {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.72);
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 2.5rem;
-    background: rgba(255, 255, 255, 0.25);
-    flex-shrink: 0;
-  }
 
   /* ─── Speak layout ──────────────────────────────────────────────────── */
   .speak-body {
