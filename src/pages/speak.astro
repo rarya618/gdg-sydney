@@ -663,10 +663,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .speak-subheading {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.78);
-    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .speak-stats {
@@ -696,7 +695,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
   .stat-label {
     font-family: var(--sans);
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -736,10 +735,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     gap: 2.5rem;
   }
 
+  /* Sticky, but never taller than the window, so its last link can't end up out of reach. */
   @media (min-width: 960px) {
     .speak-info {
       position: sticky;
       top: calc(var(--header-h) + 2rem);
+      max-height: calc(100svh - var(--header-h) - 3rem);
+      overflow-y: auto;
     }
   }
 
@@ -865,6 +867,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    /* Field borders and empty radio rings: 3:1 against both the page and the field. */
+    --field-border: rgba(255, 255, 255, 0.36);
   }
 
   .field-row {
@@ -911,6 +915,10 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     align-items: center;
     gap: 0.25rem 1.25rem;
   }
+  @media (pointer: coarse) {
+    .format-tip-trigger,
+    .format-copy { min-height: 44px; }
+  }
 
   .format-tip { position: relative; }
 
@@ -925,7 +933,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     background: none;
     border: none;
     padding: 0;
-    cursor: help;
+    cursor: pointer;
     text-decoration: underline dotted;
     text-underline-offset: 3px;
   }
@@ -1040,7 +1048,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     font-size: 1rem;
     color: var(--text);
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1px solid var(--field-border);
     border-radius: 10px;
     padding: 0.7rem 0.875rem;
     outline: none;
@@ -1056,7 +1064,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .field-textarea {
-    resize: none;
+    resize: vertical;
     line-height: 1.65;
     min-height: 4rem;
   }
@@ -1082,7 +1090,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     align-items: flex-start;
     gap: 0.75rem;
     background: var(--surface);
-    border: 1.5px solid var(--border);
+    border: 1.5px solid var(--field-border);
     border-radius: 12px;
     padding: 1.125rem 1.25rem;
     cursor: pointer;
@@ -1098,7 +1106,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
-    border: 1.5px solid var(--border);
+    border: 1.5px solid var(--field-border);
     border-radius: 50%;
     flex-shrink: 0;
     margin-top: 0.2rem;
@@ -1137,8 +1145,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .radio-sub {
-    font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
     color: var(--muted);
   }
 
@@ -1167,9 +1175,15 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   .form-note-link:hover { color: var(--fg); }
 
   .btn-submit {
+    min-height: 48px;
     padding: 0.75em 1.75em;
-    font-size: 0.9rem;
+    font-size: 1rem;
     gap: 0.5em;
+  }
+
+  /* Phones: full width, in easy reach of either thumb. */
+  @media (max-width: 560px) {
+    .btn-submit { width: 100%; justify-content: center; }
   }
 
   /* ─── Honeypot ──────────────────────────────────────────────────────── */
