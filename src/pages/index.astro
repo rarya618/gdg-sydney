@@ -385,9 +385,10 @@ const organizationJsonLd = {
     margin-bottom: 0.5rem;
   }
 
+  /* Full white: any transparency on the core blue drops it well below 3:1. */
   .cta-sub {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: white;
     max-width: 42ch;
   }
 
@@ -397,7 +398,7 @@ const organizationJsonLd = {
     padding: 0.85em 2em;
     border-radius: 100px;
     background: white;
-    color: var(--blue);
+    color: var(--on-accent);
     font-size: 0.95rem;
     font-weight: 700;
     text-decoration: none;
@@ -541,7 +542,6 @@ const organizationJsonLd = {
     font-family: var(--sans);
     font-size: 0.8rem;
     color: var(--muted);
-    opacity: 0.65;
   }
 
   .event-time::before {
@@ -594,9 +594,11 @@ const organizationJsonLd = {
     transform: translateY(-1px);
   }
 
+  /* White fails on yellow, green and red (BRANDING.md), so those pills use --on-accent.
+     Blue keeps white text: a deliberate brand call (3.6:1), same as .btn-primary. */
   .event-card--green .event-rsvp {
     background: var(--green);
-    color: white;
+    color: var(--on-accent);
     box-shadow: 0 1px 6px rgba(52, 168, 83, 0.28);
   }
   .event-card--green .event-rsvp:hover {
@@ -606,7 +608,7 @@ const organizationJsonLd = {
 
   .event-card--yellow .event-rsvp {
     background: var(--yellow);
-    color: white;
+    color: var(--on-accent);
     box-shadow: 0 1px 6px rgba(249, 171, 0, 0.28);
   }
   .event-card--yellow .event-rsvp:hover {
@@ -616,7 +618,7 @@ const organizationJsonLd = {
 
   .event-card--red .event-rsvp {
     background: var(--red);
-    color: white;
+    color: var(--on-accent);
     box-shadow: 0 1px 6px rgba(234, 67, 53, 0.28);
   }
   .event-card--red .event-rsvp:hover {
