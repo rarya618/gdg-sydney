@@ -778,17 +778,15 @@ const organizationJsonLd = {
     font-size: 0.875rem;
     font-weight: 700;
     text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
+  /* Neutral elevation for every colour, not a glow in the pill's own colour. */
+  .event-rsvp:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); transform: translateY(-1px); }
 
   .event-card--blue .event-rsvp {
     background: var(--blue);
     color: white;
-    box-shadow: 0 1px 6px rgba(66, 133, 244, 0.28);
-  }
-  .event-card--blue .event-rsvp:hover {
-    box-shadow: 0 4px 18px rgba(66, 133, 244, 0.42);
-    transform: translateY(-1px);
   }
 
   /* White fails on yellow, green and red (BRANDING.md), so those pills use --on-accent.
@@ -796,31 +794,16 @@ const organizationJsonLd = {
   .event-card--green .event-rsvp {
     background: var(--green);
     color: var(--on-accent);
-    box-shadow: 0 1px 6px rgba(52, 168, 83, 0.28);
-  }
-  .event-card--green .event-rsvp:hover {
-    box-shadow: 0 4px 18px rgba(52, 168, 83, 0.42);
-    transform: translateY(-1px);
   }
 
   .event-card--yellow .event-rsvp {
     background: var(--yellow);
     color: var(--on-accent);
-    box-shadow: 0 1px 6px rgba(249, 171, 0, 0.28);
-  }
-  .event-card--yellow .event-rsvp:hover {
-    box-shadow: 0 4px 18px rgba(249, 171, 0, 0.42);
-    transform: translateY(-1px);
   }
 
   .event-card--red .event-rsvp {
     background: var(--red);
     color: var(--on-accent);
-    box-shadow: 0 1px 6px rgba(234, 67, 53, 0.28);
-  }
-  .event-card--red .event-rsvp:hover {
-    box-shadow: 0 4px 18px rgba(234, 67, 53, 0.42);
-    transform: translateY(-1px);
   }
 
   /* ─── Past Events ──────────────────────────────────────────────────── */
