@@ -79,7 +79,7 @@ export default function Team() {
             >
               <img
                 src={member.user.avatar.thumbnail_url}
-                alt={member.user.full_name}
+                alt=""
                 width={88}
                 height={88}
                 className="team-avatar"
