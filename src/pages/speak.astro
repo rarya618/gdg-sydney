@@ -312,6 +312,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 proposal afterwards in the speaker portal.{' '}
                 <a href="/privacy" target="_blank" rel="noopener" class="form-note-link">How we use your details</a>
               </p>
+              <p class="draft-status" id="draft-status"></p>
               <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
                 Send my proposal
                 <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
@@ -418,6 +419,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     const successTitle = document.getElementById('success-title') as HTMLElement;
     const successEmail = document.getElementById('success-email') as HTMLElement;
     const errorEl = document.getElementById('form-error') as HTMLElement;
+    const draftStatus = document.getElementById('draft-status') as HTMLElement;
     const buttonContent = btn.innerHTML;
 
     // ── Field errors ─────────────────────────────────────────────────────
@@ -511,6 +513,79 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     const fieldForServerMessage = (message: string): FieldName | undefined =>
       SERVER_LABELS.find(([label]) => message.startsWith(label))?.[1];
 
+    // ── Draft, kept on this device ───────────────────────────────────────
+    // A proposal can take a while to write, so what's typed is kept in this browser until it's
+    // sent, and comes back after a reload or a wander off the page. Never sent anywhere. Storage
+    // can be blocked (private windows, strict settings), so every access is guarded and the
+    // form works the same without it.
+
+    const DRAFT_KEY = 'gdg-speak-draft-v1';
+    const timeFormat = new Intl.DateTimeFormat('en-AU', { hour: 'numeric', minute: '2-digit' });
+
+    const readDraft = (): Record<string, string> | null => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(DRAFT_KEY) ?? 'null');
+        return saved && typeof saved === 'object' ? saved : null;
+      } catch {
+        return null;
+      }
+    };
+
+    let saveTimer: number | undefined;
+
+    const saveDraft = () => {
+      // Once it's sent, a save still queued from the last keystroke mustn't bring the draft back.
+      if (form.hidden) return;
+      const values: Record<string, string> = {};
+      for (const name of FIELDS) {
+        const value = name === 'format'
+          ? form.querySelector<HTMLInputElement>('input[name="format"]:checked')?.value ?? ''
+          : controlsFor(name)[0].value;
+        if (value) values[name] = value;
+      }
+      try {
+        if (Object.keys(values).length) {
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(values));
+          draftStatus.textContent = `Draft saved on this device at ${timeFormat.format(new Date())}.`;
+        } else {
+          localStorage.removeItem(DRAFT_KEY);
+          draftStatus.textContent = '';
+        }
+      } catch {
+        // Storage blocked: nothing to say, and the form still sends.
+      }
+    };
+
+    const clearDraft = () => {
+      window.clearTimeout(saveTimer);
+      try { localStorage.removeItem(DRAFT_KEY); } catch { /* blocked */ }
+      draftStatus.textContent = '';
+    };
+
+    form.addEventListener('input', () => {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(saveDraft, 400);
+    });
+    form.addEventListener('change', saveDraft);
+
+    // Restore into empty fields only, so a browser's own form restore is never overwritten.
+    const draft = readDraft();
+    if (draft) {
+      let restored = false;
+      for (const name of FIELDS) {
+        const value = draft[name];
+        if (typeof value !== 'string' || !value) continue;
+        if (name === 'format') {
+          const radio = form.querySelector<HTMLInputElement>(`input[name="format"][value="${CSS.escape(value)}"]`);
+          if (radio && !form.querySelector('input[name="format"]:checked')) { radio.checked = true; restored = true; }
+        } else {
+          const [control] = controlsFor(name);
+          if (!control.value) { control.value = value.slice(0, control.maxLength > 0 ? control.maxLength : undefined); restored = true; }
+        }
+      }
+      if (restored) draftStatus.textContent = 'We kept your draft on this device. Pick up where you left off.';
+    }
+
     // ── Sending ──────────────────────────────────────────────────────────
 
     const formatWait = (seconds: number) => {
@@ -520,7 +595,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       return `${hours} hour${hours === 1 ? '' : 's'}`;
     };
 
-    // The error under the button.
+    // The error under the button. The draft is kept, so it always says so.
     const showError = (message: string) => {
       errorEl.replaceChildren();
       const text = document.createElement('p');
@@ -529,7 +604,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       email.href = 'mailto:hello@gdgsydney.com';
       email.className = 'coc-link';
       email.textContent = 'hello@gdgsydney.com';
-      text.append(`${message} You can also email it to `, email, '.');
+      text.append(`${message} Your draft is still here, and you can also email it to `, email, '.');
       errorEl.append(text);
       btn.disabled = false;
       btn.innerHTML = buttonContent;
@@ -589,6 +664,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
         return message;
       }
 
+      clearDraft();
       successEmail.textContent = payload.email;
       form.hidden = true;
       successEl.hidden = false;
@@ -742,6 +818,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             const formatRadio = form.querySelector<HTMLInputElement>(`input[name="format"][value="${input.format}"]`);
             if (formatRadio) formatRadio.checked = true;
 
+            saveDraft();
             if (!checkAll()) {
               const invalid = FIELDS.find((name) => messageFor(name));
               return reply(`Not sent: the ${invalid ?? 'form'} field is missing or invalid. ${invalid ? messageFor(invalid) : ''}`.trim());
@@ -1404,6 +1481,12 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     line-height: 1.6;
     max-width: 60ch;
   }
+
+  .draft-status {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .draft-status:empty { display: none; }
 
   .form-agent-note {
     font-size: 0.85rem;
