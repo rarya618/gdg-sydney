@@ -494,24 +494,15 @@ const organizationJsonLd = {
   .next-meetup {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
     column-gap: 1.25rem;
     align-items: center;
-    min-height: 4.75rem;
+    min-height: 4.25rem;
     max-width: 560px;
     margin-top: 2.5rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--border);
     animation: fadeUp 0.65s ease both;
     animation-delay: 0.5s;
-  }
-
-  .next-meetup-label {
-    grid-column: 1 / -1;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--yellow-text);
-    margin-bottom: 0.3rem;
   }
 
   .next-meetup-line {
@@ -561,9 +552,9 @@ const organizationJsonLd = {
   }
   .next-meetup-rsvp:hover { border-color: var(--fg); background: rgba(255, 255, 255, 0.04); }
 
-  .next-meetup--loading { align-content: center; }
-  .skeleton-next-label { width: 72px; height: 0.85rem; margin-bottom: 0.6rem; grid-column: 1 / -1; }
-  .skeleton-next-line  { width: min(360px, 80%); height: 1.05rem; grid-column: 1 / -1; }
+  .next-meetup--loading { align-content: center; row-gap: 0.5rem; }
+  .skeleton-next-line { width: min(360px, 80%); height: 1.05rem; grid-column: 1 / -1; }
+  .skeleton-next-when { width: min(260px, 60%); height: 0.95rem; grid-column: 1 / -1; }
 
   /* ─── CTA ───────────────────────────────────────────────────────────── */
   .section-cta {
@@ -1334,7 +1325,7 @@ const organizationJsonLd = {
       filter: var(--hero-photo-filter);
     }
     .hero { justify-content: flex-end; }
-    .next-meetup { grid-template-columns: 1fr; row-gap: 0.75rem; margin-top: 1.75rem; min-height: 8.5rem; align-content: start; }
+    .next-meetup { grid-template-columns: 1fr; row-gap: 0.75rem; margin-top: 1.75rem; min-height: 7.75rem; align-content: start; }
     .next-meetup-rsvp { justify-self: start; }
   }
 

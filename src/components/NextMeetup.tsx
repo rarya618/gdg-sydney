@@ -32,8 +32,8 @@ export default function NextMeetup() {
   if (state.status === 'loading') {
     return (
       <div className="next-meetup next-meetup--loading" aria-hidden="true">
-        <span className="skeleton skeleton-next-label" />
         <span className="skeleton skeleton-next-line" />
+        <span className="skeleton skeleton-next-when" />
       </div>
     );
   }
@@ -41,9 +41,8 @@ export default function NextMeetup() {
   if (state.status === 'none') {
     return (
       <div className="next-meetup">
-        <p className="next-meetup-label">Next meetup</p>
         <a href="#events" className="next-meetup-line next-meetup-line--quiet">
-          Dates are announced on our community page first
+          The next meetup date goes up on our community page first
         </a>
       </div>
     );
@@ -53,11 +52,10 @@ export default function NextMeetup() {
   const venue = venueLabel(event, true);
   return (
     <div className="next-meetup">
-      <p className="next-meetup-label">Next up</p>
       <p className="next-meetup-line">
         <a href="#events" className="next-meetup-title">{event.title}</a>
         <span className="next-meetup-when">
-          {formatEventDate(event.start_date, 'short')}, {formatEventTime(event.start_date)}
+          Next up on {formatEventDate(event.start_date, 'short')}, {formatEventTime(event.start_date)}
           {venue && <> · {venue}</>}
         </span>
       </p>

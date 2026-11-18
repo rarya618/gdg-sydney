@@ -87,7 +87,6 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
 
       <div class="speaker-body">
         <section class="talk" aria-labelledby="talk-title">
-          <p class="eyebrow">The talk</p>
           <h2 class="talk-title" id="talk-title">{speaker.talkTitle}</h2>
           {session && (
             <p class="talk-when">
@@ -112,7 +111,7 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
 
         {speaker.bio && (
           <section class="bio" aria-labelledby="bio-heading">
-            <p class="eyebrow" id="bio-heading">About {speaker.name.split(' ')[0]}</p>
+            <h2 class="bio-title" id="bio-heading">About {speaker.name.split(' ')[0]}</h2>
             <MarkdownText text={speaker.bio} class="prose" />
           </section>
         )}
@@ -296,8 +295,10 @@ const description = `${speaker.name} spoke at ${EVENT.name}: "${speaker.talkTitl
     letter-spacing: -0.025em;
     line-height: 1.2;
     color: var(--fg);
-    margin: 0.6rem 0 0.75rem;
+    margin: 0 0 0.75rem;
   }
+
+  .bio-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); margin-bottom: 0.75rem; }
 
   .talk-when {
     font-family: var(--mono);
