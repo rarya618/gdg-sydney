@@ -106,11 +106,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                   placeholder="e.g. Building RAG apps with Vertex AI"
                   maxlength="200"
                   autocomplete="off"
+                  aria-describedby="title-error"
                   required
                 />
+                <p class="field-error" id="title-error"></p>
               </div>
 
-              <fieldset class="field" aria-describedby="format-hint">
+              <fieldset class="field" aria-describedby="format-hint format-error">
                 <legend class="field-label">Format <span class="required" aria-hidden="true">*</span></legend>
                 <p class="field-hint" id="format-hint">Not sure? Pick a standard talk.</p>
                 <div class="radio-group">
@@ -129,6 +131,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                     </span>
                   </label>
                 </div>
+                <p class="field-error" id="format-error"></p>
               </fieldset>
 
               <div class="field">
@@ -151,7 +154,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 </details>
                 <textarea
                   id="abstract"
-                  aria-describedby="abstract-hint"
+                  aria-describedby="abstract-hint abstract-error"
                   name="abstract"
                   class="field-input field-textarea"
                   placeholder="Start with the problem, then what people will take away."
@@ -159,6 +162,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                   maxlength="2000"
                   required
                 ></textarea>
+                <p class="field-error" id="abstract-error"></p>
                 <FormattingHelp for="abstract" label="talk abstract" />
               </div>
 
@@ -169,7 +173,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 <p class="field-hint" id="audience-hint">Who will get the most out of it? What experience should they have?</p>
                 <textarea
                   id="audience"
-                  aria-describedby="audience-hint"
+                  aria-describedby="audience-hint audience-error"
                   name="audience"
                   class="field-input field-textarea"
                   placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
@@ -177,6 +181,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                   maxlength="1000"
                   required
                 ></textarea>
+                <p class="field-error" id="audience-error"></p>
                 <FormattingHelp for="audience" label="target audience" />
               </div>
             </fieldset>
@@ -194,9 +199,11 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                     class="field-input"
                     placeholder="e.g. Alex Chen"
                     maxlength="120"
+                    aria-describedby="name-error"
                     required
                     autocomplete="name"
                   />
+                  <p class="field-error" id="name-error"></p>
                 </div>
                 <div class="field">
                   <label for="email" class="field-label">Email <span class="required" aria-hidden="true">*</span></label>
@@ -208,9 +215,11 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                     placeholder="e.g. alex@example.com"
                     maxlength="254"
                     spellcheck="false"
+                    aria-describedby="email-error"
                     required
                     autocomplete="email"
                   />
+                  <p class="field-error" id="email-error"></p>
                 </div>
               </div>
 
@@ -231,8 +240,10 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                   class="field-input"
                   placeholder="e.g. linkedin.com/in/yourname"
                   maxlength="300"
+                  aria-describedby="profile-error"
                   autocomplete="url"
                 />
+                <p class="field-error" id="profile-error"></p>
               </div>
 
               <div class="field">
@@ -242,7 +253,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 <p class="field-hint" id="bio-hint">A few sentences about you and what you work on. Your role and what you're into is plenty.</p>
                 <textarea
                   id="bio"
-                  aria-describedby="bio-hint"
+                  aria-describedby="bio-hint bio-error"
                   name="bio"
                   class="field-input field-textarea"
                   placeholder="e.g. I'm a software engineer at … and I spend most of my time on …"
@@ -250,6 +261,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                   maxlength="2000"
                   required
                 ></textarea>
+                <p class="field-error" id="bio-error"></p>
                 <FormattingHelp for="bio" label="speaker bio" />
               </div>
 
@@ -260,12 +272,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 </label>
                 <textarea
                   id="experience"
+                  aria-describedby="experience-error"
                   name="experience"
                   class="field-input field-textarea"
                   placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
                   rows="3"
                   maxlength="1000"
                 ></textarea>
+                <p class="field-error" id="experience-error"></p>
                 <FormattingHelp for="experience" label="speaking experience" />
               </div>
             </fieldset>
@@ -279,12 +293,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 </label>
                 <textarea
                   id="notes"
+                  aria-describedby="notes-error"
                   name="notes"
                   class="field-input field-textarea"
                   placeholder="Preferred dates, AV requirements, co-presenter, etc."
                   rows="3"
                   maxlength="1000"
                 ></textarea>
+                <p class="field-error" id="notes-error"></p>
                 <FormattingHelp for="notes" label="notes" />
               </div>
             </fieldset>
@@ -315,7 +331,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <h3 class="success-title">Proposal received</h3>
+            <h3 class="success-title" id="success-title" tabindex="-1">Proposal received</h3>
             <p class="success-body">
               Thanks for putting your hand up. A confirmation email is on its way to{' '}<strong id="success-email">your inbox</strong>, and we'll reply within a week.
             </p>
@@ -399,11 +415,110 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     const form = document.getElementById('speaker-form') as HTMLFormElement;
     const btn = document.getElementById('submit-btn') as HTMLButtonElement;
     const successEl = document.getElementById('form-success') as HTMLElement;
+    const successTitle = document.getElementById('success-title') as HTMLElement;
     const successEmail = document.getElementById('success-email') as HTMLElement;
     const errorEl = document.getElementById('form-error') as HTMLElement;
     const buttonContent = btn.innerHTML;
 
+    // ── Field errors ─────────────────────────────────────────────────────
+    // Each field has an empty <p class="field-error"> its aria-describedby already points at,
+    // so filling it in is what a screen reader reads on focus. Errors show once a field has
+    // been edited and left, and for every field on submit.
+
+    type Control = HTMLInputElement | HTMLTextAreaElement;
+    const FIELDS = ['title', 'format', 'abstract', 'audience', 'name', 'email', 'profile', 'bio', 'experience', 'notes'] as const;
+    type FieldName = (typeof FIELDS)[number];
+    const LABELS: Record<FieldName, string> = {
+      title: 'a title',
+      format: 'a format',
+      abstract: 'an abstract',
+      audience: 'who it’s for',
+      name: 'your name',
+      email: 'your email',
+      profile: 'a link',
+      bio: 'a short bio',
+      experience: 'your experience',
+      notes: 'your notes',
+    };
+
+    const controlsFor = (name: FieldName): Control[] =>
+      Array.from(form.querySelectorAll<Control>(`[name="${name}"]`));
+
+    const messageFor = (name: FieldName): string => {
+      const [control] = controlsFor(name);
+      const { validity } = control;
+      if (validity.valid) return '';
+      if (name === 'format') return 'Choose a standard talk or a workshop.';
+      if (validity.valueMissing) return `Add ${LABELS[name]}.`;
+      if (validity.typeMismatch && name === 'email') return 'Enter an email address, like name@example.com.';
+      if (validity.tooLong) return `Keep it to ${control.maxLength} characters or fewer.`;
+      return control.validationMessage;
+    };
+
+    const setError = (name: FieldName, message: string) => {
+      const errorText = document.getElementById(`${name}-error`);
+      if (errorText) errorText.textContent = message;
+      controlsFor(name).forEach((control) => {
+        if (message) control.setAttribute('aria-invalid', 'true');
+        else control.removeAttribute('aria-invalid');
+      });
+    };
+
+    const checkField = (name: FieldName) => setError(name, messageFor(name));
+
+    // Marks every invalid field and moves focus to the first one. True when all are valid.
+    const checkAll = (): boolean => {
+      let first: Control | undefined;
+      for (const name of FIELDS) {
+        checkField(name);
+        if (!first && messageFor(name)) first = controlsFor(name)[0];
+      }
+      first?.focus();
+      return !first;
+    };
+
+    const edited = new Set<string>();
+    const onEdit = (event: Event) => {
+      const target = event.target as Control;
+      if (!(FIELDS as readonly string[]).includes(target.name)) return;
+      edited.add(target.name);
+      // Once an error is showing, clear it as soon as the field is fixed.
+      if (target.getAttribute('aria-invalid') === 'true') checkField(target.name as FieldName);
+    };
+    // Radios report a choice as a change; text fields as input.
+    form.addEventListener('input', onEdit);
+    form.addEventListener('change', onEdit);
+    form.addEventListener('focusout', (event) => {
+      const target = event.target as Control;
+      if (edited.has(target.name)) checkField(target.name as FieldName);
+    });
+
+    // The API's 400 messages start with the field's label (src/lib/proposalFiling.ts in
+    // devfest-sydney), so they can be shown under the field they're about.
+    const SERVER_LABELS: [string, FieldName][] = [
+      ['Full name', 'name'],
+      ['A valid email', 'email'],
+      ['Email', 'email'],
+      ['LinkedIn or website', 'profile'],
+      ['Talk title', 'title'],
+      ['Please choose a talk format', 'format'],
+      ['Talk abstract', 'abstract'],
+      ['Target audience', 'audience'],
+      ['Speaker bio', 'bio'],
+      ['Speaking experience', 'experience'],
+      ['Anything else', 'notes'],
+    ];
+    const fieldForServerMessage = (message: string): FieldName | undefined =>
+      SERVER_LABELS.find(([label]) => message.startsWith(label))?.[1];
+
     // ── Sending ──────────────────────────────────────────────────────────
+
+    const formatWait = (seconds: number) => {
+      const minutes = Math.ceil(seconds / 60);
+      if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'}`;
+      const hours = Math.ceil(minutes / 60);
+      return `${hours} hour${hours === 1 ? '' : 's'}`;
+    };
 
     // The error under the button.
     const showError = (message: string) => {
@@ -458,7 +573,18 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
       if (!response.ok) {
         const body = await response.json().catch(() => null);
-        const message: string = body?.message ?? 'Something went wrong on our side.';
+        let message: string = body?.message ?? 'Something went wrong on our side.';
+        if (response.status === 429) {
+          const wait = Number(body?.retryAfterSeconds ?? response.headers.get('Retry-After'));
+          message = "We've had a lot of proposals in a short time, so we can't take this one yet." +
+            (wait > 0 ? ` You can send it in about ${formatWait(wait)}.` : ' Try again later.');
+        } else if (response.status === 400) {
+          const fieldName = fieldForServerMessage(message);
+          if (fieldName) {
+            setError(fieldName, message);
+            controlsFor(fieldName)[0]?.focus();
+          }
+        }
         showError(message);
         return message;
       }
@@ -466,12 +592,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
       successEmail.textContent = payload.email;
       form.hidden = true;
       successEl.hidden = false;
+      // The button that had focus is gone; put focus on the result so it's announced.
+      successTitle.focus();
       return null;
     };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (!checkAll()) return;
       await sendProposal();
     });
 
@@ -614,13 +742,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             const formatRadio = form.querySelector<HTMLInputElement>(`input[name="format"][value="${input.format}"]`);
             if (formatRadio) formatRadio.checked = true;
 
-            if (!form.checkValidity()) {
-              form.reportValidity();
-              const invalid = Array.from(form.elements).find(
-                (element): element is HTMLInputElement | HTMLTextAreaElement =>
-                  (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) && !element.validity.valid
-              );
-              return reply(`Not sent: the ${invalid?.name ?? 'form'} field is missing or invalid. ${invalid?.validationMessage ?? ''}`.trim());
+            if (!checkAll()) {
+              const invalid = FIELDS.find((name) => messageFor(name));
+              return reply(`Not sent: the ${invalid ?? 'form'} field is missing or invalid. ${invalid ? messageFor(invalid) : ''}`.trim());
             }
             const error = await sendProposal();
             return reply(
@@ -979,6 +1103,16 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
   .required { color: var(--red-text); }
 
+  /* Empty until the script finds a problem; aria-describedby already points here. */
+  .field-error {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--red-text);
+  }
+  .field-error:empty { display: none; }
+
+  .field-input[aria-invalid="true"] { border-color: var(--red-text); }
+
   .field-example {
     font-size: 0.85rem;
     color: var(--text-soft);
@@ -1325,6 +1459,9 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   .success-icon {
     color: var(--green-text);
   }
+
+  .success-title:focus { outline: none; }
+  .success-title:focus-visible { outline: 2px solid var(--blue-text); outline-offset: 4px; border-radius: 4px; }
 
   .success-title {
     font-size: 1.2rem;
