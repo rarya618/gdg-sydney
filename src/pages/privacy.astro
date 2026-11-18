@@ -2,8 +2,8 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 
 // Keep in step with what the site actually does: the Speak form (devfest-sydney endpoint,
-// Firestore, Resend), Google Analytics, and content loaded from Bevy, Cloudinary and
-// Google Maps. Update "Last updated" with every change.
+// Firestore, Resend, and its draft in the browser's localStorage), Google Analytics, and
+// content loaded from Bevy, Cloudinary and Google Maps. Update "Last updated" with every change.
 const sections = [
   { id: 'what-we-collect', title: 'What we collect' },
   { id: 'how-we-use-it', title: 'How we use it' },
@@ -22,7 +22,7 @@ const sections = [
   <article class="privacy">
     <div class="container privacy-inner">
       <header class="privacy-head">
-        <p class="privacy-updated">Last updated 14 November 2026</p>
+        <p class="privacy-updated">Last updated 18 November 2026</p>
         <h1 class="privacy-title">Privacy policy</h1>
         <p class="privacy-intro">
           This explains what GDG Sydney collects through gdgsydney.com, how we use it, and who we
@@ -48,6 +48,12 @@ const sections = [
             abstract, target audience, speaker bio, speaking experience, and anything else you add.
             The same applies when an AI assistant sends a proposal for you. We note that it came that
             way, so our organisers know when they read it.
+          </p>
+          <p>
+            While you fill in that form, your browser keeps a draft of what you've typed, on your own
+            device, so it isn't lost if you reload or leave the page. The draft isn't sent to us until
+            you press Send, and it's deleted from your browser once your proposal is sent. To remove it
+            sooner, clear this site's data in your browser.
           </p>
           <p>When you email us, we keep your message and email address so we can reply.</p>
           <p>
