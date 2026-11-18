@@ -23,3 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 /.firebase
+
+# Impeccable: per-machine hook cache and live-session state (config.json is shared)
+.impeccable/hook.cache.json
+.impeccable/live/

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/pages/index.astro"
+        ],
+        "createdAt": "2026-11-18T04:06:04.153Z",
+        "reason": "User asked to keep the original Find us online section; the only match is Instagram's brand gradient on the Instagram link's hover (Assessment B judged it a false positive)"
+      }
+    ]
+  }
+}
