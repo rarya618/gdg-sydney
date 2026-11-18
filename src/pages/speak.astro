@@ -39,6 +39,12 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
           <p class="speak-subheading">
             Speak at a GDG Sydney meetup. We reply within a week.
           </p>
+          <a href="#propose" class="speak-jump">
+            Propose a talk
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+            </svg>
+          </a>
         </div>
         <div class="speak-stats" aria-label="Community stats">
           <div class="stat">
@@ -65,7 +71,264 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     <div class="container">
       <div class="speak-layout">
 
-        <!-- Left: info -->
+        <!-- The form comes first in the source, so phones and screen readers reach it before
+             the sidebar. On wide screens the grid puts the sidebar back on the left. -->
+        <section class="speak-form-wrap" id="propose" aria-labelledby="form-heading">
+          <h2 class="form-heading" id="form-heading">Submit a talk proposal</h2>
+          <p class="form-portal-note">
+            Already proposed, or spoken for us before? <a href={PORTAL_SIGN_IN_URL} target="_blank" rel="noopener" class="form-note-link">Sign in to the speaker portal</a> to follow and change your proposals and keep your speaker profile up to date.
+          </p>
+
+          <form
+            class="speak-form"
+            novalidate
+            id="speaker-form"
+          >
+
+            <!-- Honeypot: hidden from people and screen readers; bots that fill it are ignored. -->
+            <div class="hp-field" aria-hidden="true">
+              <label>Company website <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
+            <!-- The talk first, so the form starts with the idea rather than the person. Field
+                 names, and the maxlength values, match the devfest-sydney API
+                 (src/lib/meetupProposalLabels.ts), the WebMCP tool below and /llms.txt. -->
+            <fieldset class="form-group">
+              <legend class="form-group-title">Your talk</legend>
+
+              <div class="field">
+                <label for="title" class="field-label">Title <span class="required" aria-hidden="true">*</span></label>
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  class="field-input"
+                  placeholder="e.g. Building RAG apps with Vertex AI"
+                  maxlength="200"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+
+              <fieldset class="field" aria-describedby="format-hint">
+                <legend class="field-label">Format <span class="required" aria-hidden="true">*</span></legend>
+                <p class="field-hint" id="format-hint">Not sure? Pick a standard talk.</p>
+                <div class="radio-group">
+                  <label class="radio-card">
+                    <input type="radio" name="format" value="standard" required />
+                    <span class="radio-inner">
+                      <span class="radio-name">Standard talk</span>
+                      <span class="radio-sub">20 to 30 minutes, with time for questions</span>
+                    </span>
+                  </label>
+                  <label class="radio-card">
+                    <input type="radio" name="format" value="workshop" required />
+                    <span class="radio-inner">
+                      <span class="radio-name">Workshop</span>
+                      <span class="radio-sub">60 to 90 minutes, hands-on</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="abstract" class="field-label">
+                  Abstract <span class="required" aria-hidden="true">*</span>
+                </label>
+                <p class="field-hint" id="abstract-hint">
+                  What will attendees learn? What problem does it solve? 2 to 4 sentences is ideal.
+                </p>
+                <details class="field-example">
+                  <summary>See an example abstract</summary>
+                  <p>
+                    Retrieval-augmented generation lets a model answer from your own documents
+                    instead of guessing. In this talk I'll build a small RAG app on Vertex AI live,
+                    from splitting and embedding a set of docs to grounding Gemini's answers in
+                    them and citing the sources. You'll leave knowing when RAG is worth the effort,
+                    the mistakes that make its answers worse, and a starter repo to try on your
+                    own data.
+                  </p>
+                </details>
+                <textarea
+                  id="abstract"
+                  aria-describedby="abstract-hint"
+                  name="abstract"
+                  class="field-input field-textarea"
+                  placeholder="Start with the problem, then what people will take away."
+                  rows="6"
+                  maxlength="2000"
+                  required
+                ></textarea>
+                <FormattingHelp for="abstract" label="talk abstract" />
+              </div>
+
+              <div class="field">
+                <label for="audience" class="field-label">
+                  Target audience <span class="required" aria-hidden="true">*</span>
+                </label>
+                <p class="field-hint" id="audience-hint">Who will get the most out of it? What experience should they have?</p>
+                <textarea
+                  id="audience"
+                  aria-describedby="audience-hint"
+                  name="audience"
+                  class="field-input field-textarea"
+                  placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
+                  rows="3"
+                  maxlength="1000"
+                  required
+                ></textarea>
+                <FormattingHelp for="audience" label="target audience" />
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <legend class="form-group-title">About you</legend>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="name" class="field-label">Full name <span class="required" aria-hidden="true">*</span></label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    class="field-input"
+                    placeholder="e.g. Alex Chen"
+                    maxlength="120"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+                <div class="field">
+                  <label for="email" class="field-label">Email <span class="required" aria-hidden="true">*</span></label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    class="field-input"
+                    placeholder="e.g. alex@example.com"
+                    maxlength="254"
+                    spellcheck="false"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+              </div>
+
+              <!-- Plain text with a URL keyboard: the API adds https:// itself, so a bare
+                   "linkedin.com/in/you" is fine and the browser's stricter url check isn't. -->
+              <div class="field">
+                <label for="profile" class="field-label">
+                  LinkedIn or website
+                  <span class="field-optional">(optional)</span>
+                </label>
+                <input
+                  id="profile"
+                  name="profile"
+                  type="text"
+                  inputmode="url"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  class="field-input"
+                  placeholder="e.g. linkedin.com/in/yourname"
+                  maxlength="300"
+                  autocomplete="url"
+                />
+              </div>
+
+              <div class="field">
+                <label for="bio" class="field-label">
+                  Speaker bio <span class="required" aria-hidden="true">*</span>
+                </label>
+                <p class="field-hint" id="bio-hint">A few sentences about you and what you work on. Your role and what you're into is plenty.</p>
+                <textarea
+                  id="bio"
+                  aria-describedby="bio-hint"
+                  name="bio"
+                  class="field-input field-textarea"
+                  placeholder="e.g. I'm a software engineer at … and I spend most of my time on …"
+                  rows="3"
+                  maxlength="2000"
+                  required
+                ></textarea>
+                <FormattingHelp for="bio" label="speaker bio" />
+              </div>
+
+              <div class="field">
+                <label for="experience" class="field-label">
+                  Speaking experience
+                  <span class="field-optional">(optional)</span>
+                </label>
+                <textarea
+                  id="experience"
+                  name="experience"
+                  class="field-input field-textarea"
+                  placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
+                  rows="3"
+                  maxlength="1000"
+                ></textarea>
+                <FormattingHelp for="experience" label="speaking experience" />
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <legend class="form-group-title">Anything else</legend>
+              <div class="field">
+                <label for="notes" class="field-label">
+                  Notes for the organisers
+                  <span class="field-optional">(optional)</span>
+                </label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  class="field-input field-textarea"
+                  placeholder="Preferred dates, AV requirements, co-presenter, etc."
+                  rows="3"
+                  maxlength="1000"
+                ></textarea>
+                <FormattingHelp for="notes" label="notes" />
+              </div>
+            </fieldset>
+
+            <div class="form-footer">
+              <p class="form-note">
+                <span class="required" aria-hidden="true">*</span> Required.
+                You'll get a confirmation email, and a reply within a week. You can change your
+                proposal afterwards in the speaker portal.{' '}
+                <a href="/privacy" target="_blank" rel="noopener" class="form-note-link">How we use your details</a>
+              </p>
+              <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
+                Send my proposal
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Always in the page and filled in by the script, so screen readers announce it. -->
+            <div class="form-error" id="form-error" role="alert"></div>
+
+          </form>
+
+          <div class="form-success" id="form-success" hidden>
+            <div class="success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+                <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="success-title">Proposal received</h3>
+            <p class="success-body">
+              Thanks for putting your hand up. A confirmation email is on its way to{' '}<strong id="success-email">your inbox</strong>, and we'll reply within a week.
+            </p>
+            <p class="success-body">
+              Follow it, or make changes until we've decided, in the <a href={PORTAL_SIGN_IN_URL} class="form-note-link">speaker portal</a>. Sign in with the email you used.
+            </p>
+          </div>
+
+          <p class="form-agent-note">
+            Drafting with an AI assistant? It can send your proposal for you by following our <a href="/llms.txt" target="_blank" rel="noopener" class="form-note-link">instructions for agents</a>. Check what it writes before it goes.
+          </p>
+        </section>
+
         <aside class="speak-info" aria-label="Why speak at GDG Sydney">
 
           <div class="info-block">
@@ -90,20 +353,23 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
             </ul>
           </div>
 
+          <!-- Replaces a pair of static format cards that repeated the form's own choice. -->
           <div class="info-block">
-            <h2 class="info-label">Talk formats</h2>
-            <div class="format-cards">
-              <div class="format-card">
-                <h3 class="format-name" style="--tag-color: var(--blue-text)">Standard</h3>
-                <p class="format-duration">20 to 30 min</p>
-                <p class="format-desc">A full talk with time for audience questions.</p>
-              </div>
-              <div class="format-card">
-                <h3 class="format-name" style="--tag-color: var(--yellow-text)">Workshop</h3>
-                <p class="format-duration">60 to 90 min</p>
-                <p class="format-desc">A hands-on session where attendees build along with you.</p>
-              </div>
-            </div>
+            <h2 class="info-label">What happens next</h2>
+            <ol class="next-steps" role="list">
+              <li>
+                <span class="next-step-num" aria-hidden="true">1</span>
+                <span><strong>You get a confirmation email</strong> as soon as it's sent.</span>
+              </li>
+              <li>
+                <span class="next-step-num" aria-hidden="true">2</span>
+                <span><strong>An organiser reads it</strong> and replies within a week.</span>
+              </li>
+              <li>
+                <span class="next-step-num" aria-hidden="true">3</span>
+                <span><strong>You can change it</strong> in the speaker portal until we've decided.</span>
+              </li>
+            </ol>
           </div>
 
           <div class="info-block">
@@ -117,244 +383,6 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
           </div>
 
         </aside>
-
-        <!-- Right: form -->
-        <section class="speak-form-wrap" aria-labelledby="form-heading">
-          <h2 class="form-heading" id="form-heading">Submit a talk proposal</h2>
-          <p class="form-portal-note">
-            Already proposed, or spoken for us before? <a href={PORTAL_SIGN_IN_URL} class="form-note-link">Sign in to the speaker portal</a> to follow and change your proposals and keep your speaker profile up to date.
-          </p>
-          <p class="form-portal-note">
-            Drafting with an AI assistant? It can send your proposal for you by following our <a href="/llms.txt" class="form-note-link">instructions for agents</a>. Check what it writes before it goes.
-          </p>
-
-          <form
-            class="speak-form"
-            novalidate
-            id="speaker-form"
-          >
-
-            <!-- Honeypot: hidden from people and screen readers; bots that fill it are ignored. -->
-            <div class="hp-field" aria-hidden="true">
-              <label>Company website <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" /></label>
-            </div>
-
-            <!-- Name + Email -->
-            <div class="field-row">
-              <div class="field">
-                <label for="name" class="field-label">Full name <span class="required" aria-hidden="true">*</span></label>
-                <input
-                  id="name"
-                  maxlength="120"
-                  name="name"
-                  type="text"
-                  class="field-input"
-                  placeholder="Alex Chen"
-                  required
-                  autocomplete="name"
-                />
-              </div>
-              <div class="field">
-                <label for="email" class="field-label">Email <span class="required" aria-hidden="true">*</span></label>
-                <input
-                  id="email"
-                  maxlength="254"
-                  name="email"
-                  type="email"
-                  class="field-input"
-                  placeholder="alex@example.com"
-                  spellcheck="false"
-                  required
-                  autocomplete="email"
-                />
-              </div>
-            </div>
-
-            <!-- LinkedIn / website. Plain text with a URL keyboard: the API adds https:// itself,
-                 so a bare "linkedin.com/in/you" is fine and the browser's stricter url check isn't. -->
-            <div class="field">
-              <label for="profile" class="field-label">
-                LinkedIn or website
-                <span class="field-optional">(optional)</span>
-              </label>
-              <input
-                id="profile"
-                maxlength="300"
-                name="profile"
-                type="text"
-                inputmode="url"
-                autocapitalize="off"
-                spellcheck="false"
-                class="field-input"
-                placeholder="linkedin.com/in/yourname"
-                autocomplete="url"
-              />
-            </div>
-
-            <!-- Talk title -->
-            <div class="field">
-              <label for="title" class="field-label">Talk title <span class="required" aria-hidden="true">*</span></label>
-              <input
-                id="title"
-                maxlength="200"
-                name="title"
-                type="text"
-                class="field-input"
-                placeholder="e.g. Building RAG apps with Vertex AI"
-                required
-              />
-            </div>
-
-            <!-- Format -->
-            <fieldset class="field">
-              <legend class="field-label">Talk format <span class="required" aria-hidden="true">*</span></legend>
-              <div class="radio-group" role="radiogroup">
-                <label class="radio-card">
-                  <input type="radio" name="format" value="standard" required />
-                  <span class="radio-inner">
-                    <span class="radio-name">Standard talk</span>
-                    <span class="radio-sub">20 to 30 minutes</span>
-                  </span>
-                </label>
-                <label class="radio-card">
-                  <input type="radio" name="format" value="workshop" required />
-                  <span class="radio-inner">
-                    <span class="radio-name">Workshop</span>
-                    <span class="radio-sub">60 to 90 minutes</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-
-            <!-- Abstract -->
-            <div class="field">
-              <label for="abstract" class="field-label">
-                Talk abstract <span class="required" aria-hidden="true">*</span>
-              </label>
-              <p class="field-hint" id="abstract-hint">
-                What will attendees learn? What problem does it solve?
-              </p>
-              <textarea
-                id="abstract"
-                maxlength="2000"
-                aria-describedby="abstract-hint abstract-format"
-                name="abstract"
-                class="field-input field-textarea"
-                placeholder="A short description of your talk. 2 to 4 sentences is ideal."
-                rows="6"
-                required
-              ></textarea>
-              <FormattingHelp for="abstract" label="talk abstract" />
-            </div>
-
-            <!-- Target audience -->
-            <div class="field">
-              <label for="audience" class="field-label">
-                Target audience <span class="required" aria-hidden="true">*</span>
-              </label>
-              <p class="field-hint" id="audience-hint">Who will get the most out of this talk? What level of experience should they have?</p>
-              <textarea
-                id="audience"
-                maxlength="1000"
-                aria-describedby="audience-hint audience-format"
-                name="audience"
-                class="field-input field-textarea"
-                placeholder="e.g. Developers curious about AI, no prior ML experience needed. Or: backend engineers familiar with distributed systems."
-                rows="3"
-                required
-              ></textarea>
-              <FormattingHelp for="audience" label="target audience" />
-            </div>
-
-            <!-- Bio -->
-            <div class="field">
-              <label for="bio" class="field-label">
-                Speaker bio <span class="required" aria-hidden="true">*</span>
-              </label>
-              <p class="field-hint" id="bio-hint">A few sentences about you and your background.</p>
-              <textarea
-                id="bio"
-                maxlength="2000"
-                aria-describedby="bio-hint bio-format"
-                name="bio"
-                class="field-input field-textarea"
-                placeholder="I'm a software engineer at … with experience in …"
-                rows="3"
-                required
-              ></textarea>
-              <FormattingHelp for="bio" label="speaker bio" />
-            </div>
-
-            <!-- Experience -->
-            <div class="field">
-              <label for="experience" class="field-label">
-                Speaking experience
-                <span class="field-optional">(optional)</span>
-              </label>
-              <textarea
-                id="experience"
-                maxlength="1000"
-                aria-describedby="experience-format"
-                name="experience"
-                class="field-input field-textarea"
-                placeholder="Have you spoken at meetups or conferences before? Doesn't matter if not. First-time speakers are very welcome."
-                rows="3"
-              ></textarea>
-              <FormattingHelp for="experience" label="speaking experience" />
-            </div>
-
-            <!-- Anything else -->
-            <div class="field">
-              <label for="notes" class="field-label">
-                Anything else?
-                <span class="field-optional">(optional)</span>
-              </label>
-              <textarea
-                id="notes"
-                maxlength="1000"
-                aria-describedby="notes-format"
-                name="notes"
-                class="field-input field-textarea"
-                placeholder="Preferred dates, AV requirements, co-presenter, etc."
-                rows="3"
-              ></textarea>
-              <FormattingHelp for="notes" label="notes" />
-            </div>
-
-            <div class="form-footer">
-              <p class="form-note">
-                <span class="required" aria-hidden="true">*</span> Required fields.
-                We'll get back to you within a week.{' '}
-                <a href="/privacy" class="form-note-link">How we use your details</a>
-              </p>
-              <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
-                Send my proposal
-                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-
-          </form>
-
-          <div class="form-success" id="form-success" hidden aria-live="polite">
-            <div class="success-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
-                <path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <h3 class="success-title">Proposal received</h3>
-            <p class="success-body">Thanks for putting your hand up. We'll be in touch within a week.</p>
-            <p class="success-body">
-              Follow it, or make changes until we've decided, in the <a href={PORTAL_SIGN_IN_URL} class="form-note-link">speaker portal</a>. Sign in with the email you used.
-            </p>
-          </div>
-
-          <div class="form-error" id="form-error" hidden aria-live="polite">
-            <p class="error-text"><span id="form-error-message">Something went wrong.</span> Please try again or email us at <a href="mailto:hello@gdgsydney.com" class="coc-link">hello@gdgsydney.com</a>.</p>
-          </div>
-
-        </section>
 
       </div>
     </div>
@@ -371,13 +399,23 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     const form = document.getElementById('speaker-form') as HTMLFormElement;
     const btn = document.getElementById('submit-btn') as HTMLButtonElement;
     const successEl = document.getElementById('form-success') as HTMLElement;
+    const successEmail = document.getElementById('success-email') as HTMLElement;
     const errorEl = document.getElementById('form-error') as HTMLElement;
-    const errorMessage = document.getElementById('form-error-message') as HTMLElement;
     const buttonContent = btn.innerHTML;
 
+    // ── Sending ──────────────────────────────────────────────────────────
+
+    // The error under the button.
     const showError = (message: string) => {
-      errorMessage.textContent = message;
-      errorEl.hidden = false;
+      errorEl.replaceChildren();
+      const text = document.createElement('p');
+      text.className = 'error-text';
+      const email = document.createElement('a');
+      email.href = 'mailto:hello@gdgsydney.com';
+      email.className = 'coc-link';
+      email.textContent = 'hello@gdgsydney.com';
+      text.append(`${message} You can also email it to `, email, '.');
+      errorEl.append(text);
       btn.disabled = false;
       btn.innerHTML = buttonContent;
     };
@@ -387,7 +425,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     const sendProposal = async (): Promise<string | null> => {
       btn.disabled = true;
       btn.textContent = 'Sending…';
-      errorEl.hidden = true;
+      errorEl.replaceChildren();
 
       const data = new FormData(form);
       const field = (name: string) => String(data.get(name) ?? '').trim();
@@ -405,26 +443,30 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
         companyWebsite: field('companyWebsite'),
       };
 
+      let response: Response;
       try {
-        const response = await fetch(PROPOSAL_URL, {
+        response = await fetch(PROPOSAL_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-        if (!response.ok) {
-          const body = await response.json().catch(() => null);
-          const message = body?.message ?? 'Something went wrong.';
-          showError(message);
-          return message;
-        }
-        form.hidden = true;
-        successEl.hidden = false;
-        return null;
       } catch {
-        const message = "We couldn't reach the server.";
+        const message = "We couldn't reach the server. Check your connection and send it again.";
         showError(message);
         return message;
       }
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        const message: string = body?.message ?? 'Something went wrong on our side.';
+        showError(message);
+        return message;
+      }
+
+      successEmail.textContent = payload.email;
+      form.hidden = true;
+      successEl.hidden = false;
+      return null;
     };
 
     form.addEventListener('submit', async (e) => {
@@ -666,7 +708,25 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     font-size: 1.05rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.5rem;
   }
+
+  /* Straight to the form: on a phone it starts well below the masthead. */
+  .speak-jump {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding-inline: 1.25rem;
+    border-radius: 100px;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--fg);
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .speak-jump:hover { border-color: var(--fg); background: rgba(255, 255, 255, 0.06); }
 
   .speak-stats {
     display: flex;
@@ -720,12 +780,15 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     gap: 3.5rem;
   }
 
+  /* The form is first in the source; on wide screens the sidebar goes back on the left. */
   @media (min-width: 960px) {
     .speak-layout {
       grid-template-columns: 260px 1fr;
       gap: 5rem;
       align-items: start;
     }
+    .speak-info { grid-column: 1; grid-row: 1; }
+    .speak-form-wrap { grid-column: 2; grid-row: 1; }
   }
 
   /* ─── Info sidebar ──────────────────────────────────────────────────── */
@@ -784,45 +847,37 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     margin-top: 0.42em;
   }
 
-  /* The same gap as between an info block's heading and its content. */
-  .format-cards {
+  /* What happens next: three numbered steps. */
+  .next-steps {
     display: flex;
     flex-direction: column;
-    gap: 0.875rem;
+    gap: 0.85rem;
+    list-style: none;
   }
 
-  .format-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.125rem 1.25rem; /* as the form's own format cards (.radio-card) */
-  }
-
-  /* The card's heading: the format's name, in its colour, like the form's own format cards.
-     A step below the sidebar's own headings, which it sits under. */
-  .format-name {
-    font-family: var(--sans);
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    line-height: 1.2;
-    color: var(--tag-color);
-    margin-bottom: 0.3rem;
-  }
-
-  /* Name and duration read as one header; the description sits clearly below it. */
-  .format-duration {
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    line-height: 1.4;
+  .next-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
     color: var(--text-soft);
-    margin-bottom: 0.75rem;
   }
 
-  .format-desc {
-    font-size: 0.825rem;
-    color: var(--muted);
-    line-height: 1.6;
+  .next-steps strong { color: var(--fg); font-weight: 700; }
+
+  .next-step-num {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
   }
 
   .info-email {
@@ -860,15 +915,31 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     color: var(--text-soft);
     margin-bottom: 2rem;
   }
-  /* The portal note and the agent note read as one block above the form. */
-  .form-portal-note:has(+ .form-portal-note) { margin-bottom: 0.5rem; }
-
   .speak-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2.75rem;
     /* Field borders and empty radio rings: 3:1 against both the page and the field. */
     --field-border: rgba(255, 255, 255, 0.36);
+  }
+
+  /* Your talk / About you / Anything else. */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .form-group-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
   }
 
   .field-row {
@@ -908,12 +979,45 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
 
   .required { color: var(--red-text); }
 
-  /* The row under each text box: the formatting tooltip, then the copy-prompt button. */
+  .field-example {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+  }
+  .field-example summary {
+    cursor: pointer;
+    width: fit-content;
+    color: var(--blue-text);
+    font-weight: 500;
+    text-underline-offset: 3px;
+  }
+  .field-example summary:hover { text-decoration: underline; }
+  .field-example p {
+    margin-top: 0.6rem;
+    padding: 0.85rem 1rem;
+    border-left: 1px solid var(--field-border);
+    line-height: 1.65;
+    max-width: 62ch;
+  }
+
+  /* The row under each text box: the formatting tooltip, then the copy-prompt button.
+     Only shown while its own box is in use (or has text), so five copies of it don't crowd
+     the form or the tab order. Hidden with a delay, so a click on it lands even in browsers
+     that don't focus buttons on click; its space stays, so nothing jumps. */
   .format-help {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.25rem 1.25rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s ease, visibility 0s linear 0.3s;
+  }
+  .field:focus-within .format-help,
+  .field:has(.field-textarea:not(:placeholder-shown)) .format-help,
+  .format-help:hover {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.15s ease;
   }
   @media (pointer: coarse) {
     .format-tip-trigger,
@@ -1153,17 +1257,27 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   /* ─── Form footer ───────────────────────────────────────────────────── */
   .form-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 1rem;
-    flex-wrap: wrap;
     padding-top: 0.5rem;
   }
 
+  /* The reassurance at the moment of sending, so it reads as body text, not fine print. */
   .form-note {
-    font-size: 0.78rem;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
+  .form-agent-note {
+    font-size: 0.85rem;
+    line-height: 1.6;
     color: var(--muted);
-    line-height: 1.55;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
   }
 
   .form-note-link {
@@ -1220,14 +1334,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .success-body {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--muted);
+    color: var(--text-soft);
   }
+  .success-body strong { color: var(--fg); overflow-wrap: anywhere; }
 
-  .form-error {
-    margin-top: 1rem;
-  }
+  .form-error:empty { display: none; }
 
   .error-text {
     font-size: 0.85rem;

@@ -1,8 +1,9 @@
 ---
 // The row under each of the speak form's text boxes:
 //   "Formatting": a tooltip with the formatting src/lib/markdownText.ts understands. It shows on hover where there is one, and a click
-//     or tap pins it open. The textarea's aria-describedby points at the bubble, so screen
-//     readers hear it on the box without opening it.
+//     or tap pins it open. It's the next tab stop after its box, so screen reader users reach it
+//     there; the boxes don't point aria-describedby at it, which read the list out five times.
+// On /speak the row only shows while its box is in use or has text (see .format-help there).
 //   "Copy a prompt…": copies a prompt asking the speaker's own AI tool to put the box's text
 //     into that formatting.
 // speak.astro's script does the toggling, and the prompt is in src/lib/formattingPrompt.ts. The
