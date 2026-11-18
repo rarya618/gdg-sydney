@@ -295,7 +295,7 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
           The guides from the room, kept up to date: short, self-paced tutorials for Gemini,
           Firebase, Flutter, Google Cloud and more.
         </span>
-        <span class="builders-space-card-cta">Browse the guides →</span>
+        <span class="builders-space-card-cta">Browse the guides <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
       </a>
     </div>
   </section>
@@ -764,7 +764,17 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     text-decoration: none;
     overflow-wrap: anywhere;
   }
-  .showcase-link::after { content: ' ↗'; }
+  /* The site's external-link arrow, drawn rather than a ↗ character. */
+  .showcase-link::after {
+    content: '';
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 0.3em;
+    vertical-align: -0.05em;
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M7 7h10v10'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
   .showcase-link:hover { text-decoration: underline; }
 
   /* ─── Builder's Space ───────────────────────────────────────────────── */
@@ -790,7 +800,7 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   .builders-space-card-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green-text); }
   .builders-space-card-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
   .builders-space-card-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-soft); }
-  .builders-space-card-cta { margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--fg); }
+  .builders-space-card-cta { display: inline-flex; align-items: center; gap: 0.4em; margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--fg); }
 
   /* ─── Organisers and volunteers: the speaker cards, in a neutral grey ── */
   .crew { --track-color: var(--muted); }
