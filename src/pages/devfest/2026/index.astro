@@ -55,12 +55,6 @@ const timeline = [...schedule]
 const timeLabels = [...new Set(schedule.map((slot) => slot.startTime))].map((iso) => ({ iso, row: gridRow(iso) }));
 
 // From the closing slides. Last year's DevFest sold 150 tickets.
-const recapStats = [
-  { value: '280+', label: 'attendees, double last year' },
-  { value: String(speakers.length), label: 'speakers' },
-  { value: '4', label: 'tracks' },
-  { value: String(showcase.length), label: 'projects in the Builder Showcase' },
-];
 
 // The first photo leads the grid at double size.
 const recapPhotos = [
@@ -141,7 +135,7 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     />
     <div class="masthead-scrim" aria-hidden="true"></div>
     <div class="container">
-      <a href="/devfest" class="back-link">DevFest Sydney</a>
+      <a href="/devfest" class="back-link"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><path d="M13.5 8h-11M7 3.5 2.5 8 7 12.5" stroke-linecap="round" stroke-linejoin="round" /></svg>DevFest Sydney</a>
       <h1 class="page-heading" id="page-heading">DevFest Sydney 2026</h1>
       <p class="page-theme">Build, Secure, Scale. Developers and builders in the agentic era.</p>
       <p class="page-facts">Saturday 10 October 2026, {EVENT.venue}</p>
@@ -162,14 +156,10 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   <section class="section recap" id="recap" aria-labelledby="recap-heading">
     <div class="container">
       <h2 class="section-title" id="recap-heading">How the day went</h2>
-      <dl class="recap-stats">
-        {recapStats.map((stat) => (
-          <div class="recap-stat">
-            <dt>{stat.label}</dt>
-            <dd>{stat.value}</dd>
-          </div>
-        ))}
-      </dl>
+      <p class="recap-lead">
+        280+ people came, double last year, to hear {speakers.length} speakers across four
+        tracks and see {showcase.length} projects in the Builder Showcase.
+      </p>
       <ul class="recap-photos" role="list" aria-label="Photos from DevFest Sydney 2026">
         {recapPhotos.map((photo, i) => (
           <li class:list={['recap-photo', { 'recap-photo-lead': i === 0 }]}>
@@ -289,10 +279,9 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
         </p>
       </div>
       <a href="/guides" class="builders-space-card">
-        <span class="builders-space-card-label">Still open to everyone</span>
         <span class="builders-space-card-title">Starter Guides</span>
         <span class="builders-space-card-text">
-          The guides from the room, kept up to date: short, self-paced tutorials for Gemini,
+          The guides from the room, still open to everyone and kept up to date: short, self-paced tutorials for Gemini,
           Firebase, Flutter, Google Cloud and more.
         </span>
         <span class="builders-space-card-cta">Browse the guides <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
@@ -479,15 +468,17 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     .masthead-scrim { background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 10%, rgba(20, 20, 20, 0.6) 80%, rgba(20, 20, 20, 0.75) 100%); }
   }
 
+  /* A way back, with a back arrow, so it reads as navigation rather than a label on the title. */
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    min-height: 44px;
     font-size: 0.9rem;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.7);
-    text-decoration: underline;
-    text-decoration-color: rgba(255, 255, 255, 0.3);
-    text-underline-offset: 4px;
-    margin-bottom: 1.25rem;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
   }
   .back-link:hover { color: white; }
 
@@ -534,33 +525,15 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
   }
   .jump-nav a:hover { background: var(--fg); color: var(--on-accent); }
 
-  /* ─── Recap: numbers, then a photo grid led by the team photo ──────── */
-  .recap-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem 2rem;
-    margin-bottom: clamp(2rem, 4vw, 3rem);
-  }
-
-  @media (min-width: 800px) {
-    .recap-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
-
-  /* Number above its label, while the label stays first for screen readers. */
-  .recap-stat { display: flex; flex-direction: column-reverse; gap: 0.35rem; }
-
-  .recap-stat dd {
-    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 1;
+  /* ─── Recap: the day in a sentence, then a photo grid led by the team photo ── */
+  .recap-lead {
+    max-width: 34ch;
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
     color: var(--fg);
-  }
-
-  .recap-stat dt {
-    font-size: 0.95rem;
-    line-height: 1.4;
-    color: var(--text-soft);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
   .recap-photos {
@@ -798,7 +771,6 @@ const wallLogos = await Promise.all(wall.map(async (partner) => ({ partner, logo
     transition: background 0.15s ease, border-color 0.15s ease;
   }
   .builders-space-card:hover { background: color-mix(in srgb, var(--green) 22%, var(--surface)); border-color: var(--green); }
-  .builders-space-card-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green-text); }
   .builders-space-card-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--fg); }
   .builders-space-card-text { font-size: 0.95rem; line-height: 1.6; color: var(--text-soft); }
   .builders-space-card-cta { display: inline-flex; align-items: center; gap: 0.4em; margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--fg); }
