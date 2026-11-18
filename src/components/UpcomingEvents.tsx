@@ -45,7 +45,6 @@ export default function UpcomingEvents() {
               <div className="events-grid" aria-hidden="true">
                 {SKELETON_CARDS.map(key => (
                   <div className="event-card event-card--skeleton" key={key}>
-                    <div className="event-card-accent" />
                     <div className="event-card-body">
                       <div className="event-card-top">
                         <span className="skeleton skeleton-event-tag" />
@@ -100,7 +99,6 @@ export default function UpcomingEvents() {
               const venue = venueLabel(event);
               return (
                 <div className={`event-card event-card--${accent}`} key={event.url}>
-                  <div className="event-card-accent" aria-hidden="true"></div>
                   <div className="event-card-body">
                     <div className="event-card-top">
                       <span className="event-tag">{label}</span>

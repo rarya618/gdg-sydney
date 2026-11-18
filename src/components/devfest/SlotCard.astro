@@ -71,16 +71,17 @@ const href = slot.sessionSlug
     gap: 0.3rem;
     padding: 1rem 1.1rem 1.1rem;
     border-radius: 10px;
-    /* Dark card with a solid track-colour bar: crisp on dark, track obvious at a glance. */
-    background: var(--surface);
-    border-top: 4px solid var(--tint, var(--surface-2));
+    /* Tinted by track, with an outline in the track colour: obvious at a glance, without a
+       thick bar across a rounded corner. */
+    background: color-mix(in srgb, var(--tint, transparent) 14%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--tint, var(--surface-2)) 55%, transparent);
     min-width: 0;
     overflow: hidden;
   }
 
-  /* Main-stage moments: a lifted dark surface with an Off White bar (the keynote colour),
+  /* Main-stage moments: a lifted dark surface with an Off White outline (the keynote colour),
      distinct from the sessions without glaring. */
-  .slot--plenary { background: var(--surface-2); color: var(--fg); border-top-color: var(--fg); }
+  .slot--plenary { background: var(--surface-2); color: var(--fg); border-color: rgba(240, 240, 240, 0.55); }
 
   /* Breaks recede: a faint hatched band, so their length still reads as time. */
   .slot--break {
@@ -133,8 +134,6 @@ const href = slot.sessionSlug
       align-items: center;
       gap: 0.6rem;
       padding: 0 0.8rem;
-      border-top-width: 0;
-      border-left: 4px solid var(--tint, var(--surface-2));
     }
     /* The time is already in the grid's time column, so the strip is all title. */
     .slot--short .slot-note,
