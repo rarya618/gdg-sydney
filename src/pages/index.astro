@@ -1298,9 +1298,34 @@ const organizationJsonLd = {
       order: 1;
       padding-bottom: 2rem;
     }
-    /* The photos are decorative; stacked under the text on a phone they doubled the
-       hero's height, so they're dropped to keep heroes the same height site-wide. */
-    .hero-illustration { display: none; }
+    /* Stacked under the text, the photos doubled the hero's height. Instead the crowd photo
+       becomes the hero's background, darkened like the other page heroes, so the phone
+       hero still shows a real GDG Sydney room. */
+    .hero-illustration {
+      inset: 0;
+      width: auto;
+      height: auto;
+      margin: 0;
+      animation: none;
+    }
+    .hero-illustration::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(20, 20, 20, 0.95) 30%, rgba(20, 20, 20, 0.55) 100%);
+    }
+    .hero-photos { height: 100%; }
+    .hero-photo-front { display: none; }
+    .hero-photo-back {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      border-radius: 0;
+      box-shadow: none;
+      rotate: none;
+      object-position: center 35%;
+      filter: var(--hero-photo-filter);
+    }
     .hero { justify-content: flex-end; }
     .next-meetup { grid-template-columns: 1fr; row-gap: 0.75rem; margin-top: 1.75rem; min-height: 8.5rem; align-content: start; }
     .next-meetup-rsvp { justify-self: start; }
