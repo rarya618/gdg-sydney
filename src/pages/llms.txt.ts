@@ -112,6 +112,7 @@ Fields:
 
 - Required: \`name\`, \`email\`, \`talkTitle\`, \`format\`, \`abstract\`, \`audience\`, \`bio\`
 - Optional: \`profileUrl\` (a LinkedIn or website URL), \`speakingExperience\`, \`notes\` (preferred dates, AV needs, a co-presenter)
+- Length limits, in characters: \`name\` 120, \`email\` 254, \`profileUrl\` 300, \`talkTitle\` 200, \`abstract\` 2000, \`audience\` 1000, \`bio\` 2000, \`speakingExperience\` 1000, \`notes\` 1000. \`profileUrl\` can leave out \`https://\`.
 - \`format\`: \`standard\` (a 20 to 30 minute talk) or \`workshop\` (a 60 to 90 minute hands-on session)
 - \`abstract\`, \`audience\`, \`bio\`, \`speakingExperience\` and \`notes\` take light formatting: lines starting with \`## \` are headings, lines starting with \`- \` are bullets, \`**text**\` is bold, \`[text](https://...)\` is a link. 2 to 4 sentences is ideal for the abstract.
 

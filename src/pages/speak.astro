@@ -145,6 +145,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 <label for="name" class="field-label">Full name <span class="required" aria-hidden="true">*</span></label>
                 <input
                   id="name"
+                  maxlength="120"
                   name="name"
                   type="text"
                   class="field-input"
@@ -157,6 +158,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
                 <label for="email" class="field-label">Email <span class="required" aria-hidden="true">*</span></label>
                 <input
                   id="email"
+                  maxlength="254"
                   name="email"
                   type="email"
                   class="field-input"
@@ -168,7 +170,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </div>
             </div>
 
-            <!-- LinkedIn / website -->
+            <!-- LinkedIn / website. Plain text with a URL keyboard: the API adds https:// itself,
+                 so a bare "linkedin.com/in/you" is fine and the browser's stricter url check isn't. -->
             <div class="field">
               <label for="profile" class="field-label">
                 LinkedIn or website
@@ -176,10 +179,14 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <input
                 id="profile"
+                maxlength="300"
                 name="profile"
-                type="url"
+                type="text"
+                inputmode="url"
+                autocapitalize="off"
+                spellcheck="false"
                 class="field-input"
-                placeholder="https://linkedin.com/in/yourname"
+                placeholder="linkedin.com/in/yourname"
                 autocomplete="url"
               />
             </div>
@@ -189,6 +196,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <label for="title" class="field-label">Talk title <span class="required" aria-hidden="true">*</span></label>
               <input
                 id="title"
+                maxlength="200"
                 name="title"
                 type="text"
                 class="field-input"
@@ -228,6 +236,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </p>
               <textarea
                 id="abstract"
+                maxlength="2000"
                 aria-describedby="abstract-hint abstract-format"
                 name="abstract"
                 class="field-input field-textarea"
@@ -246,6 +255,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="audience-hint">Who will get the most out of this talk? What level of experience should they have?</p>
               <textarea
                 id="audience"
+                maxlength="1000"
                 aria-describedby="audience-hint audience-format"
                 name="audience"
                 class="field-input field-textarea"
@@ -264,6 +274,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               <p class="field-hint" id="bio-hint">A few sentences about you and your background.</p>
               <textarea
                 id="bio"
+                maxlength="2000"
                 aria-describedby="bio-hint bio-format"
                 name="bio"
                 class="field-input field-textarea"
@@ -282,6 +293,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="experience"
+                maxlength="1000"
                 aria-describedby="experience-format"
                 name="experience"
                 class="field-input field-textarea"
@@ -299,6 +311,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
               </label>
               <textarea
                 id="notes"
+                maxlength="1000"
                 aria-describedby="notes-format"
                 name="notes"
                 class="field-input field-textarea"
@@ -528,20 +541,20 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
           inputSchema: {
             type: 'object',
             properties: {
-              name: { type: 'string', description: "The speaker's full name.", maxLength: 200 },
-              email: { type: 'string', format: 'email', description: "The speaker's email address." },
-              profileUrl: { type: 'string', description: 'Optional LinkedIn or personal website URL.' },
-              talkTitle: { type: 'string', description: 'The talk title.' },
+              name: { type: 'string', description: "The speaker's full name.", maxLength: 120 },
+              email: { type: 'string', format: 'email', description: "The speaker's email address.", maxLength: 254 },
+              profileUrl: { type: 'string', description: 'Optional LinkedIn or personal website URL.', maxLength: 300 },
+              talkTitle: { type: 'string', description: 'The talk title.', maxLength: 200 },
               format: {
                 type: 'string',
                 enum: ['standard', 'workshop'],
                 description: 'standard: a 20 to 30 minute talk. workshop: a 60 to 90 minute hands-on session.',
               },
-              abstract: { type: 'string', description: 'What attendees will learn and what problem it solves. 2 to 4 sentences is ideal.' },
-              audience: { type: 'string', description: 'Who will get the most out of it, and what experience they need.' },
-              bio: { type: 'string', description: 'A few sentences about the speaker and their background.' },
-              speakingExperience: { type: 'string', description: 'Optional. Past talks; first-time speakers are welcome.' },
-              notes: { type: 'string', description: 'Optional. Preferred dates, AV needs, a co-presenter.' },
+              abstract: { type: 'string', description: 'What attendees will learn and what problem it solves. 2 to 4 sentences is ideal.', maxLength: 2000 },
+              audience: { type: 'string', description: 'Who will get the most out of it, and what experience they need.', maxLength: 1000 },
+              bio: { type: 'string', description: 'A few sentences about the speaker and their background.', maxLength: 2000 },
+              speakingExperience: { type: 'string', description: 'Optional. Past talks; first-time speakers are welcome.', maxLength: 1000 },
+              notes: { type: 'string', description: 'Optional. Preferred dates, AV needs, a co-presenter.', maxLength: 1000 },
             },
             required: ['name', 'email', 'talkTitle', 'format', 'abstract', 'audience', 'bio'],
           },
