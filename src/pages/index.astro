@@ -7,7 +7,7 @@ import Team from '../components/Team';
 import Partners from '../components/Partners';
 import NextMeetup from '../components/NextMeetup';
 import { Image } from 'astro:assets';
-import { EVENT, speakers } from '../lib/devfest2026';
+import { speakers } from '../lib/devfest2026';
 import devfestPhoto from '../assets/devfest/2026/photos/foyer-crowd.jpg';
 
 const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
@@ -105,8 +105,8 @@ const organizationJsonLd = {
     <div class="container devfest-band-inner">
       <h2 class="devfest-band-heading" id="devfest-band-heading">DevFest Sydney</h2>
       <p class="devfest-band-body">
-        Once a year the meetup becomes a conference, presented by Google. In 2026 that was
-        280+ people and {speakers.length} speakers across four rooms at {EVENT.venue}.
+        Our annual conference for developers and builders, presented by Google. In 2026,
+        280+ people came to hear {speakers.length} speakers, double the crowd of the year before.
       </p>
       <div class="devfest-band-actions">
         <a href="/devfest" class="btn btn-dark btn-lg">About DevFest Sydney</a>
