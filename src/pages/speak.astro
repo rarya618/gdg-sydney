@@ -1065,8 +1065,11 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     display: flex;
     flex-direction: column;
     gap: 2.75rem;
-    /* Field borders and empty radio rings: 3:1 against both the page and the field. */
+    /* Empty radio rings, and text boxes on hover: 3:1 against both the page and the field.
+       Text boxes rest on the softer border (about 2:1), a deliberate call for a calmer form;
+       their fill and label still mark them, and they firm up on hover and go blue on focus. */
     --field-border: rgba(255, 255, 255, 0.36);
+    --field-border-soft: rgba(255, 255, 255, 0.22);
   }
 
   /* Your talk / About you / Anything else. */
@@ -1077,14 +1080,13 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     min-width: 0;
   }
 
+  /* No rule under it: the space between groups does the separating. */
   .form-group-title {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     color: var(--fg);
-    padding-bottom: 0.75rem;
-    margin-bottom: 0.25rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
     width: 100%;
   }
 
@@ -1308,7 +1310,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     font-size: 1rem;
     color: var(--text);
     background: var(--surface);
-    border: 1px solid var(--field-border);
+    border: 1px solid var(--field-border-soft);
     border-radius: 10px;
     padding: 0.7rem 0.875rem;
     outline: none;
@@ -1317,6 +1319,8 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
   }
 
   .field-input::placeholder { color: var(--muted); }
+
+  .field-input:hover:not(:focus):not([aria-invalid="true"]) { border-color: var(--field-border); }
 
   .field-input:focus {
     border-color: var(--blue);
@@ -1350,7 +1354,7 @@ const PORTAL_SIGN_IN_URL = 'https://app.gdgsydney.com/speaker/sign-in';
     align-items: flex-start;
     gap: 0.75rem;
     background: var(--surface);
-    border: 1.5px solid var(--field-border);
+    border: 1.5px solid var(--field-border-soft);
     border-radius: 12px;
     padding: 1.125rem 1.25rem;
     cursor: pointer;
