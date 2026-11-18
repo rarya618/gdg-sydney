@@ -47,18 +47,22 @@ export default function PastEvents() {
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadMoreFailed, setLoadMoreFailed] = useState(false);
+  const [initialFailed, setInitialFailed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     fetch(FIRST_PAGE)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`Bevy returned ${res.status}`);
+        return res.json();
+      })
       .then((data: BevyPage) => {
         if (cancelled) return;
         setPastEvents(data.results ?? []);
         setNextPage(data.links?.next ?? null);
       })
       .catch(() => {
-        if (!cancelled) setPastEvents([]);
+        if (!cancelled) setInitialFailed(true);
       })
       .finally(() => {
         if (!cancelled) setInitialLoaded(true);
@@ -106,6 +110,15 @@ export default function PastEvents() {
         </div>
         {(!initialLoaded || loadingMore) && (
           <p className="sr-only" role="status">Loading past events…</p>
+        )}
+        {initialFailed && (
+          <p className="section-fallback">
+            We couldn&apos;t load past events just now.{' '}
+            <a href="https://gdg.community.dev/gdg-sydney/" target="_blank" rel="noopener noreferrer">
+              See them on our community page
+            </a>
+            .
+          </p>
         )}
         {nextPage && !loadingMore && (
           <div className="past-more">

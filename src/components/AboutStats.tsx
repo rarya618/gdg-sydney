@@ -1,32 +1,37 @@
 import { useEffect, useState } from 'react';
 
+// Shown until Bevy answers, and kept if it doesn't: both are true lower bounds (2,490 members
+// and 98 events in November 2026), so a failed request never reads as "0 events run".
+const MEMBER_BASELINE = '2,400';
+const EVENT_BASELINE = '90+';
+
+function json(res: Response) {
+  if (!res.ok) throw new Error(`Bevy returned ${res.status}`);
+  return res.json();
+}
+
 export default function AboutStats() {
-  const [memberCount, setMemberCount] = useState('2,400');
-  const [totalEventCount, setTotalEventCount] = useState(0);
+  const [memberCount, setMemberCount] = useState(MEMBER_BASELINE);
+  const [totalEventCount, setTotalEventCount] = useState(EVENT_BASELINE);
 
   useEffect(() => {
     let cancelled = false;
 
     fetch('https://gdg.community.dev/api/chapter_slim/gdg-sydney/')
-      .then(res => res.json())
+      .then(json)
       .then(data => {
-        if (cancelled) return;
-        if (data.members_count) {
+        if (!cancelled && data.members_count) {
           setMemberCount(data.members_count.toLocaleString('en-AU'));
         }
       })
-      .catch(() => {
-        if (!cancelled) setMemberCount('2,400');
-      });
+      .catch(() => {});
 
     fetch('https://gdg.community.dev/api/event_slim/for_chapter/539/?page_size=1&status=Completed&include_cohosted_events=true&visible_on_parent_chapter_only=true&fields=title')
-      .then(res => res.json())
+      .then(json)
       .then(data => {
-        if (!cancelled) setTotalEventCount(data.count ?? 0);
+        if (!cancelled && data.count) setTotalEventCount(data.count.toLocaleString('en-AU'));
       })
-      .catch(() => {
-        if (!cancelled) setTotalEventCount(0);
-      });
+      .catch(() => {});
 
     return () => {
       cancelled = true;
