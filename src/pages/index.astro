@@ -7,6 +7,9 @@ import Team from '../components/Team';
 import Partners from '../components/Partners';
 import NextMeetup from '../components/NextMeetup';
 
+const COMMUNITY_URL = 'https://gdg.community.dev/gdg-sydney/';
+const PARTNER_MAILTO = 'mailto:hello@gdgsydney.com?subject=Partnering%20with%20GDG%20Sydney';
+
 // Tells search engines and AI agents who GDG Sydney is, since most of this page's detail
 // (events, team, partners) loads from Bevy in the browser. See also /llms.txt.
 const organizationJsonLd = {
@@ -90,6 +93,44 @@ const organizationJsonLd = {
 
   <!-- ══════════════════════════════ TEAM ═════════════════════════════════ -->
   <Team client:load />
+
+  <!-- ═══════════════════════════ GET INVOLVED ════════════════════════════ -->
+  <!-- The three ways in, in the same big-row style as Find us online below, on the page
+     background so the two bands stay distinct. -->
+  <section class="section section-involved" id="get-involved" aria-labelledby="involved-heading">
+    <div class="container">
+      <h2 class="section-title" id="involved-heading">Get involved</h2>
+      <ul class="involved-list" role="list">
+        <li>
+          <a href={COMMUNITY_URL} target="_blank" rel="noopener noreferrer" class="involved-link" data-accent="blue">
+            <span class="involved-link-text">
+              <span class="involved-link-title">Come to a meetup</span>
+              <span class="involved-link-sub">Free, monthly, with food and drinks. RSVP on our community page.</span>
+            </span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="/speak" class="involved-link" data-accent="green">
+            <span class="involved-link-text">
+              <span class="involved-link-title">Give a talk</span>
+              <span class="involved-link-sub">Propose a talk or a workshop. First-time speakers are welcome.</span>
+            </span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href={PARTNER_MAILTO} class="involved-link" data-accent="yellow">
+            <span class="involved-link-text">
+              <span class="involved-link-title">Partner with us</span>
+              <span class="involved-link-sub">Host a meetup or support the community. Email hello@gdgsydney.com.</span>
+            </span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <!-- ══════════════════════════ COMMUNITY LINKS ═══════════════════════════ -->
   <section class="section-community" id="community" aria-label="Find us online">
@@ -245,6 +286,62 @@ const organizationJsonLd = {
     line-height: 1.1;
     margin-bottom: 1.5rem;
   }
+
+  /* ─── Get involved ──────────────────────────────────────────────────── */
+  .involved-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .involved-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.4rem;
+    border-top: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--fg);
+  }
+
+  .involved-list li:last-child .involved-link { border-bottom: 1px solid var(--border); }
+
+  .involved-link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  /* Section-title size: big enough to read as the page's three ways in, without
+     outweighing the events above. */
+  .involved-link-title {
+    font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    transition: color 0.2s ease;
+  }
+
+  .involved-link-sub {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .involved-link svg {
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.35);
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .involved-link:hover svg { transform: translateX(4px); }
+  .involved-link[data-accent="blue"]:hover   .involved-link-title,
+  .involved-link[data-accent="blue"]:hover   svg { color: var(--blue-text); }
+  .involved-link[data-accent="green"]:hover  .involved-link-title,
+  .involved-link[data-accent="green"]:hover  svg { color: var(--green-text); }
+  .involved-link[data-accent="yellow"]:hover .involved-link-title,
+  .involved-link[data-accent="yellow"]:hover svg { color: var(--yellow-text); }
 
   /* ─── Community (dark typographic) ──────────────────────────────────── */
   .section-community {
@@ -905,12 +1002,13 @@ const organizationJsonLd = {
   .skeleton-event-line--short { width: 60%; margin-bottom: 1.5rem; }
   .skeleton-event-rsvp  { width: 92px;  height: 2.1rem; border-radius: 100px; }
 
-  /* Organiser tiles while Bevy loads. */
+  /* Organiser tiles and partner logos while Bevy loads. */
   .team-card--skeleton { pointer-events: none; }
   .team-card--skeleton:hover { background: none; }
   .skeleton-avatar    { width: 88px; height: 88px; border-radius: 50%; }
   .skeleton-team-name { width: 80px; height: 0.875rem; }
   .skeleton-team-role { width: 100px; height: 0.72rem; }
+  .skeleton-partner   { height: 120px; border-radius: 12px; }
 
   /* "We couldn't load this" lines in place of a section's content. */
   .section-fallback {
@@ -956,6 +1054,26 @@ const organizationJsonLd = {
      doubled up with the line under the last community link. */
   .section-partners {
     padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  }
+
+  .partners-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .partners-head .section-title { margin-bottom: 0; }
+
+  .partners-pitch {
+    font-size: 1rem;
+    color: var(--text-soft);
+  }
+  .partners-pitch a {
+    color: var(--fg);
+    font-weight: 700;
+    text-underline-offset: 4px;
   }
 
   /* Equal-width tiles that fill the row, so the grid stays even at any width. */

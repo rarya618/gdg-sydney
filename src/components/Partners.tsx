@@ -20,31 +20,53 @@ function logoInset(img: HTMLImageElement): number {
   return (1 - heightShare) / 2;
 }
 
+const PARTNER_MAILTO = 'mailto:hello@gdgsydney.com?subject=Partnering%20with%20GDG%20Sydney';
+
+type State = { status: 'loading' } | { status: 'failed' } | { status: 'loaded'; partners: BevySponsor[] };
+
 export default function Partners() {
-  const [partners, setPartners] = useState<BevySponsor[]>([]);
+  const [state, setState] = useState<State>({ status: 'loading' });
   const [insets, setInsets] = useState<Record<string, number>>({});
 
   useEffect(() => {
     let cancelled = false;
     fetch('https://gdg.community.dev/api/chapter_slim/gdg-sydney/sponsors/')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`Bevy returned ${res.status}`);
+        return res.json();
+      })
       .then(data => {
-        if (!cancelled) setPartners(data ?? []);
+        if (!cancelled) setState({ status: 'loaded', partners: Array.isArray(data) ? data : [] });
       })
       .catch(() => {
-        if (!cancelled) setPartners([]);
+        if (!cancelled) setState({ status: 'failed' });
       });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  if (partners.length === 0) return null;
+  const partners = state.status === 'loaded' ? state.partners : [];
 
+  // The section always renders: even with no logos (or Bevy down), it's where a company
+  // finds out how to become a partner.
   return (
     <section className="section section-partners" id="partners" aria-labelledby="partners-heading">
       <div className="container">
-        <h2 className="section-title" id="partners-heading">Partners</h2>
+        <div className="partners-head">
+          <h2 className="section-title" id="partners-heading">Partners</h2>
+          <p className="partners-pitch">
+            Our partners help keep every meetup free.{' '}
+            <a href={PARTNER_MAILTO}>Partner with us</a>
+          </p>
+        </div>
+        {state.status === 'loading' && (
+          <div className="partners-grid" aria-hidden="true">
+            <span className="skeleton skeleton-partner" />
+            <span className="skeleton skeleton-partner" />
+          </div>
+        )}
+        {partners.length > 0 && (
         <div className="partners-grid">
           {partners.map(partner => (
             <a
@@ -52,8 +74,7 @@ export default function Partners() {
               target="_blank"
               rel="noopener noreferrer"
               className="partner-card"
-              aria-label={partner.company}
-              key={partner.company}
+              key={partner.url || partner.company}
             >
               <img
                 src={partner.logo}
@@ -71,6 +92,7 @@ export default function Partners() {
             </a>
           ))}
         </div>
+        )}
       </div>
     </section>
   );
